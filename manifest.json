@@ -5,16 +5,18 @@
       "version": "3.0",
       "pak": "ServerAssets-3.0-CL-3901517.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-3901517/ServerAssets-3.0-CL-3901517.pak",
-      "sha256": "8c9b8e5fee2b59d9029810f718213c7e8e2806b228991ce7941e178cc968e857",
-      "size": 152632,
+      "sha256": "fc5beb26c44ab64a1c2f59d09bfb49c90f4bc3d300bcda8e617310039cb3e421",
+      "size": 718496,
       "sig": {
         "file": "ServerAssets-3.0-CL-3901517.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-3901517/ServerAssets-3.0-CL-3901517.sig",
-        "sha256": "059b57244af6db79b8c03c44a83ef56ec03855b5964e75652e9163766c453ef2",
-        "size": 80
+        "sha256": "230dad3d38a69a30e57d9ced11f64a9b16cae0746d5abad3615c5ae8d567a471",
+        "size": 112
       },
       "contents": [
-        "/Game/Athena/Maps/Athena_LocationVolumes"
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors"
       ]
     }
   }

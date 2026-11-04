@@ -7,7 +7,7 @@ The paks are published as [releases](https://github.com/PongooDev/Core-ServerAss
 [`manifest.json`](manifest.json) says which pak belongs to which build.
 
 **Published so far:** [3.0 (CL-3901517)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3901517),
-with `Athena_LocationVolumes`. Most assets are still wanted. If you can make a pak, see
+with `AIDirector_Fortnite`, `Athena_LocationVolumes` and `Athena_GameplayActors`. Most assets are still wanted for other builds. If you can make a pak, see
 [Contributing a pak](#contributing-a-pak).
 
 ## Contents
@@ -64,9 +64,9 @@ These are the server-only assets Core knows it needs. **The list is growing.** I
 
 | Build (changelist) | Asset | What it is | What Core does without it | Published for |
 | --- | --- | --- | --- | --- |
-| 1.10 (CL-3790078) and later | `/Game/AIDirector/AIDirector_Fortnite` (the Blueprint and its `Default__AIDirector_Fortnite_C`) | Save the World's AI director: encounter classes, spawn caps, spawn points, spawn group upgrades | Uses 1.9.1's settings, plus some for features added later (Mini-Bosses, the BluGlo Difficulty Pylon's boosts). Each later build's own settings are unknown | **Wanted** for every build |
+| 1.10 (CL-3790078) and later | `/Game/AIDirector/AIDirector_Fortnite` (the Blueprint and its `Default__AIDirector_Fortnite_C`) | Save the World's AI director: encounter classes, spawn caps, spawn points, spawn group upgrades | Uses 1.9.1's settings, plus some for features added later (Mini-Bosses, the BluGlo Difficulty Pylon's boosts). Each later build's own settings are unknown | **3.0** |
 | 3.0 (CL-3901517) and later | `/Game/Athena/Maps/Athena_LocationVolumes` | 34 POI volumes: named locations, gas stations, taco shops, and the Crab, Fox and Llama buildings. Needed **with each `FortPoiVolume`'s `BrushComponent`** (its transform and `BrushBodySetup`) | Guesses a box for each volume from the plots it stands on | **3.0** |
-| 3.0 (CL-3901517) and later | `/Game/Athena/Maps/Streaming/Athena_GameplayActors` | 29 POI volumes: 15 `Quest_Dance_Forbidden_NN` and 14 `Quest_Visit_IceCreamTruck_NN`, **with their `BrushComponent`s** | Puts boxes on the ice cream trucks. The 15 forbidden dance spots can't be placed at all, so that quest can't be completed | **Wanted** for every build |
+| 3.0 (CL-3901517) and later | `/Game/Athena/Maps/Streaming/Athena_GameplayActors` | 29 POI volumes: 15 `Quest_Dance_Forbidden_NN` and 14 `Quest_Visit_IceCreamTruck_NN`, **with their `BrushComponent`s** | Puts boxes on the ice cream trucks. The 15 forbidden dance spots can't be placed at all, so that quest can't be completed | **3.0** |
 | 2.5 (CL-3889387) and later | The loot tier group `BluGloDifficultyTG` (the server's loot tier data; the PC paks only ship `LootTierData_Client`) | What each tier of Save the World's BluGlo Difficulty Pylon gives | Core-Backend gives a small reward of its own per tier | **Wanted** for every build |
 
 The PC builds from 1.1 to 1.9.1 still have `AIDirector_Fortnite`, so they don't need it. The rest of
@@ -90,20 +90,12 @@ Core supports these builds. Each pak must match one of them exactly:
 
 | Build | Release | Contains | Still wanted for this build |
 | --- | --- | --- | --- |
-| 3.0 (CL-3901517) | [`cl-3901517`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3901517), pak and sig | `Athena_LocationVolumes` | `AIDirector_Fortnite`, `Athena_GameplayActors`, the server loot tier data |
+| 3.0 (CL-3901517) | [`cl-3901517`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3901517), pak and sig | `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors` | the server loot tier data |
 
-The 3.0 pak ([#1](https://github.com/PongooDev/Core-ServerAssets/issues/1)) came from a PS4 patch PKG (1.44). Patch
-PKGs are deltas: they only carry the blocks that changed, and the console fills in the rest from what it already has
-installed. About half of every pak in that PKG was missing. `Athena_LocationVolumes` came through whole. The others did
-not:
-
-- `Athena_GameplayActors.umap` has two holes.
-- `AIDirector_Fortnite`'s index record was in a missing block.
-- Only the `_Client` loot tables were there.
-
-**To get the rest for 3.0, use an Xbox 3.0 build or a complete PS4 3.0 install, not a patch.** The changelist of the
-3.0 pak was inferred, not read from the build. PS4 1.44 is Fortnite 3.0, and the 34 volumes match 3.0's set name for
-name. If you have a source that states the changelist, please confirm it.
+The first 3.0 pak ([#1](https://github.com/PongooDev/Core-ServerAssets/issues/1)) only had `Athena_LocationVolumes`,
+because it came from a PS4 patch PKG, which carries only the changed blocks. MrPodge6's pak
+([#2](https://github.com/PongooDev/Core-ServerAssets/issues/2)), from a PS4 3.0 build, replaced it with all three
+assets. Only the server loot tier data is still wanted for 3.0.
 
 ## Contributing a pak
 
