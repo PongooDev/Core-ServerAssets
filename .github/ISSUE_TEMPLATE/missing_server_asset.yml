@@ -1,0 +1,45 @@
+name: Missing server asset
+description: Report server-only content that isn't on the README's list yet
+title: "Missing server asset: <build> <asset>"
+labels: ["missing asset"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Found something a server uses that the PC paks lack, or have only in part? Tell us here, and it goes on the [list](https://github.com/PongooDev/Core-ServerAssets#server-assets-to-get).
+        Please don't attach game files to this form.
+  - type: input
+    id: build
+    attributes:
+      label: Fortnite build and changelist
+      placeholder: "3.0 (CL-3901517)"
+    validations:
+      required: true
+  - type: input
+    id: asset
+    attributes:
+      label: Asset path
+      placeholder: "/Game/..."
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What the PC paks have
+      options:
+        - Nothing, the asset is missing
+        - The asset, with parts stripped (say which below)
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: How you know
+      description: For example, a "Couldn't find file for package" line from the server's log, or FModel showing a property as null on PC but set on PS4.
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else

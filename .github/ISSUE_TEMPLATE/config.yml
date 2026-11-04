@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Only have FModel JSON exports?
+    url: https://github.com/PongooDev/CoreV2/issues/new?template=server_asset_data.yml
+    about: Share them on CoreV2's "Server asset data" form instead.
+  - name: A problem with Core itself
+    url: https://github.com/PongooDev/CoreV2/issues/new/choose
+    about: Bugs in matches or the game server go to CoreV2.

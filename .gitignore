@@ -1,0 +1,9 @@
+# Game files are release assets only, never part of the repository.
+*.pak
+*.sig
+*.utoc
+*.ucas
+*.uasset
+*.uexp
+*.ubulk
+*.umap

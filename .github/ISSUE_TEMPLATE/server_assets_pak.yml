@@ -1,0 +1,82 @@
+name: Server assets pak
+description: Contribute a pak of one build's server assets
+title: "Server assets pak: <build> (CL-<changelist>)"
+labels: ["pak"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping. A pak holds **only** the server assets listed in the [README](https://github.com/PongooDev/Core-ServerAssets#server-assets-to-get) for one build, from the console build of the same changelist.
+        Before it's published, it's checked: right changelist, only the listed assets, and it loads on a headless server.
+  - type: dropdown
+    id: build
+    attributes:
+      label: Fortnite build
+      options:
+        - 1.10 (CL-3790078)
+        - 1.11 (CL-3807424)
+        - 2.1 (CL-3825894)
+        - 2.2 (CL-3841827)
+        - 2.3 (CL-3847564)
+        - 2.4 (CL-3858292)
+        - 2.4.2 (CL-3870737)
+        - 2.5 (CL-3889387)
+        - 3.0 (CL-3901517)
+        - Other (say which below)
+    validations:
+      required: true
+  - type: input
+    id: changelist
+    attributes:
+      label: Changelist of the build the assets came from
+      description: From the console build's Engine/Build/Build.version (Changelist). PS4 patch numbers aren't Fortnite versions.
+      placeholder: "3901517"
+    validations:
+      required: true
+  - type: dropdown
+    id: source
+    attributes:
+      label: Where the assets came from
+      options:
+        - PlayStation 4 build
+        - Xbox build
+        - Other (say which below)
+    validations:
+      required: true
+  - type: checkboxes
+    id: assets
+    attributes:
+      label: Assets included
+      description: Tick the ones in the pak. Only include assets on the README's list for this build.
+      options:
+        - label: "/Game/AIDirector/AIDirector_Fortnite (1.10 and later)"
+        - label: "/Game/Athena/Maps/Athena_LocationVolumes, with each FortPoiVolume's BrushComponent (3.0 and later)"
+        - label: "/Game/Athena/Maps/Streaming/Athena_GameplayActors, with each FortPoiVolume's BrushComponent (3.0 and later)"
+        - label: "The server loot tier data with BluGloDifficultyTG (2.5 and later)"
+  - type: textarea
+    id: pak
+    attributes:
+      label: The pak
+      description: Drag the pak in (zip it if GitHub refuses it), or link to it. Say whether it's encrypted, but don't post any key.
+    validations:
+      required: true
+  - type: textarea
+    id: test
+    attributes:
+      label: Did you test it?
+      description: For example, what Core's server log said when you hosted with the pak in FortniteGame\Content\Paks.
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Checks
+      options:
+        - label: The assets are from the same build and changelist as above.
+          required: true
+        - label: The pak contains only assets on the README's list, nothing else.
+          required: true
+        - label: It's a pak the PC game can mount.
+          required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
