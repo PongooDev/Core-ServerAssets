@@ -154,3 +154,6 @@ Launchers then replace the installed copy. To withdraw a pak, remove its entry, 
 
 Game files never go in this repository's git history. They are only release assets, so the manifest and the
 contribution forms can live on even if a release is taken down.
+
+### Credits:
+- Thanks to andrew (andr1ww_) for discovering xbox builds have serverassets.
