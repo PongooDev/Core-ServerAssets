@@ -37,6 +37,7 @@ body:
     id: source
     attributes:
       label: Where the assets came from
+      description: PlayStation 4 builds have the server assets up to Season 12, Xbox builds in every season.
       options:
         - PlayStation 4 build
         - Xbox build

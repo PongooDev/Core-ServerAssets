@@ -27,7 +27,11 @@ Core runs its game servers from the PC game, so it has the same gaps. For each o
 copied from an older build, or shapes it works out from what the PC paks still contain. A stand-in works, but it is
 not Epic's data, and some gaps can't be filled at all.
 
-The missing content is still in the same version's PlayStation 4 builds (and, for later seasons, the Xbox builds).
+The missing content is still in the same version's console builds:
+
+- **PlayStation 4** builds have the server assets up to Season 12.
+- **Xbox** builds have them in every build.
+
 A pak made from those builds puts it back. When the real asset is there, Core uses it and its stand-in steps aside.
 The server log says which one is in use.
 
@@ -77,9 +81,10 @@ Core supports these builds. Each pak must match one of them exactly:
 
 ## Contributing a pak
 
-1. Get the server assets from the PlayStation 4 build of the **same version and changelist** as a PC build Core
-   supports. [ServerAssets-OGFN](https://github.com/MarvelcoCode/ServerAssets-OGFN) explains how. Check the changelist
-   in the console build's `Engine/Build/Build.version`. PS4 patch numbers aren't Fortnite version numbers. For example,
+1. Get the server assets from a console build of the **same version and changelist** as a PC build Core supports:
+   a PlayStation 4 build for Season 12 and earlier, or an Xbox build for any season.
+   [ServerAssets-OGFN](https://github.com/MarvelcoCode/ServerAssets-OGFN) explains how. Check the changelist in the
+   console build's `Engine/Build/Build.version`. Console patch numbers aren't Fortnite version numbers. For example,
    PS4 patch 01.30 is Fortnite 1.9.
 2. Make a pak that the PC game can mount. **Only include the assets listed [above](#server-assets-to-get)** for that
    build (with their `.uasset`, `.uexp` and `.ubulk` files). Leave out everything else.
