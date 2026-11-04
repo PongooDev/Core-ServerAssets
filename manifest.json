@@ -1,4 +1,21 @@
 {
-  "schema": 1,
-  "builds": {}
+  "schema": 2,
+  "builds": {
+    "3901517": {
+      "version": "3.0",
+      "pak": "ServerAssets-3.0-CL-3901517.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-3901517/ServerAssets-3.0-CL-3901517.pak",
+      "sha256": "8c9b8e5fee2b59d9029810f718213c7e8e2806b228991ce7941e178cc968e857",
+      "size": 152632,
+      "sig": {
+        "file": "ServerAssets-3.0-CL-3901517.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-3901517/ServerAssets-3.0-CL-3901517.sig",
+        "sha256": "059b57244af6db79b8c03c44a83ef56ec03855b5964e75652e9163766c453ef2",
+        "size": 80
+      },
+      "contents": [
+        "/Game/Athena/Maps/Athena_LocationVolumes"
+      ]
+    }
+  }
 }
