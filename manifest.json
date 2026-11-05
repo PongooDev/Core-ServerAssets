@@ -72,6 +72,24 @@
         "/Game/Athena/Maps/Athena_LocationVolumes",
         "/Game/Athena/Maps/Streaming/Athena_GameplayActors"
       ]
+    },
+    "4008490": {
+      "version": "3.5.2",
+      "pak": "ServerAssets-3.5.2-CL-4008490.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4008490/ServerAssets-3.5.2-CL-4008490.pak",
+      "sha256": "d1dc6dbec5856c08ad82e46e0aee7d6b50cfd233aa46ae2b2ed3af6a72c21cac",
+      "size": 1093504,
+      "sig": {
+        "file": "ServerAssets-3.5.2-CL-4008490.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4008490/ServerAssets-3.5.2-CL-4008490.sig",
+        "sha256": "80f9366ffc1c710e789f7b33aff5483ad38e4677389b1bce49a9f02f0ef7ee7e",
+        "size": 136
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors"
+      ]
     }
   }
 }
