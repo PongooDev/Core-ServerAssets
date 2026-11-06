@@ -22,6 +22,14 @@ body:
         - 2.4.2 (CL-3870737)
         - 2.5 (CL-3889387)
         - 3.0 (CL-3901517)
+        - 3.1.0 (CL-3915963)
+        - 3.1.1 (CL-3917250)
+        - 3.2 (CL-3935073)
+        - 3.3 (CL-3942182)
+        - 3.5.1 (CL-4000805)
+        - 3.5.2 (CL-4008490)
+        - 3.6 (CL-4019403)
+        - 4.0 (CL-4039451)
         - Other (say which below)
     validations:
       required: true
@@ -54,6 +62,8 @@ body:
         - label: "/Game/Athena/Maps/Athena_LocationVolumes, with each FortPoiVolume's BrushComponent (3.0 and later)"
         - label: "/Game/Athena/Maps/Streaming/Athena_GameplayActors, with each FortPoiVolume's BrushComponent (3.0 and later)"
         - label: "The server loot tier data with BluGloDifficultyTG (2.5 and later)"
+        - label: "/Game/Items/Datatables/LootTierData_Client and /Game/Items/Datatables/LootPackages_Client, both (4.0)"
+        - label: "/Game/Items/Datatables/LootQuotaData (1.10 and later)"
   - type: textarea
     id: pak
     attributes:
