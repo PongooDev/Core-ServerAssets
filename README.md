@@ -282,13 +282,24 @@ The source is in [`tools/ServerAssetsExtractor`](tools/ServerAssetsExtractor). I
    `Engine/Build/Build.version` when there is one.
 2. Test it if you can: put the pak and sig in a PC build's `FortniteGame\Content\Paks` and host a server. The
    server log says when Core uses a real asset instead of its stand-in.
-3. Upload the `.pak` and `.sig` to a file host and copy a share link. GitHub issues only take attachments up to
-   25 MB, so a pak (hundreds of MB) can't be attached there, zipped or not. Any host that gives a public download
-   link works: Google Drive, MEGA, Dropbox, OneDrive or MediaFire. Set the link to "anyone with the link can view".
-   Zipping is optional.
+3. Share the `.pak` and `.sig`. GitHub issues only take attachments up to 25 MB, so a pak (hundreds of MB) can't be
+   attached there, zipped or not. **Preferred: a release on your own fork**, which the maintainer can download
+   straight away:
+   1. [Fork this repository](https://github.com/PongooDev/Core-ServerAssets/fork) (the **Fork** button, top right).
+   2. On your fork, open **Releases** (right-hand column of the repository page), then **Draft a new release**.
+   3. Under **Choose a tag**, type a new tag, such as `cl-<changelist>`, and choose **Create new tag**. The tag
+      name doesn't matter.
+   4. Drag the `.pak` and `.sig` into the **Attach binaries** box and wait for the uploads to finish. GitHub allows
+      up to 2 GB per file. Don't zip them.
+   5. Click **Publish release**. It has to be published, not saved as a draft, or nobody else can download it.
+   6. Copy the release's page link for the issue.
+
+   **Fallback:** a host with direct downloads, such as [pixeldrain.com](https://pixeldrain.com) or a Dropbox link
+   (set it to "anyone with the link can view"). gofile and MEGA block automated downloads, so the maintainer has to
+   download those by hand, and publishing may take longer.
 4. [Open a "Server assets pak" issue](https://github.com/PongooDev/Core-ServerAssets/issues/new?template=server_assets_pak.yml)
-   with the links, the extractor's version, and `contents.txt` and `report.txt` attached (those two are small).
-   Once the pak is published as a release here, you can delete your upload.
+   with the release link (or links), the extractor's version, and `contents.txt` and `report.txt` attached (those
+   two are small). Once the pak is published as a release here, you can delete your fork's release or upload.
 
 **What gets checked before a pak is published:**
 - it is for the right changelist
@@ -341,8 +352,9 @@ The launcher refuses the whole manifest if any entry is incomplete or points out
 
 ## Publishing a pak (maintainer)
 
-Once a contributed pak has passed the checks (`ServerAssetsExtractor verify <pak>` checks its format, sig and
-`contents.txt`):
+Fetch the pak from the issue first: a fork's release link downloads directly (`gh release download <tag> --repo <fork>`),
+as does a pixeldrain or Dropbox link, while gofile and MEGA links have to be downloaded by hand. Once a contributed pak
+has passed the checks (`ServerAssetsExtractor verify <pak>` checks its format, sig and `contents.txt`):
 
 1. Name it `ServerAssets-<version>-CL-<changelist>.pak`, and its sig, if it has one, `ServerAssets-<version>-CL-<changelist>.sig`.
 2. Create a release tagged `cl-<changelist>`, titled `<version> (CL-<changelist>)`, and upload the pak (and sig) to

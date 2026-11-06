@@ -65,7 +65,7 @@ body:
     id: pak
     attributes:
       label: The pak
-      description: Upload the .pak and .sig the extractor made to a file host (Google Drive, MEGA, Dropbox, OneDrive or MediaFire, shared with anyone who has the link) and paste the links here. GitHub only takes attachments up to 25 MB, so a pak can't be attached, zipped or not. Attach its contents.txt and report.txt (they're small). Never post the AES key.
+      description: 'Preferred: fork PongooDev/Core-ServerAssets, then on your fork choose Releases, Draft a new release, pick any tag (for example cl-<changelist>), attach the .pak and .sig (up to 2 GB per file), click Publish release (a draft can''t be downloaded) and paste the release link here. Fallback: a host with direct downloads, such as pixeldrain.com or a Dropbox link. gofile and MEGA links have to be downloaded by hand, so they may take longer to publish. GitHub issues only take attachments up to 25 MB, so a pak can''t be attached, zipped or not. Attach its contents.txt and report.txt (they''re small). Never post the AES key.'
     validations:
       required: true
   - type: textarea
