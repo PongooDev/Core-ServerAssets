@@ -9,11 +9,12 @@ The paks are published as [releases](https://github.com/PongooDev/Core-ServerAss
 **Published so far:** [3.0 (CL-3901517)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3901517),
 [3.1.0 (CL-3915963)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3915963),
 [3.1.1 (CL-3917250)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3917250),
-[3.2 (CL-3935073)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3935073) and
+[3.2 (CL-3935073)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3935073),
 [3.3 (CL-3942182)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3942182),
 [3.5.1 (CL-4000805)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4000805),
-[3.5.2 (CL-4008490)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4008490) and
-[3.6 (CL-4019403)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4019403), each with `AIDirector_Fortnite`, `Athena_LocationVolumes` and `Athena_GameplayActors`. Most assets are still wanted for other builds. If you can make a pak, see
+[3.5.2 (CL-4008490)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4008490),
+[3.6 (CL-4019403)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4019403) and
+[4.0 (CL-4039451)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4039451), each with `AIDirector_Fortnite`, `Athena_LocationVolumes` and `Athena_GameplayActors`. 4.0's also has Save the World's loot tables and `LootQuotaData`. Most assets are still wanted for other builds. If you can make a pak, see
 [Contributing a pak](#contributing-a-pak).
 
 ## Contents
@@ -70,11 +71,11 @@ These are the server-only assets Core knows it needs. **The list is growing.** I
 
 | Build (changelist) | Asset | What it is | What Core does without it | Published for |
 | --- | --- | --- | --- | --- |
-| 1.10 (CL-3790078) and later | `/Game/AIDirector/AIDirector_Fortnite` (the Blueprint and its `Default__AIDirector_Fortnite_C`) | Save the World's AI director: encounter classes, spawn caps, spawn points, spawn group upgrades | Uses 1.9.1's settings, plus some for features added later (Mini-Bosses, the BluGlo Difficulty Pylon's boosts). Each later build's own settings are unknown | **3.0**, **3.1.0**, **3.1.1**, **3.2**, **3.3**, **3.5.1**, **3.5.2**, **3.6** |
-| 3.0 (CL-3901517) and later | `/Game/Athena/Maps/Athena_LocationVolumes` | 34 POI volumes: named locations, gas stations, taco shops, and the Crab, Fox and Llama buildings. Needed **with each `FortPoiVolume`'s `BrushComponent`** (its transform and `BrushBodySetup`) | Guesses a box for each volume from the plots it stands on | **3.0**, **3.1.0**, **3.1.1**, **3.2**, **3.3**, **3.5.1**, **3.5.2**, **3.6** |
-| 3.0 (CL-3901517) and later | `/Game/Athena/Maps/Streaming/Athena_GameplayActors` | 29 POI volumes: 15 `Quest_Dance_Forbidden_NN` and 14 `Quest_Visit_IceCreamTruck_NN`, **with their `BrushComponent`s** | Puts boxes on the ice cream trucks. The 15 forbidden dance spots can't be placed at all, so that quest can't be completed | **3.0**, **3.1.0**, **3.1.1**, **3.2**, **3.3**, **3.5.1**, **3.5.2**, **3.6** |
-| 4.0 (CL-4039451) | `/Game/Items/Datatables/LootTierData_Client` and `/Game/Items/Datatables/LootPackages_Client`, **both** (the game data still names them, but 4.0's PC paks ship neither; earlier builds ship both) | Save the World's loot tables: the loot tiers (which loot package each container, mission reward and tier group rolls) and the loot packages (the items in each package) | Uses the Cert (CL-3532353) tables it carries, so 4.0's Save the World loot is Cert's, not 4.0's. A pak must carry both tables: with only one of them, Core would not step in for the other | **Wanted** |
-| 1.10 (CL-3790078) and later | `/Game/Items/Datatables/LootQuotaData` (the game data's `LootQuotaData`, which the PC cook leaves empty) | Save the World's loot quotas: how many of each kind of quota-bound container (chests, ammo boxes and the like) a world tile gets, per world level | Nothing on 1.10 to 3.6: no quotas are filled. On 4.0 it uses Cert's along with the Cert loot tables, until a pak puts 4.0's loot tables back. Core doesn't load this one from a pak yet, so a pak with it needs a Core update first | **Wanted** |
+| 1.10 (CL-3790078) and later | `/Game/AIDirector/AIDirector_Fortnite` (the Blueprint and its `Default__AIDirector_Fortnite_C`) | Save the World's AI director: encounter classes, spawn caps, spawn points, spawn group upgrades | Uses 1.9.1's settings, plus some for features added later (Mini-Bosses, the BluGlo Difficulty Pylon's boosts). Each later build's own settings are unknown | **3.0**, **3.1.0**, **3.1.1**, **3.2**, **3.3**, **3.5.1**, **3.5.2**, **3.6**, **4.0** |
+| 3.0 (CL-3901517) and later | `/Game/Athena/Maps/Athena_LocationVolumes` | 34 POI volumes: named locations, gas stations, taco shops, and the Crab, Fox and Llama buildings. Needed **with each `FortPoiVolume`'s `BrushComponent`** (its transform and `BrushBodySetup`) | Guesses a box for each volume from the plots it stands on | **3.0**, **3.1.0**, **3.1.1**, **3.2**, **3.3**, **3.5.1**, **3.5.2**, **3.6**, **4.0** |
+| 3.0 (CL-3901517) and later | `/Game/Athena/Maps/Streaming/Athena_GameplayActors` | 29 POI volumes: 15 `Quest_Dance_Forbidden_NN` and 14 `Quest_Visit_IceCreamTruck_NN`, **with their `BrushComponent`s** | Puts boxes on the ice cream trucks. The 15 forbidden dance spots can't be placed at all, so that quest can't be completed | **3.0**, **3.1.0**, **3.1.1**, **3.2**, **3.3**, **3.5.1**, **3.5.2**, **3.6**, **4.0** |
+| 4.0 (CL-4039451) | `/Game/Items/Datatables/LootTierData_Client` and `/Game/Items/Datatables/LootPackages_Client`, **both** (the game data still names them, but 4.0's PC paks ship neither; earlier builds ship both) | Save the World's loot tables: the loot tiers (which loot package each container, mission reward and tier group rolls) and the loot packages (the items in each package) | Uses the Cert (CL-3532353) tables it carries, so 4.0's Save the World loot is Cert's, not 4.0's. A pak must carry both tables: with only one of them, Core would not step in for the other | **4.0** |
+| 1.10 (CL-3790078) and later | `/Game/Items/Datatables/LootQuotaData` (the game data's `LootQuotaData`, which the PC cook leaves empty) | Save the World's loot quotas: how many of each kind of quota-bound container (chests, ammo boxes and the like) a world tile gets, per world level | Nothing on 1.10 to 3.6: no quotas are filled. On 4.0 it uses Cert's along with the Cert loot tables, until a pak puts 4.0's loot tables back. Core loads it from a server-assets pak since CoreV2 commit cbc5b7b | **4.0** |
 | 2.5 (CL-3889387) and later | The loot tier group `BluGloDifficultyTG` (the server's loot tier data; the PC paks only ship `LootTierData_Client`) | What each tier of Save the World's BluGlo Difficulty Pylon gives | Core-Backend gives a small reward of its own per tier | **Wanted** for every build |
 
 The PC builds from 1.1 to 1.9.1 still have `AIDirector_Fortnite`, so they don't need it. The rest of
@@ -114,6 +115,7 @@ Core supports these builds. Each pak must match one of them exactly:
 | 3.5.1 (CL-4000805) | [`cl-4000805`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4000805), pak and sig | `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors` | the server loot tier data, `LootQuotaData` |
 | 3.5.2 (CL-4008490) | [`cl-4008490`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4008490), pak and sig | `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors` | the server loot tier data, `LootQuotaData` |
 | 3.6 (CL-4019403) | [`cl-4019403`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4019403), pak and sig | `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors` | the server loot tier data, `LootQuotaData` |
+| 4.0 (CL-4039451) | [`cl-4039451`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4039451), pak and sig | `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors`, `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | the server loot tier data |
 
 The first 3.0 pak ([#1](https://github.com/PongooDev/Core-ServerAssets/issues/1)) only had `Athena_LocationVolumes`,
 because it came from a PS4 patch PKG, which carries only the changed blocks. MrPodge6's pak
@@ -123,6 +125,8 @@ assets. Only the server loot tier data and `LootQuotaData` are still wanted for 
 MrPodge6's 3.1.1 pak ([#8](https://github.com/PongooDev/Core-ServerAssets/issues/8)) is byte-identical to the 3.1.0 one,
 so 3.1.1 did not change these assets. Paks are per changelist and a launcher installs a pak only for an exact
 changelist match, so 3.1.1 has its own release and manifest entry.
+
+90sNath's 4.0 pak ([#10](https://github.com/PongooDev/Core-ServerAssets/issues/10)), from a PS4 4.0 build, is the first with Save the World's loot tables (`LootTierData_Client`, `LootPackages_Client`) and `LootQuotaData`. Only the server loot tier data is still wanted for 4.0.
 
 ## Contributing a pak
 
