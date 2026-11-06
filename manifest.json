@@ -249,6 +249,27 @@
         "/Game/Items/Datatables/LootPackages_Client",
         "/Game/Items/Datatables/LootQuotaData"
       ]
+    },
+    "4132537": {
+      "version": "4.4.x",
+      "pak": "ServerAssets-4.4.x-CL-4132537.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4132537/ServerAssets-4.4.x-CL-4132537.pak",
+      "sha256": "474407a489100ab7ff336d3cddcac27d4fb0d914d47dcf8eca38ba9526bb4bc6",
+      "size": 383804270,
+      "sig": {
+        "file": "ServerAssets-4.4.x-CL-4132537.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4132537/ServerAssets-4.4.x-CL-4132537.sig",
+        "sha256": "6d93201ee06c2c0d5b0825d879d1f1edd98dc6938eaf015cfc80a3c6addd1617",
+        "size": 23496
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
     }
   }
 }
