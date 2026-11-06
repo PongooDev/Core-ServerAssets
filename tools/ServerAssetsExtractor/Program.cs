@@ -7,7 +7,7 @@ using CUE4Parse.UE4.Versions;
 
 namespace ServerAssetsExtractor;
 
-public static class Program
+public static partial class Program
 {
     private const string Usage = """
         ServerAssetsExtractor - makes a Core server-assets pak of every data asset in a Fortnite build.
@@ -17,6 +17,9 @@ public static class Program
         Usage:
           ServerAssetsExtractor [<build folder or Paks folder>] [options]
           ServerAssetsExtractor verify <pak> [--ue 4.20]
+          ServerAssetsExtractor add <existing.pak> <files or folders...> [--out new.pak] [--force] [--ue 4.20]
+                                add loose .uasset/.uexp/.umap/.ubulk files to a copy of a pak (a folder laid out
+                                as FortniteGame/Content/..., like FModel's Export Raw Data, or <file>=<pak path>)
 
         Options:
           --out <folder>        where the pak, sig, contents.txt and report.txt go
@@ -30,6 +33,8 @@ public static class Program
           --include <prefix>    only pak paths starting with this, e.g. FortniteGame/Content/ (repeatable)
           --exclude <prefix>    leave out pak paths starting with this (repeatable)
           --max-size <size>     leave out any package bigger than this, e.g. 200MB
+          --include-maps        keep every map too (by default maps are left out, except the levels in
+                                rules.json's keepLevelPaths and levels that hold a navmesh)
           --max-map-size <size> leave out maps (.umap) bigger than this, unless they hold navigation data
           --rules <file>        a rules.json other than the one next to the tool
           --dry-run             only list and count; writes nothing unless --out is given (then only the lists)
@@ -52,6 +57,8 @@ public static class Program
             }
             if (args.Length > 0 && args[0].Equals("verify", StringComparison.OrdinalIgnoreCase))
                 return RunVerify(args[1..]);
+            if (args.Length > 0 && args[0].Equals("add", StringComparison.OrdinalIgnoreCase))
+                return RunAdd(args[1..]);
             var code = RunExtract(args);
             PauseIfInteractive();
             return code;
@@ -80,7 +87,7 @@ public static class Program
         public int? Cl;
         public List<string> Include = [], Exclude = [];
         public long? MaxSize, MaxMapSize;
-        public bool DryRun, Yes;
+        public bool DryRun, Yes, IncludeMaps;
     }
 
     private static Options ParseArgs(string[] args)
@@ -99,6 +106,7 @@ public static class Program
                 case "--include": o.Include.Add(NormPrefix(Next())); break;
                 case "--exclude": o.Exclude.Add(NormPrefix(Next())); break;
                 case "--max-size": o.MaxSize = ParseSize(Next()); break;
+                case "--include-maps": o.IncludeMaps = true; break;
                 case "--max-map-size": o.MaxMapSize = ParseSize(Next()); break;
                 case "--rules": o.Rules = Next(); break;
                 case "--dry-run": o.DryRun = true; break;
@@ -183,6 +191,21 @@ public static class Program
             var size = p.HeaderSize;
             if (p.Keep && o.MaxMapSize is { } mm && p.IsMap && size > mm && !p.HasNavMesh) (p.Keep, p.Why) = (false, "--max-map-size");
             if (p.Keep && o.MaxSize is { } ms && size > ms) (p.Keep, p.Why) = (false, "--max-size");
+        }
+        if (!o.IncludeMaps && !rules.IncludeMaps)
+        {
+            // Maps are left out: a server loads them from the game's own paks. Kept are the levels known to hold
+            // server-only data (keepLevelPaths) and every level with a navmesh, with its _BuiltData.
+            foreach (var p in inScope.Where(p => p.Keep && p.IsMap))
+            {
+                if (rules.KeptLevelPattern(p.GamePath) is { } kl) p.Why = "keepLevelPaths " + kl;
+                else if (p.HasNavMesh) p.Why = "level with a navmesh";
+                else (p.Keep, p.Why) = (false, "maps left out by default");
+            }
+            var keptLevels = inScope.Where(p => p.Keep && p.IsMap).Select(p => p.Path).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            foreach (var p in inScope.Where(p => p.Keep && !p.IsMap && p.Path.EndsWith("_BuiltData", StringComparison.OrdinalIgnoreCase)))
+                if (!keptLevels.Contains(p.Path[..^"_BuiltData".Length]))
+                    (p.Keep, p.Why) = (false, "maps left out by default (_BuiltData of a left-out level)");
         }
         var kept = inScope.Where(p => p.Keep).ToList();
 
@@ -369,6 +392,13 @@ public static class Program
         if (inScope.Count != all.Count) s.AppendLine($"  inside --include/--exclude: {inScope.Count,5:N0}");
         s.AppendLine($"  kept (data):             {kept.Count,8:N0}   {Size(kept.Sum(p => p.HeaderSize))}");
         s.AppendLine($"  left out:                {skipped.Count,8:N0}   {Size(skipped.Sum(p => p.HeaderSize + p.BulkSize))}");
+        var mapSkips = skipped.Where(p => p.Why.StartsWith("maps left out by default")).ToList();
+        if (!o.IncludeMaps && !rules.IncludeMaps)
+        {
+            s.AppendLine($"  maps left out by default:{mapSkips.Count,8:N0}   {Size(mapSkips.Sum(p => p.HeaderSize + p.BulkSize))}   (--include-maps keeps them)");
+            var navKept = kept.Where(p => p.IsMap && p.HasNavMesh).ToList();
+            s.AppendLine($"  levels with a navmesh, kept: {navKept.Count,5:N0}   {Size(navKept.Sum(p => p.HeaderSize))}");
+        }
         s.AppendLine($"  config files (.ini):     {loose.Count,8:N0}   {Size(loose.Sum(f => f.Size))}");
         s.AppendLine($"  pak size (about):        {Size(keptBytes + (kept.Count * 2 + loose.Count) * 150L)}");
         var bulkSkipped = kept.Where(p => p.Bulk.Count > 0).ToList();
@@ -427,6 +457,7 @@ public static class Program
         if (o.Include.Count > 0) f.AppendLine($"--include {string.Join(" ", o.Include)}");
         if (o.Exclude.Count > 0) f.AppendLine($"--exclude {string.Join(" ", o.Exclude)}");
         if (o.MaxSize != null) f.AppendLine($"--max-size {Size(o.MaxSize.Value)}");
+        if (o.IncludeMaps) f.AppendLine("--include-maps");
         if (o.MaxMapSize != null) f.AppendLine($"--max-map-size {Size(o.MaxMapSize.Value)}");
         f.AppendLine();
         f.Append(summary);

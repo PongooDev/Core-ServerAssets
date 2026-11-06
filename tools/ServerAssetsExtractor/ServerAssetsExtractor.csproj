@@ -7,7 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>ServerAssetsExtractor</AssemblyName>
     <RootNamespace>ServerAssetsExtractor</RootNamespace>
-    <Version>1.0.0</Version>
+    <Version>2.0.0</Version>
     <InvariantGlobalization>true</InvariantGlobalization>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     <!-- CUE4Parse marks its older provider constructors obsolete; this tool does not use them. -->

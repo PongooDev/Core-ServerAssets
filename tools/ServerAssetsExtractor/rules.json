@@ -155,6 +155,13 @@
     "*PipelineCache*"
   ],
 
+  "_maps": "Maps are left out by default: a server loads whole maps from the game's own paks, and a console copy would replace the PC map. Kept anyway: every level that holds a navmesh (RecastNavMesh, FortNavMesh or other NavigationData actor) with its _BuiltData, and the levels in keepLevelPaths. Add a /Game/... level name (no extension, * allowed) to keepLevelPaths to keep one more level with server-only data. Set includeMaps to true (or pass --include-maps) to keep every map as before.",
+  "includeMaps": false,
+  "keepLevelPaths": [
+    "/Game/Athena/Maps/Athena_LocationVolumes",
+    "/Game/Athena/Maps/Streaming/Athena_GameplayActors"
+  ],
+
   "unmatchedClasses": "include",
 
   "alwaysIncludePaths": [

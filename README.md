@@ -138,7 +138,7 @@ pure-data asset and drops a presentation one.
 ### Step by step
 
 1. Download `ServerAssetsExtractor.exe` from the
-   [extractor release](https://github.com/PongooDev/Core-ServerAssets/releases/tag/extractor-v1). It is a single
+   [extractor release](https://github.com/PongooDev/Core-ServerAssets/releases/tag/extractor-v2). It is a single
    Windows exe; you don't need .NET or anything else.
 2. Get a console build of the **same version and changelist** as a PC build Core supports (see
    [the list](#server-assets-to-get)): a PlayStation 4 build for Season 12 and earlier, or an Xbox build for any
@@ -148,7 +148,7 @@ pure-data asset and drops a presentation one.
 3. Double-click `ServerAssetsExtractor.exe`. When it asks, drag the build's folder (the one with `FortniteGame` in
    it, or its `Paks` folder) into the window and press Enter. You can also drop the folder onto the exe.
 4. Wait. It finds the paks, the changelist, the engine version and the AES key by itself where it can, then reads
-   every package (under a minute on a fast disk) and writes the pak (about 1 GB for a Season 4 build).
+   every package (under a minute on a fast disk) and writes the pak (about 370 MB for a Season 4 build).
 5. It checks the pak it made and ends with **Done**. Next to the exe there is now a
    `ServerAssets-<version>-CL-<changelist>` folder with four files:
    - `ServerAssets-<version>-CL-<changelist>.pak`, the pak
@@ -176,9 +176,9 @@ It reads the header of every package and judges it by its main export's class:
 
 - **Kept:** data tables and curve tables, item and cosmetic definitions and every other data asset, playlists, game
   data, loot, AI (behavior trees, EQS, the AI director), quests, abilities and gameplay effects, building data,
-  server-side Blueprints, levels (`.umap`) with their gameplay actors and navigation data (navmesh actors, nav areas,
-  nav filters), `*_BuiltData`, string tables, and the platform-neutral `Default*.ini` and `Base*.ini` config.
-- **Left out:** meshes, textures, materials, animations, physics assets, audio, VFX and particles, camera shakes,
+  server-side Blueprints, the levels listed in `keepLevelPaths` and every level with navigation data (see below),
+  nav areas and nav filters, `*_BuiltData` of the levels kept, string tables, and the platform-neutral `Default*.ini` and `Base*.ini` config.
+- **Left out:** maps (see below), meshes, textures, materials, animations, physics assets, audio, VFX and particles, camera shakes,
   fonts, movies and media, UI (widgets, HUD, icons, brushes, everything under `/UI/`), the frontend and lobby, HLOD
   content, editor-only engine content, platform-named assets (PS4, Xbox and the like), input, scalability and
   device-profile config, shader caches, and bulk data (`.ubulk`/`.uptnl`).
@@ -187,6 +187,15 @@ Console-only and render-only content is left out on purpose. The pak mounts over
 and on a player's game that shares the build folder, so console UI or HLODs would replace the PC ones. Leaving a
 package out never removes it: the PC paks' own copy is used. Don't add that content back. A level that a rule would
 drop is still kept when it holds a navmesh or gameplay actors, so only render-only levels such as HLOD sublevels go.
+
+**Maps are left out by default.** A dedicated server loads its maps from the game's own paks, and a console copy of a
+whole map would replace the PC map on a shared install. On the 4.0 PC build, 1,086 maps (such as `Athena_Terrain`)
+were 568 MB of the pak. Two kinds of level are kept anyway: the levels in `keepLevelPaths` in `rules.json`
+(`Athena_LocationVolumes` and `Athena_GameplayActors`, which carry server-only data the PC cook strips; add a
+`/Game/...` level name there to keep another), and **every level with navigation data** (a `RecastNavMesh`,
+`FortNavMesh` or other `NavigationData` actor), together with its `_BuiltData`. Levels with navigation data are
+always kept. To keep every map, pass `--include-maps` or set `"includeMaps": true` in `rules.json`. `report.txt` says
+how many maps were left out and their size.
 
 The rules are in `rules.json` next to the exe; each list is explained at its top. `report.txt` shows, per rule, how
 many packages it dropped with an example, and lists the data classes no rule names yet. Packages of an unlisted
@@ -209,11 +218,34 @@ Run `ServerAssetsExtractor --help` for all of them. The useful ones:
 | `--cl <changelist>` | The changelist, if it can't find it (it names the files) |
 | `--include <prefix>`, `--exclude <prefix>` | Only, or not, pak paths starting with this, e.g. `FortniteGame/Content/` |
 | `--max-size <size>` | Leave out any package bigger than this, e.g. `200MB` |
+| `--include-maps` | Keep every map (they are left out by default, except the `keepLevelPaths` levels and levels with a navmesh) |
 | `--max-map-size <size>` | Leave out levels bigger than this, unless they hold a navmesh |
 | `--rules <file>` | Use another rules file |
 | `verify <pak>` | Check a pak: version 3, mount point `../../../`, entries and hashes, that CUE4Parse reads it, its `.sig` and `contents.txt` |
 
 For a submission, use the defaults: no `--include`, `--exclude`, size limits or edited rules.
+
+### Adding assets to a published pak
+
+If someone finds that one more map or data package is needed, the pak doesn't have to be extracted again.
+A contributor attaches (or links, for big files) the loose `.uasset`, `.uexp`, `.umap` and `.ubulk` files on a
+["Server assets pak" issue](https://github.com/PongooDev/Core-ServerAssets/issues/new/choose), in a folder laid out
+like the game (`FortniteGame/Content/...`), which is what FModel's **Export Raw Data** produces from the console
+build. A maintainer then runs:
+
+```
+ServerAssetsExtractor add <existing.pak> <files or folders...> [--out new.pak] [--force] [--ue 4.20]
+```
+
+- Folder arguments give each file's pak path from the folder structure. A single file can be passed as
+  `<file>=FortniteGame/Content/...` (or sit inside a `FortniteGame/` folder).
+- The result is a new pak with the same format and `../../../` mount point (default `added/<name>.pak` next to the
+  old pak, never the old pak itself). A path that is already in the pak is replaced; others are added. The `.sig` is
+  rebuilt, `contents.txt` is written beside the new pak, and `verify` runs at the end.
+- Paths outside `FortniteGame/` and `Engine/` are refused.
+- Anything the default rules leave out (UI, textures and the like) gets a warning and is not added, unless `--force`
+  is given. Maps are never refused for being maps, so a map can be added this way.
+- Then the maintainer republishes the pak (new size and SHA-256 in `manifest.json`).
 
 ### Troubleshooting
 

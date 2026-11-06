@@ -22,8 +22,11 @@ public sealed class Rules
     public List<string> NavigationClasses { get; set; } = [];
     public List<string> LooseFiles { get; set; } = [];
     public List<string> ExcludeLooseFiles { get; set; } = [];
+    /// <summary>false (the default): maps are left out, except KeepLevelPaths and levels with a navmesh.</summary>
+    public bool IncludeMaps { get; set; }
+    public List<string> KeepLevelPaths { get; set; } = [];
 
-    private Matcher _include = null!, _exclude = null!, _always = null!, _excludePaths = null!, _nav = null!, _gameplay = null!, _loose = null!, _excludeLoose = null!, _platformExempt = null!, _notGameplay = null!, _clientLevels = null!;
+    private Matcher _include = null!, _exclude = null!, _always = null!, _excludePaths = null!, _nav = null!, _gameplay = null!, _loose = null!, _excludeLoose = null!, _platformExempt = null!, _notGameplay = null!, _clientLevels = null!, _keepLevels = null!;
     private Regex? _platformToken, _platformFolder;
 
     public string Source { get; private set; } = "";
@@ -74,6 +77,7 @@ public sealed class Rules
         rules._platformExempt = new Matcher(rules.PlatformRuleExemptClasses);
         rules._notGameplay = new Matcher(rules.NotGameplayLevelClasses);
         rules._clientLevels = new Matcher(rules.ClientOnlyLevelPaths);
+        rules._keepLevels = new Matcher(rules.KeepLevelPaths);
 
         // A platform name counts only as a whole word of a path: between / _ - . or the ends.
         var tokens = rules.PlatformNameTokens.Where(t => t.Length > 0).Select(Regex.Escape).ToList();
@@ -84,6 +88,9 @@ public sealed class Rules
             rules._platformFolder = new Regex($@"/({string.Join("|", folders)})/", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         return rules;
     }
+
+    /// <summary>The keepLevelPaths pattern (matched against the /Game/... name) that keeps this level, or null.</summary>
+    public string? KeptLevelPattern(string gamePath) => _keepLevels.Match(gamePath);
 
     public bool IsNavigationClass(string cls) => _nav.Match(cls) != null;
     public bool IsGameplayLevelClass(string cls) => _notGameplay.Match(cls) == null && _gameplay.Match(cls) != null;
