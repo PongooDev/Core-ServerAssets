@@ -30,6 +30,7 @@ body:
         - 3.5.2 (CL-4008490)
         - 3.6 (CL-4019403)
         - 4.0 (CL-4039451)
+        - 4.1 (CL-4053532)
         - Other (say which below)
     validations:
       required: true

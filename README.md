@@ -102,6 +102,7 @@ Core supports these builds. Each pak must match one of them exactly:
 | 3.5.2 | 4008490 |
 | 3.6 | 4019403 |
 | 4.0 | 4039451 |
+| 4.1 | 4053532 |
 
 ## Published paks
 
