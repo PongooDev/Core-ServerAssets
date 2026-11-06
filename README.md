@@ -1,7 +1,7 @@
 # Core-ServerAssets
 
-Server assets for [Core](https://github.com/PongooDev/CoreV2), the Fortnite private server: one small pak per
-Fortnite build, holding only the assets a game server needs that the PC game doesn't ship.
+Server assets for [Core](https://github.com/PongooDev/CoreV2), the Fortnite private server: one pak per Fortnite
+build, holding the game data a server needs, taken from a console build that still has what the PC game strips.
 
 The paks are published as [releases](https://github.com/PongooDev/Core-ServerAssets/releases) of this repository.
 [`manifest.json`](manifest.json) says which pak belongs to which build.
@@ -14,8 +14,8 @@ The paks are published as [releases](https://github.com/PongooDev/Core-ServerAss
 [3.5.1 (CL-4000805)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4000805),
 [3.5.2 (CL-4008490)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4008490),
 [3.6 (CL-4019403)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4019403) and
-[4.0 (CL-4039451)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4039451), each with `AIDirector_Fortnite`, `Athena_LocationVolumes` and `Athena_GameplayActors`. 4.0's also has Save the World's loot tables and `LootQuotaData`. Most assets are still wanted for other builds. If you can make a pak, see
-[Contributing a pak](#contributing-a-pak).
+[4.0 (CL-4039451)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4039451), each with `AIDirector_Fortnite`, `Athena_LocationVolumes` and `Athena_GameplayActors`. 4.0's also has Save the World's loot tables and `LootQuotaData`. Paks are wanted for every build, including full extractions to replace these early hand-picked ones. If you have a console build, see
+[Making a pak with the extractor](#making-a-pak-with-the-extractor).
 
 ## Contents
 
@@ -23,6 +23,7 @@ The paks are published as [releases](https://github.com/PongooDev/Core-ServerAss
 - [How a pak is used](#how-a-pak-is-used)
 - [Server assets to get](#server-assets-to-get)
 - [Published paks](#published-paks)
+- [Making a pak with the extractor](#making-a-pak-with-the-extractor)
 - [Contributing a pak](#contributing-a-pak)
 - [manifest.json](#manifestjson)
 - [Publishing a pak (maintainer)](#publishing-a-pak-maintainer)
@@ -66,20 +67,17 @@ Players don't need the pak. Only the server uses it.
 
 ## Server assets to get
 
-These are the server-only assets Core knows it needs. **The list is growing.** If you find more server-only content,
+A pak is now a **full data extraction** of a console build, made with
+[ServerAssetsExtractor](#making-a-pak-with-the-extractor). It holds every data asset of the build that a dedicated
+server could read (item and cosmetic definitions, loot, playlists, game data, AI, quests, abilities, building data,
+levels with their gameplay actors and navigation data, server-side Blueprints), not a hand-picked list. That way
+server-only data nobody has found yet comes along too.
+
+Server-only content found so far includes `AIDirector_Fortnite` (1.10 and later), the POI volumes in
+`Athena_LocationVolumes` and `Athena_GameplayActors` (3.0 and later), 4.0's Save the World loot tables
+(`LootTierData_Client`, `LootPackages_Client`), `LootQuotaData`, and the server loot tier data. A full extraction
+carries all of them. If you find server-only content the extractor leaves out,
 [open an issue](https://github.com/PongooDev/Core-ServerAssets/issues/new?template=missing_server_asset.yml).
-
-| Build (changelist) | Asset | What it is | What Core does without it | Published for |
-| --- | --- | --- | --- | --- |
-| 1.10 (CL-3790078) and later | `/Game/AIDirector/AIDirector_Fortnite` (the Blueprint and its `Default__AIDirector_Fortnite_C`) | Save the World's AI director: encounter classes, spawn caps, spawn points, spawn group upgrades | Uses 1.9.1's settings, plus some for features added later (Mini-Bosses, the BluGlo Difficulty Pylon's boosts). Each later build's own settings are unknown | **3.0**, **3.1.0**, **3.1.1**, **3.2**, **3.3**, **3.5.1**, **3.5.2**, **3.6**, **4.0** |
-| 3.0 (CL-3901517) and later | `/Game/Athena/Maps/Athena_LocationVolumes` | 34 POI volumes: named locations, gas stations, taco shops, and the Crab, Fox and Llama buildings. Needed **with each `FortPoiVolume`'s `BrushComponent`** (its transform and `BrushBodySetup`) | Guesses a box for each volume from the plots it stands on | **3.0**, **3.1.0**, **3.1.1**, **3.2**, **3.3**, **3.5.1**, **3.5.2**, **3.6**, **4.0** |
-| 3.0 (CL-3901517) and later | `/Game/Athena/Maps/Streaming/Athena_GameplayActors` | 29 POI volumes: 15 `Quest_Dance_Forbidden_NN` and 14 `Quest_Visit_IceCreamTruck_NN`, **with their `BrushComponent`s** | Puts boxes on the ice cream trucks. The 15 forbidden dance spots can't be placed at all, so that quest can't be completed | **3.0**, **3.1.0**, **3.1.1**, **3.2**, **3.3**, **3.5.1**, **3.5.2**, **3.6**, **4.0** |
-| 4.0 (CL-4039451) | `/Game/Items/Datatables/LootTierData_Client` and `/Game/Items/Datatables/LootPackages_Client`, **both** (the game data still names them, but 4.0's PC paks ship neither; earlier builds ship both) | Save the World's loot tables: the loot tiers (which loot package each container, mission reward and tier group rolls) and the loot packages (the items in each package) | Uses the Cert (CL-3532353) tables it carries, so 4.0's Save the World loot is Cert's, not 4.0's. A pak must carry both tables: with only one of them, Core would not step in for the other | **4.0** |
-| 1.10 (CL-3790078) and later | `/Game/Items/Datatables/LootQuotaData` (the game data's `LootQuotaData`, which the PC cook leaves empty) | Save the World's loot quotas: how many of each kind of quota-bound container (chests, ammo boxes and the like) a world tile gets, per world level | Nothing on 1.10 to 3.6: no quotas are filled. On 4.0 it uses Cert's along with the Cert loot tables, until a pak puts 4.0's loot tables back. Core loads it from a server-assets pak since CoreV2 commit cbc5b7b | **4.0** |
-| 2.5 (CL-3889387) and later | The loot tier group `BluGloDifficultyTG` (the server's loot tier data; the PC paks only ship `LootTierData_Client`) | What each tier of Save the World's BluGlo Difficulty Pylon gives | Core-Backend gives a small reward of its own per tier | **Wanted** for every build |
-
-The PC builds from 1.1 to 1.9.1 still have `AIDirector_Fortnite`, so they don't need it. The rest of
-`/Game/AIDirector` is in the PC paks of every build Core supports. Only `AIDirector_Fortnite` is missing.
 
 Core supports these builds. Each pak must match one of them exactly:
 
@@ -129,26 +127,130 @@ changelist match, so 3.1.1 has its own release and manifest entry.
 
 90sNath's 4.0 pak ([#10](https://github.com/PongooDev/Core-ServerAssets/issues/10)), from a PS4 4.0 build, is the first with Save the World's loot tables (`LootTierData_Client`, `LootPackages_Client`) and `LootQuotaData`. Only the server loot tier data is still wanted for 4.0.
 
+## Making a pak with the extractor
+
+ServerAssetsExtractor reads a Fortnite build's paks and writes a ready-to-submit server-assets pak of its data. It
+only reads the build; it never changes it.
+
+**The rule it follows: don't take anything a dedicated server obviously won't need.** When in doubt, it keeps a
+pure-data asset and drops a presentation one.
+
+### Step by step
+
+1. Download `ServerAssetsExtractor.exe` from the
+   [extractor release](https://github.com/PongooDev/Core-ServerAssets/releases/tag/extractor-v1). It is a single
+   Windows exe; you don't need .NET or anything else.
+2. Get a console build of the **same version and changelist** as a PC build Core supports (see
+   [the list](#server-assets-to-get)): a PlayStation 4 build for Season 12 and earlier, or an Xbox build for any
+   season. It must be the full build, not a patch PKG (a patch only carries the changed blocks). Unpacking the
+   console package is up to you; [ServerAssets-OGFN](https://github.com/MarvelcoCode/ServerAssets-OGFN) explains how.
+   Console patch numbers aren't Fortnite version numbers: PS4 patch 01.30 is Fortnite 1.9, for example.
+3. Double-click `ServerAssetsExtractor.exe`. When it asks, drag the build's folder (the one with `FortniteGame` in
+   it, or its `Paks` folder) into the window and press Enter. You can also drop the folder onto the exe.
+4. Wait. It finds the paks, the changelist, the engine version and the AES key by itself where it can, then reads
+   every package (under a minute on a fast disk) and writes the pak (about 1 GB for a Season 4 build).
+5. It checks the pak it made and ends with **Done**. Next to the exe there is now a
+   `ServerAssets-<version>-CL-<changelist>` folder with four files:
+   - `ServerAssets-<version>-CL-<changelist>.pak`, the pak
+   - `ServerAssets-<version>-CL-<changelist>.sig`, its signature file
+   - `contents.txt`, every package in the pak
+   - `report.txt`, what was kept and left out, and by which rule
+6. Submit them: see [Contributing a pak](#contributing-a-pak).
+
+### The AES key
+
+Fortnite's paks are encrypted, and a console build uses the same key as the PC build of the same version. The
+extractor looks for it in this order:
+
+1. `--aes <64 hex digits>`, if you give it;
+2. [FModel](https://fmodel.app)'s settings (`%APPDATA%\FModel\AppSettings.json`): the key FModel has for that build's
+   folder, or else any key FModel knows that opens the paks (so having the matching PC build set up in FModel is
+   enough);
+3. it asks you to paste it (what you type isn't shown).
+
+The key is never printed, logged or written to any file. Don't post it in an issue.
+
+### What it includes
+
+It reads the header of every package and judges it by its main export's class:
+
+- **Kept:** data tables and curve tables, item and cosmetic definitions and every other data asset, playlists, game
+  data, loot, AI (behavior trees, EQS, the AI director), quests, abilities and gameplay effects, building data,
+  server-side Blueprints, levels (`.umap`) with their gameplay actors and navigation data (navmesh actors, nav areas,
+  nav filters), `*_BuiltData`, string tables, and the platform-neutral `Default*.ini` and `Base*.ini` config.
+- **Left out:** meshes, textures, materials, animations, physics assets, audio, VFX and particles, camera shakes,
+  fonts, movies and media, UI (widgets, HUD, icons, brushes, everything under `/UI/`), the frontend and lobby, HLOD
+  content, editor-only engine content, platform-named assets (PS4, Xbox and the like), input, scalability and
+  device-profile config, shader caches, and bulk data (`.ubulk`/`.uptnl`).
+
+Console-only and render-only content is left out on purpose. The pak mounts over the game's own files, on the server
+and on a player's game that shares the build folder, so console UI or HLODs would replace the PC ones. Leaving a
+package out never removes it: the PC paks' own copy is used. Don't add that content back. A level that a rule would
+drop is still kept when it holds a navmesh or gameplay actors, so only render-only levels such as HLOD sublevels go.
+
+The rules are in `rules.json` next to the exe; each list is explained at its top. `report.txt` shows, per rule, how
+many packages it dropped with an example, and lists the data classes no rule names yet. Packages of an unlisted
+class are kept.
+
+Navigation data: the PC 4.0 build has navmesh tile data in only a few Save the World levels (`Tile_Suburban_002`
+has about 1.2 MB of it; the rest a few KB each) and none in the Battle Royale map. So a console extraction is the
+only source of any navmesh data the PC build strips. `report.txt` lists every navmesh actor and its size.
+
+### Options
+
+Run `ServerAssetsExtractor --help` for all of them. The useful ones:
+
+| Option | What it does |
+| --- | --- |
+| `--out <folder>` | Where the files go: an empty or new folder, never inside the build |
+| `--dry-run` | Only list and count. With `--out`, it writes `contents.txt` and `report.txt` but no pak |
+| `--ue 4.19` or `--ue 4.20` | The engine version, if it can't tell: 4.19 for 1.7.2 to 2.4.2, 4.20 for 2.5 to 4.x |
+| `--aes <hex>` | The AES key |
+| `--cl <changelist>` | The changelist, if it can't find it (it names the files) |
+| `--include <prefix>`, `--exclude <prefix>` | Only, or not, pak paths starting with this, e.g. `FortniteGame/Content/` |
+| `--max-size <size>` | Leave out any package bigger than this, e.g. `200MB` |
+| `--max-map-size <size>` | Leave out levels bigger than this, unless they hold a navmesh |
+| `--rules <file>` | Use another rules file |
+| `verify <pak>` | Check a pak: version 3, mount point `../../../`, entries and hashes, that CUE4Parse reads it, its `.sig` and `contents.txt` |
+
+For a submission, use the defaults: no `--include`, `--exclude`, size limits or edited rules.
+
+### Troubleshooting
+
+- **"no .pak files were found"**: point it at the folder that holds `FortniteGame`, or at `FortniteGame\Content\Paks`.
+  An unpacked console build often has its paks a few folders down; the extractor looks up to six levels deep.
+- **"The AES key ... doesn't open these paks"** or **"no AES key opened them"**: the key is for another version. Use
+  the key of the PC build of exactly the same version, or set that PC build up in FModel first.
+- **"Not mounted: ..."** for some paks: those need a key the extractor doesn't know (a dynamic key). FModel's
+  dynamic keys for the build are used when it has them; otherwise those paks' files are left out.
+- **"No pak could be mounted"**, or most packages unreadable in `report.txt`: the engine version is wrong. Pass
+  `--ue 4.19` or `--ue 4.20`.
+- **The final check shows FAIL**: don't submit the pak. Open an issue with `report.txt` instead.
+- **Windows warns about the exe**: choose More info, then Run anyway. It isn't signed.
+
+### Building it (developers)
+
+The source is in [`tools/ServerAssetsExtractor`](tools/ServerAssetsExtractor). It needs the .NET 10 SDK and uses
+[CUE4Parse](https://github.com/FabianFG/CUE4Parse), pinned in the `.csproj`.
+
+- Run from source: `dotnet run -c Release --project tools/ServerAssetsExtractor -- <build folder> --dry-run`
+- Release exe: `dotnet publish tools/ServerAssetsExtractor -c Release -r win-x64 -o <folder>` makes one
+  self-contained `ServerAssetsExtractor.exe`, with `rules.json` beside it (the exe also carries a built-in copy).
+
 ## Contributing a pak
 
-1. Get the server assets from a console build of the **same version and changelist** as a PC build Core supports:
-   a PlayStation 4 build for Season 12 and earlier, or an Xbox build for any season.
-   [ServerAssets-OGFN](https://github.com/MarvelcoCode/ServerAssets-OGFN) explains how. Check the changelist in the
-   console build's `Engine/Build/Build.version`. Console patch numbers aren't Fortnite version numbers. For example,
-   PS4 patch 01.30 is Fortnite 1.9.
-2. Make a pak that the PC game can mount. **Only include the assets listed [above](#server-assets-to-get)** for that
-   build (with their `.uasset`, `.uexp` and `.ubulk` files). Leave out everything else. If the build's own paks have
-   `.sig` files next to them, the pak needs one too, or the server dies at startup. A sig is a 64-byte master signature,
-   a `uint32` chunk count, then the CRC32 of each 64 KiB chunk of the pak. Use the correct CRCs and a zeroed master
-   signature.
-3. Test it if you can: put it in the build's `FortniteGame\Content\Paks` and host a server. The server log should say
-   Core uses the real asset.
-4. [Open a "Server assets pak" issue](https://github.com/PongooDev/Core-ServerAssets/issues/new?template=server_assets_pak.yml)
-   with the pak attached, or a link to it.
+1. Make the pak with [the extractor](#making-a-pak-with-the-extractor), from a console build of the **same version
+   and changelist** as a PC build Core supports. Check the changelist it prints; it reads the build's
+   `Engine/Build/Build.version` when there is one.
+2. Test it if you can: put the pak and sig in a PC build's `FortniteGame\Content\Paks` and host a server. The
+   server log says when Core uses a real asset instead of its stand-in.
+3. Upload the `.pak` and `.sig` somewhere you can link to (they are too big for a GitHub issue), and
+   [open a "Server assets pak" issue](https://github.com/PongooDev/Core-ServerAssets/issues/new?template=server_assets_pak.yml)
+   with the links, the extractor's version, and `contents.txt` and `report.txt` attached.
 
 **What gets checked before a pak is published:**
 - it is for the right changelist
-- it contains only the listed assets
+- it was made by the extractor with its default rules (`verify` passes, and `contents.txt` matches)
 - it loads on a headless server
 
 If you only have [FModel](https://fmodel.app) JSON exports, not a pak, share them on
@@ -197,14 +299,16 @@ The launcher refuses the whole manifest if any entry is incomplete or points out
 
 ## Publishing a pak (maintainer)
 
-Once a contributed pak has passed the checks:
+Once a contributed pak has passed the checks (`ServerAssetsExtractor verify <pak>` checks its format, sig and
+`contents.txt`):
 
 1. Name it `ServerAssets-<version>-CL-<changelist>.pak`, and its sig, if it has one, `ServerAssets-<version>-CL-<changelist>.sig`.
 2. Create a release tagged `cl-<changelist>`, titled `<version> (CL-<changelist>)`, and upload the pak (and sig) to
    it. List the assets it contains in the release notes, and link the issue it came from.
 3. Get the hash and size of each file: `(Get-FileHash <file> -Algorithm SHA256).Hash.ToLower()` and
    `(Get-Item <file>).Length`.
-4. Add its entry to `manifest.json`: version, pak, the release asset's download URL, sha256, size and contents, plus
+4. Add its entry to `manifest.json`: version, pak, the release asset's download URL, sha256, size and contents (the
+   lines of the extractor's `contents.txt`), plus
    `sig` for a build that signs its paks. Check it parses: in a Core-Launcher checkout, build the tests and run
    `Core.Launcher.Tests.exe -method Core.Launcher.Tests.ServerAssetsTests.ParsesTheRealManifest` with
    `CORE_SERVER_ASSETS_MANIFEST` set to the file's path. Commit it to `main`.

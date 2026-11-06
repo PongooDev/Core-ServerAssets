@@ -1,0 +1,8 @@
+# Build outputs and anything the tool writes. Paks and sigs are also ignored by the root .gitignore.
+bin/
+obj/
+publish/
+*.user
+ServerAssets-*/
+contents.txt
+report.txt

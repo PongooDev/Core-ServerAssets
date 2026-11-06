@@ -1,13 +1,13 @@
 name: Server assets pak
-description: Contribute a pak of one build's server assets
+description: Contribute a server-assets pak of one build, made with ServerAssetsExtractor
 title: "Server assets pak: <build> (CL-<changelist>)"
 labels: ["pak"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for helping. A pak holds **only** the server assets listed in the [README](https://github.com/PongooDev/Core-ServerAssets#server-assets-to-get) for one build, from the console build of the same changelist.
-        Before it's published, it's checked: right changelist, only the listed assets, and it loads on a headless server.
+        Thanks for helping. A pak is a full data extraction of one console build, made with [ServerAssetsExtractor](https://github.com/PongooDev/Core-ServerAssets#making-a-pak-with-the-extractor), from a console build of the same changelist as a PC build Core supports.
+        Before it's published, it's checked: right changelist, made by the extractor with its default rules, and it loads on a headless server.
   - type: dropdown
     id: build
     attributes:
@@ -53,23 +53,19 @@ body:
         - Other (say which below)
     validations:
       required: true
-  - type: checkboxes
-    id: assets
+  - type: input
+    id: extractor
     attributes:
-      label: Assets included
-      description: Tick the ones in the pak. Only include assets on the README's list for this build.
-      options:
-        - label: "/Game/AIDirector/AIDirector_Fortnite (1.10 and later)"
-        - label: "/Game/Athena/Maps/Athena_LocationVolumes, with each FortPoiVolume's BrushComponent (3.0 and later)"
-        - label: "/Game/Athena/Maps/Streaming/Athena_GameplayActors, with each FortPoiVolume's BrushComponent (3.0 and later)"
-        - label: "The server loot tier data with BluGloDifficultyTG (2.5 and later)"
-        - label: "/Game/Items/Datatables/LootTierData_Client and /Game/Items/Datatables/LootPackages_Client, both (4.0)"
-        - label: "/Game/Items/Datatables/LootQuotaData (1.10 and later)"
+      label: Made with ServerAssetsExtractor, version
+      description: The version it prints on its first line, e.g. 1.0.0. Paks are a full data extraction made with the [extractor](https://github.com/PongooDev/Core-ServerAssets#making-a-pak-with-the-extractor), not hand-picked assets.
+      placeholder: "1.0.0"
+    validations:
+      required: true
   - type: textarea
     id: pak
     attributes:
       label: The pak
-      description: Drag the pak in (zip it if GitHub refuses it), or link to it. Say whether it's encrypted, but don't post any key.
+      description: Link to the .pak and .sig the extractor made (they are too big to attach), and attach its contents.txt and report.txt. Never post the AES key.
     validations:
       required: true
   - type: textarea
@@ -84,9 +80,9 @@ body:
       options:
         - label: The assets are from the same build and changelist as above.
           required: true
-        - label: The pak contains only assets on the README's list, nothing else.
+        - label: The pak and sig are exactly what ServerAssetsExtractor made, with its default rules.json (nothing added, removed or repacked).
           required: true
-        - label: It's a pak the PC game can mount.
+        - label: The extractor's own check at the end passed ("Checking the pak" shows no FAIL).
           required: true
   - type: textarea
     id: notes
