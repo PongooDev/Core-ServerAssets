@@ -244,9 +244,13 @@ The source is in [`tools/ServerAssetsExtractor`](tools/ServerAssetsExtractor). I
    `Engine/Build/Build.version` when there is one.
 2. Test it if you can: put the pak and sig in a PC build's `FortniteGame\Content\Paks` and host a server. The
    server log says when Core uses a real asset instead of its stand-in.
-3. Upload the `.pak` and `.sig` somewhere you can link to (they are too big for a GitHub issue), and
-   [open a "Server assets pak" issue](https://github.com/PongooDev/Core-ServerAssets/issues/new?template=server_assets_pak.yml)
-   with the links, the extractor's version, and `contents.txt` and `report.txt` attached.
+3. Upload the `.pak` and `.sig` to a file host and copy a share link. GitHub issues only take attachments up to
+   25 MB, so a pak (hundreds of MB) can't be attached there, zipped or not. Any host that gives a public download
+   link works: Google Drive, MEGA, Dropbox, OneDrive or MediaFire. Set the link to "anyone with the link can view".
+   Zipping is optional.
+4. [Open a "Server assets pak" issue](https://github.com/PongooDev/Core-ServerAssets/issues/new?template=server_assets_pak.yml)
+   with the links, the extractor's version, and `contents.txt` and `report.txt` attached (those two are small).
+   Once the pak is published as a release here, you can delete your upload.
 
 **What gets checked before a pak is published:**
 - it is for the right changelist
