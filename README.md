@@ -15,8 +15,9 @@ The paks are published as [releases](https://github.com/PongooDev/Core-ServerAss
 [3.5.2 (CL-4008490)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4008490),
 [3.6 (CL-4019403)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4019403),
 [4.0 (CL-4039451)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4039451),
-[4.1 (CL-4053532)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4053532) and
-[4.2 (CL-4072250)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4072250), each with `AIDirector_Fortnite`, `Athena_LocationVolumes` and `Athena_GameplayActors`. 4.0's also has Save the World's loot tables and `LootQuotaData`. Paks are wanted for every build, including full extractions to replace these early hand-picked ones. If you have a console build, see
+[4.1 (CL-4053532)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4053532),
+[4.2 (CL-4072250)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4072250) and
+[4.4.0 (CL-4117433)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4117433), each with `AIDirector_Fortnite`, `Athena_LocationVolumes` and `Athena_GameplayActors`. 4.0's also has Save the World's loot tables and `LootQuotaData`. Paks are wanted for every build, including full extractions to replace these early hand-picked ones. If you have a console build, see
 [Making a pak with the extractor](#making-a-pak-with-the-extractor).
 
 ## Contents
@@ -119,6 +120,7 @@ Core supports these builds. Each pak must match one of them exactly:
 | 4.0 (CL-4039451) | [`cl-4039451`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4039451), pak and sig | `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors`, `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | the server loot tier data |
 | 4.1 (CL-4053532) | [`cl-4053532`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4053532), pak and sig | Full data extraction, with `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors`, `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | the server loot tier data |
 | 4.2 (CL-4072250) | [`cl-4072250`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4072250), pak and sig | Full data extraction, with `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors`, `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | the server loot tier data |
+| 4.4.0 (CL-4117433) | [`cl-4117433`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4117433), pak and sig | Full data extraction, with `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors`, `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | the server loot tier data |
 
 The first 3.0 pak ([#1](https://github.com/PongooDev/Core-ServerAssets/issues/1)) only had `Athena_LocationVolumes`,
 because it came from a PS4 patch PKG, which carries only the changed blocks. MrPodge6's pak
