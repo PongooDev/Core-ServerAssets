@@ -329,6 +329,132 @@
         "/Game/Items/Datatables/LootPackages_Client",
         "/Game/Items/Datatables/LootQuotaData"
       ]
+    },
+    "4204761": {
+      "version": "5.00",
+      "pak": "ServerAssets-5.00-CL-4204761.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4204761/ServerAssets-5.00-CL-4204761.pak",
+      "sha256": "ab1511f41116a29fa50e14c03bc83844e474f109ee7f4b0f582ce3a5f8d37abb",
+      "size": 417848712,
+      "sig": {
+        "file": "ServerAssets-5.00-CL-4204761.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4204761/ServerAssets-5.00-CL-4204761.sig",
+        "sha256": "44e5823f68659eb59847664015a7daf19882280c1165d4c2b855365d268a324c",
+        "size": 25572
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4240749": {
+      "version": "5.10",
+      "pak": "ServerAssets-5.10-CL-4240749.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4240749/ServerAssets-5.10-CL-4240749.pak",
+      "sha256": "4305058182288459f78ee54523d8a426478d129458095c8e65aba29c88f938ff",
+      "size": 440432645,
+      "sig": {
+        "file": "ServerAssets-5.10-CL-4240749.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4240749/ServerAssets-5.10-CL-4240749.sig",
+        "sha256": "487c7033d16100c685d1b7cbde32f4e786039be7bdac08ff4e9ea20b1c45d318",
+        "size": 26952
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4288479": {
+      "version": "5.21",
+      "pak": "ServerAssets-5.21-CL-4288479.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4288479/ServerAssets-5.21-CL-4288479.pak",
+      "sha256": "f376232a97b2b8f8aef29035016edc081cb100364018efca3e00859f631d0047",
+      "size": 447217391,
+      "sig": {
+        "file": "ServerAssets-5.21-CL-4288479.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4288479/ServerAssets-5.21-CL-4288479.sig",
+        "sha256": "ee66d7229061af7fa31e65b91ce180bcefe0c65e26744d037548b363f2dfbfea",
+        "size": 27364
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4305896": {
+      "version": "5.30",
+      "pak": "ServerAssets-5.30-CL-4305896.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4305896/ServerAssets-5.30-CL-4305896.pak",
+      "sha256": "0558471a3c4ede0cfa474807c3340336527eb4e3a7eba8867e48f73abff71558",
+      "size": 447869557,
+      "sig": {
+        "file": "ServerAssets-5.30-CL-4305896.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4305896/ServerAssets-5.30-CL-4305896.sig",
+        "sha256": "82e78c39097fdd2d33226bb91d4ae655904bfa2e1e418c7e401c4f2ff0fe139e",
+        "size": 27404
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4352937": {
+      "version": "5.40",
+      "pak": "ServerAssets-5.40-CL-4352937.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4352937/ServerAssets-5.40-CL-4352937.pak",
+      "sha256": "b66a14b1970651710fa113d4c61996ddf2c5d9e18d5c0c0745ef844baf0f69b1",
+      "size": 451075975,
+      "sig": {
+        "file": "ServerAssets-5.40-CL-4352937.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4352937/ServerAssets-5.40-CL-4352937.sig",
+        "sha256": "69ab5e67380ad8a99ae056bb5d2e4cf9f181a703b4b77d8b4d1bccde1e1964ae",
+        "size": 27600
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4363240": {
+      "version": "5.41",
+      "pak": "ServerAssets-5.41-CL-4363240.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4363240/ServerAssets-5.41-CL-4363240.pak",
+      "sha256": "0ff11b79ddf494330bdb4d75a4eb4f45ada40a32993dbb889809e0d5e04552e9",
+      "size": 451427864,
+      "sig": {
+        "file": "ServerAssets-5.41-CL-4363240.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4363240/ServerAssets-5.41-CL-4363240.sig",
+        "sha256": "9076c799937a916020e8cd736bb49ae4e378bf747ad662d76781fd5df918dfd5",
+        "size": 27624
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
     }
   }
 }
