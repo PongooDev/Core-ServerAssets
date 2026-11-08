@@ -7,6 +7,7 @@ The paks are published as [releases](https://github.com/PongooDev/Core-ServerAss
 [`manifest.json`](manifest.json) says which pak belongs to which build.
 
 **Published so far:** [1.11 (CL-3807424)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3807424),
+[2.2 (CL-3841827)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3841827),
 [3.0 (CL-3901517)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3901517),
 [3.1.0 (CL-3915963)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3915963),
 [3.1.1 (CL-3917250)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3917250),
@@ -114,6 +115,7 @@ Core supports these builds. Each pak must match one of them exactly:
 | Build | Release | Contains | Still wanted for this build |
 | --- | --- | --- | --- |
 | 1.11 (CL-3807424) | [`cl-3807424`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3807424), pak and sig | Full data extraction, with `AIDirector_Fortnite`, `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | `Athena_LocationVolumes` and `Athena_GameplayActors` (not in this build's data); the pak's `DefaultEngine.ini` has no `VersionDisplayName`, so its version is unconfirmed from it |
+| 2.2 (CL-3841827) | [`cl-3841827`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3841827), pak and sig | Full data extraction, with `AIDirector_Fortnite`, `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | `Athena_LocationVolumes` and `Athena_GameplayActors` (not in this build's data); the pak's `DefaultEngine.ini` has no `VersionDisplayName`, so its version is unconfirmed from it |
 | 3.0 (CL-3901517) | [`cl-3901517`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3901517), pak and sig | `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors` | the server loot tier data, `LootQuotaData` |
 | 3.1.0 (CL-3915963) | [`cl-3915963`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3915963), pak and sig | `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors` | the server loot tier data, `LootQuotaData` |
 | 3.1.1 (CL-3917250) | [`cl-3917250`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3917250), pak and sig | `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors` | the server loot tier data, `LootQuotaData` |
