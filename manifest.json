@@ -1,6 +1,25 @@
 {
   "schema": 2,
   "builds": {
+    "3807424": {
+      "version": "1.11",
+      "pak": "ServerAssets-1.11-CL-3807424.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-3807424/ServerAssets-1.11-CL-3807424.pak",
+      "sha256": "7203b9d362f29adba41be39cd959ef8add302e3652d8d1257d23448d32f6ef1b",
+      "size": 318635100,
+      "sig": {
+        "file": "ServerAssets-1.11-CL-3807424.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-3807424/ServerAssets-1.11-CL-3807424.sig",
+        "sha256": "102b179e23c317461b1c20dea626a512459be9b2abc6627b95aee16bfe0fd153",
+        "size": 19516
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
     "3901517": {
       "version": "3.0",
       "pak": "ServerAssets-3.0-CL-3901517.pak",
