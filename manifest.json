@@ -455,6 +455,216 @@
         "/Game/Items/Datatables/LootPackages_Client",
         "/Game/Items/Datatables/LootQuotaData"
       ]
+    },
+    "4395664": {
+      "version": "6.00",
+      "pak": "ServerAssets-6.00-CL-4395664.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4395664/ServerAssets-6.00-CL-4395664.pak",
+      "sha256": "22a717823cb905c461cf6ff5ba215099897789779558f8984a140d73ad5b4e45",
+      "size": 466450073,
+      "sig": {
+        "file": "ServerAssets-6.00-CL-4395664.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4395664/ServerAssets-6.00-CL-4395664.sig",
+        "sha256": "faa4318463da689fd42b4d2ff2ff2be40b6d688baa7ced90f7456f648d962289",
+        "size": 28540
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4417689": {
+      "version": "6.01",
+      "pak": "ServerAssets-6.01-CL-4417689.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4417689/ServerAssets-6.01-CL-4417689.pak",
+      "sha256": "bcdacf962963a9a5f6a655204aa5be7a3c93c6cf72ea1da35f1517f4cb48a7ac",
+      "size": 467117486,
+      "sig": {
+        "file": "ServerAssets-6.01-CL-4417689.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4417689/ServerAssets-6.01-CL-4417689.sig",
+        "sha256": "8f5d10a00fa1b73eb87cd9d26811d6864c0420707c92b4e012ba4217b66bd539",
+        "size": 28580
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4442095": {
+      "version": "6.02",
+      "pak": "ServerAssets-6.02-CL-4442095.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4442095/ServerAssets-6.02-CL-4442095.pak",
+      "sha256": "c9b3d16199c36de6ece71a9147811dc45c7c22a59e50f212daa27e5c3543bde9",
+      "size": 470446105,
+      "sig": {
+        "file": "ServerAssets-6.02-CL-4442095.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4442095/ServerAssets-6.02-CL-4442095.sig",
+        "sha256": "1366e6487de4874dff31f3706930e0f52d9af85033de7a3f082b3cceb700168d",
+        "size": 28784
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4464155": {
+      "version": "6.10",
+      "pak": "ServerAssets-6.10-CL-4464155.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4464155/ServerAssets-6.10-CL-4464155.pak",
+      "sha256": "c1b1d69cb219c5970165dd68badf1a00eae71b752fd8893f58b3ce716c5d7512",
+      "size": 463924944,
+      "sig": {
+        "file": "ServerAssets-6.10-CL-4464155.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4464155/ServerAssets-6.10-CL-4464155.sig",
+        "sha256": "94db524cdef57267ea7549057b84aecf33c7810340fbe59cf78b252729cd6577",
+        "size": 28384
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4476098": {
+      "version": "6.10.1",
+      "pak": "ServerAssets-6.10.1-CL-4476098.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4476098/ServerAssets-6.10.1-CL-4476098.pak",
+      "sha256": "fc6981bebccf124af7c01771b6b576f5b84489b138128858eb96aaaa5cebebf1",
+      "size": 463925022,
+      "sig": {
+        "file": "ServerAssets-6.10.1-CL-4476098.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4476098/ServerAssets-6.10.1-CL-4476098.sig",
+        "sha256": "e75b0b4a3a76e1e7c5faa27629869177188630d8f114dde6fbaee3f9c4da1b05",
+        "size": 28384
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4497486": {
+      "version": "6.20",
+      "pak": "ServerAssets-6.20-CL-4497486.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4497486/ServerAssets-6.20-CL-4497486.pak",
+      "sha256": "7d06e5647c349efbf744bd3e2668a977930dc27b7b6aafe8d74e648985d465b9",
+      "size": 560127835,
+      "sig": {
+        "file": "ServerAssets-6.20-CL-4497486.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4497486/ServerAssets-6.20-CL-4497486.sig",
+        "sha256": "fbb6a7dff7f5f900429eb949ccb9689aa2945641057923734077f095ffe87aed",
+        "size": 34256
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4526925": {
+      "version": "6.21",
+      "pak": "ServerAssets-6.21-CL-4526925.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4526925/ServerAssets-6.21-CL-4526925.pak",
+      "sha256": "80d6d76609c72f1bcc0b0070b8f6a25d91b262ddf8696456487e126a81e3ce1a",
+      "size": 565629649,
+      "sig": {
+        "file": "ServerAssets-6.21-CL-4526925.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4526925/ServerAssets-6.21-CL-4526925.sig",
+        "sha256": "0a53868ac2851447b09de3aa4c0d9df955f18a41e23c6ba40162ef04b3df2b36",
+        "size": 34592
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4543176": {
+      "version": "6.22",
+      "pak": "ServerAssets-6.22-CL-4543176.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4543176/ServerAssets-6.22-CL-4543176.pak",
+      "sha256": "4f55ef70834dfe53177812f6b435bc0d4e18d0ed7fdcfe9511272e32cbe2c70e",
+      "size": 567085975,
+      "sig": {
+        "file": "ServerAssets-6.22-CL-4543176.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4543176/ServerAssets-6.22-CL-4543176.sig",
+        "sha256": "bde06754afde663e7206b3c82d99c391237c339a5bae70bfa1c75722b752aaec",
+        "size": 34684
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4573096": {
+      "version": "6.30",
+      "pak": "ServerAssets-6.30-CL-4573096.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4573096/ServerAssets-6.30-CL-4573096.pak",
+      "sha256": "344bfea103321cc40fc624b458db677ee8f65734e6a28b465146fe3c31c06dd0",
+      "size": 591457177,
+      "sig": {
+        "file": "ServerAssets-6.30-CL-4573096.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4573096/ServerAssets-6.30-CL-4573096.sig",
+        "sha256": "4e57b8bf2275f6cd1d957b4ec2747061000f3445a49df49f474288d91e4f82a9",
+        "size": 36168
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4573279": {
+      "version": "6.31",
+      "pak": "ServerAssets-6.31-CL-4573279.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4573279/ServerAssets-6.31-CL-4573279.pak",
+      "sha256": "442a222b7464199e24e41cd66177e402cf2f86a162b85429171b00db59b6ca52",
+      "size": 523865837,
+      "sig": {
+        "file": "ServerAssets-6.31-CL-4573279.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4573279/ServerAssets-6.31-CL-4573279.sig",
+        "sha256": "d10dee6499b80ab19ac7b2ee897ceffa320a8669e6daa46dc9e7e52499fc7e71",
+        "size": 32044
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
     }
   }
 }
