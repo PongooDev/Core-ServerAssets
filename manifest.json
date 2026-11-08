@@ -351,6 +351,48 @@
         "/Game/Items/Datatables/LootQuotaData"
       ]
     },
+    "4214610": {
+      "version": "5.0.1",
+      "pak": "ServerAssets-5.0.1-CL-4214610.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4214610/ServerAssets-5.0.1-CL-4214610.pak",
+      "sha256": "ab1511f41116a29fa50e14c03bc83844e474f109ee7f4b0f582ce3a5f8d37abb",
+      "size": 417848712,
+      "sig": {
+        "file": "ServerAssets-5.0.1-CL-4214610.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4214610/ServerAssets-5.0.1-CL-4214610.sig",
+        "sha256": "44e5823f68659eb59847664015a7daf19882280c1165d4c2b855365d268a324c",
+        "size": 25572
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "4225813": {
+      "version": "5.10",
+      "pak": "ServerAssets-5.10-CL-4225813.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4225813/ServerAssets-5.10-CL-4225813.pak",
+      "sha256": "4305058182288459f78ee54523d8a426478d129458095c8e65aba29c88f938ff",
+      "size": 440432645,
+      "sig": {
+        "file": "ServerAssets-5.10-CL-4225813.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4225813/ServerAssets-5.10-CL-4225813.sig",
+        "sha256": "487c7033d16100c685d1b7cbde32f4e786039be7bdac08ff4e9ea20b1c45d318",
+        "size": 26952
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
     "4240749": {
       "version": "5.10",
       "pak": "ServerAssets-5.10-CL-4240749.pak",
