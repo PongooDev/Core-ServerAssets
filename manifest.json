@@ -289,7 +289,7 @@
       ]
     },
     "4132537": {
-      "version": "4.4.x",
+      "version": "4.4.2",
       "pak": "ServerAssets-4.4.x-CL-4132537.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4132537/ServerAssets-4.4.x-CL-4132537.pak",
       "sha256": "474407a489100ab7ff336d3cddcac27d4fb0d914d47dcf8eca38ba9526bb4bc6",
