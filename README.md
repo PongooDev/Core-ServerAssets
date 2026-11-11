@@ -8,6 +8,8 @@ The paks are published as [releases](https://github.com/PongooDev/Core-ServerAss
 
 **Published so far:** [1.11 (CL-3807424)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3807424),
 [2.2 (CL-3841827)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3841827),
+[2.4.2 (CL-3870737)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3870737),
+[2.5 (CL-3889387)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3889387),
 [3.0 (CL-3901517)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3901517),
 [3.1.0 (CL-3915963)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3915963),
 [3.1.1 (CL-3917250)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3917250),
@@ -134,6 +136,8 @@ Core supports these builds. Each pak must match one of them exactly:
 | --- | --- | --- | --- |
 | 1.11 (CL-3807424) | [`cl-3807424`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3807424), pak and sig | Full data extraction, with `AIDirector_Fortnite`, `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | nothing known (`Athena_LocationVolumes` and `Athena_GameplayActors` are only needed from 3.0); the pak's `DefaultEngine.ini` has no `VersionDisplayName`, so its version is unconfirmed from it |
 | 2.2 (CL-3841827) | [`cl-3841827`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3841827), pak and sig | Full data extraction, with `AIDirector_Fortnite`, `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | nothing known (`Athena_LocationVolumes` and `Athena_GameplayActors` are only needed from 3.0); the pak's `DefaultEngine.ini` has no `VersionDisplayName`, so its version is unconfirmed from it |
+| 2.4.2 (CL-3870737) | [`cl-3870737`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3870737), pak and sig | Full data extraction, with `AIDirector_Fortnite`, `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | nothing known (`Athena_LocationVolumes` and `Athena_GameplayActors` are only needed from 3.0); from a PlayStation 4 build, checked against the Windows 2.4.2 paks (same package format, nearly all files byte-identical), not tested on a server; the pak's `DefaultEngine.ini` has no `VersionDisplayName`, so its version is unconfirmed from it |
+| 2.5 (CL-3889387) | [`cl-3889387`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3889387), pak and sig | Full data extraction, with `AIDirector_Fortnite`, `Athena_GameplayActors`, `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | nothing known (`Athena_LocationVolumes` is only needed from 3.0); from a PlayStation 4 build, checked against the Windows 2.5 paks (same package format, nearly all files byte-identical), not tested on a server |
 | 3.0 (CL-3901517) | [`cl-3901517`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3901517), pak and sig | `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors` | the server loot tier data, `LootQuotaData` |
 | 3.1.0 (CL-3915963) | [`cl-3915963`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3915963), pak and sig | `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors` | the server loot tier data, `LootQuotaData` |
 | 3.1.1 (CL-3917250) | [`cl-3917250`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-3917250), pak and sig | `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors` | the server loot tier data, `LootQuotaData` |
