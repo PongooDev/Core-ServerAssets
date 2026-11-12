@@ -5,13 +5,13 @@
       "version": "1.11",
       "pak": "ServerAssets-1.11-CL-3807424.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-3807424/ServerAssets-1.11-CL-3807424.pak",
-      "sha256": "7203b9d362f29adba41be39cd959ef8add302e3652d8d1257d23448d32f6ef1b",
-      "size": 318635100,
+      "sha256": "5c5ad695d2292fef1c8606cbee5c9c731a9edd223d4552c62b06f1c09bb715bf",
+      "size": 190030334,
       "sig": {
         "file": "ServerAssets-1.11-CL-3807424.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-3807424/ServerAssets-1.11-CL-3807424.sig",
-        "sha256": "102b179e23c317461b1c20dea626a512459be9b2abc6627b95aee16bfe0fd153",
-        "size": 19516
+        "sha256": "0f5b947bddee6ebe7a10f691876d9bb9a5c4139a8e89ae893b3836f61e2717aa",
+        "size": 11668
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -24,13 +24,13 @@
       "version": "2.2",
       "pak": "ServerAssets-2.2-CL-3841827.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-3841827/ServerAssets-2.2-CL-3841827.pak",
-      "sha256": "7ea911f715f01d49090371fa37226180eaf0092a555703b615d585934222d2aa",
-      "size": 306564129,
+      "sha256": "6baf6584c6832bb31b18d1a5e4025541f1a98c91404a898274b54ad5bab4ea68",
+      "size": 189781400,
       "sig": {
         "file": "ServerAssets-2.2-CL-3841827.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-3841827/ServerAssets-2.2-CL-3841827.sig",
-        "sha256": "a3128db3e3882113a0cb5433957f1cdd9a7249a34cc70f3dfd5c30cc2304ef90",
-        "size": 18780
+        "sha256": "43fe0921c9ebc45abe3f0f424388ee8112fdb528d7f4102bfc0841d372ea8139",
+        "size": 11652
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -43,13 +43,13 @@
       "version": "2.4.2",
       "pak": "ServerAssets-2.4.2-CL-3870737.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-3870737/ServerAssets-2.4.2-CL-3870737.pak",
-      "sha256": "21171b7348213a33fbae03eb88b9259a3e35347f27281c8a7e03277cbee45b4d",
-      "size": 310688334,
+      "sha256": "75d086dfbbb8c7970a006ad7cbba0e62ce773ce90b1b423f9b5b2763a0eccaee",
+      "size": 193193838,
       "sig": {
         "file": "ServerAssets-2.4.2-CL-3870737.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-3870737/ServerAssets-2.4.2-CL-3870737.sig",
-        "sha256": "749ffef3992bd27bf5e75e99039d392c254d48b2f79ac84446ce91fb2236f6af",
-        "size": 19032
+        "sha256": "83ebbde7d23775527ba312c96b2d7ef8634cdbb3a4394f7082a468e261589f75",
+        "size": 11860
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -62,13 +62,13 @@
       "version": "2.5",
       "pak": "ServerAssets-2.5-CL-3889387.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-3889387/ServerAssets-2.5-CL-3889387.pak",
-      "sha256": "16b895aa3ba511b321fcd429ace74858a8df23b33c6ff580c400517a2e6d19b7",
-      "size": 333023228,
+      "sha256": "5913623dc82c138b629e1053040b93328ad9781caf1b131120a99dac3bc944f0",
+      "size": 200983410,
       "sig": {
         "file": "ServerAssets-2.5-CL-3889387.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-3889387/ServerAssets-2.5-CL-3889387.sig",
-        "sha256": "a7bf8d03bb05161f52139cc2937f465abb2cb966ec6104893e4049a0974e8c14",
-        "size": 20396
+        "sha256": "8522ad705c6230aad22a1b8b6f3bcc8639823541f7bdbff6bdff3f0cd37c13dd",
+        "size": 12336
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -247,13 +247,13 @@
       "version": "4.1",
       "pak": "ServerAssets-4.1-CL-4053532.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4053532/ServerAssets-4.1-CL-4053532.pak",
-      "sha256": "4dc6d73e70e3a3114511523f4252cd3de8a61b12f569be39437b8d779903532e",
-      "size": 391007115,
+      "sha256": "e8b3494152b9b7914917295b92e2a66893854689e7b03f5da4d2d69f65af483b",
+      "size": 232318626,
       "sig": {
         "file": "ServerAssets-4.1-CL-4053532.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4053532/ServerAssets-4.1-CL-4053532.sig",
-        "sha256": "ba7e820b8a3ebb571480600a870e00be74f9e0d1682dfc02b5bfe60ca8190c0f",
-        "size": 23936
+        "sha256": "9d7fbad96d15150c65af6354c3ca5595534418aebdfef9b5dfaea552590cde8c",
+        "size": 14248
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -268,13 +268,13 @@
       "version": "4.2",
       "pak": "ServerAssets-4.2-CL-4072250.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4072250/ServerAssets-4.2-CL-4072250.pak",
-      "sha256": "7432e48dfc9ff2bcec91c5a28e4f8d61d839e7946ca6834e52b5d2b8375ae20f",
-      "size": 378803185,
+      "sha256": "903f4b2416e69711706d2ad1e8d30a02a5a3ab87693d20263f01e8d8e53ed900",
+      "size": 234089215,
       "sig": {
         "file": "ServerAssets-4.2-CL-4072250.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4072250/ServerAssets-4.2-CL-4072250.sig",
-        "sha256": "7a689f4910c726498b8a6be80c16b41e4107fd8536f7fab8b3e6ec8c65a2e871",
-        "size": 23192
+        "sha256": "dd90ca3c5b43ea7cafaf0837409e796721c7e624b394091e36b65a0d91780573",
+        "size": 14356
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -289,13 +289,13 @@
       "version": "4.4.0",
       "pak": "ServerAssets-4.4.0-CL-4117433.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4117433/ServerAssets-4.4.0-CL-4117433.pak",
-      "sha256": "87b72ade7b8c686e21aa993c9bec0e10a6c0479028e5f88423e3270d48703dba",
-      "size": 338128255,
+      "sha256": "c19675f62063b16a315b6a15b6e9fb0cf0d226627f760cb51b8013e514a6bf5b",
+      "size": 237779313,
       "sig": {
         "file": "ServerAssets-4.4.0-CL-4117433.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4117433/ServerAssets-4.4.0-CL-4117433.sig",
-        "sha256": "ba142da288737fed8ddd876fdbe92f99655b351e85511d41ef6a89751b55836d",
-        "size": 20708
+        "sha256": "33d2b0b05a37f4e0e6a81d5983bf44c13f5de92b879fbf5a4ca40809557fb5c3",
+        "size": 14584
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -310,13 +310,13 @@
       "version": "4.4.1",
       "pak": "ServerAssets-4.4.1-CL-4127312.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4127312/ServerAssets-4.4.1-CL-4127312.pak",
-      "sha256": "4f04fbaeb8883c27825e37a3d9f905b20381283b80f2207b8949e985a0aa4e48",
-      "size": 338128905,
+      "sha256": "ea203a0a23e1d299c67d1d612a83632d73d76a4bdce6a8b3733cfed91a08713b",
+      "size": 237779959,
       "sig": {
         "file": "ServerAssets-4.4.1-CL-4127312.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4127312/ServerAssets-4.4.1-CL-4127312.sig",
-        "sha256": "2602d1e609cbea9d07feab9aaae0dbc7d4f20655c7ddfcdc48164ec469f374f9",
-        "size": 20708
+        "sha256": "3d2fa103bc474c7aceb596b45cb5fd5b68e63374eb0e835abc9b3e853fefa145",
+        "size": 14584
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -331,13 +331,13 @@
       "version": "4.4.2",
       "pak": "ServerAssets-4.4.x-CL-4132537.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4132537/ServerAssets-4.4.x-CL-4132537.pak",
-      "sha256": "474407a489100ab7ff336d3cddcac27d4fb0d914d47dcf8eca38ba9526bb4bc6",
-      "size": 383804270,
+      "sha256": "bfdcdb24e1eadd82136adf1ca5f309ebe5f923eee41b25615afdca888cd5ac84",
+      "size": 238927735,
       "sig": {
         "file": "ServerAssets-4.4.x-CL-4132537.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4132537/ServerAssets-4.4.x-CL-4132537.sig",
-        "sha256": "6d93201ee06c2c0d5b0825d879d1f1edd98dc6938eaf015cfc80a3c6addd1617",
-        "size": 23496
+        "sha256": "1c759b3505bdc40b3fab38ddccebe790cbb2abf481821fc485ab0e448e024ecf",
+        "size": 14652
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -352,13 +352,13 @@
       "version": "4.5",
       "pak": "ServerAssets-4.5-CL-4159770.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4159770/ServerAssets-4.5-CL-4159770.pak",
-      "sha256": "f799ca370dea998284587cffeb85a1b8db02f2b19789b941f24ef5c558d0f155",
-      "size": 394163939,
+      "sha256": "e7980c1cf5f54d1c9e01b4ec1bc41844dda33716ea9b676c13b7c4078fed8a46",
+      "size": 249443946,
       "sig": {
         "file": "ServerAssets-4.5-CL-4159770.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4159770/ServerAssets-4.5-CL-4159770.sig",
-        "sha256": "e0dc8b2d93ae6258b9b449ebc00a620c67d59517866f7fbfa52e7066cec675c1",
-        "size": 24128
+        "sha256": "731b0f9ea650ca6152584333f9fef6a22106be73674ab275b9f03c7cad5e8753",
+        "size": 15296
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -373,13 +373,13 @@
       "version": "5.00",
       "pak": "ServerAssets-5.00-CL-4204761.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4204761/ServerAssets-5.00-CL-4204761.pak",
-      "sha256": "ab1511f41116a29fa50e14c03bc83844e474f109ee7f4b0f582ce3a5f8d37abb",
-      "size": 417848712,
+      "sha256": "c4933d636e0b49120d64559feab078b4049e7348a46f1ff4482ffccfb4b1d4fa",
+      "size": 255010684,
       "sig": {
         "file": "ServerAssets-5.00-CL-4204761.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4204761/ServerAssets-5.00-CL-4204761.sig",
-        "sha256": "44e5823f68659eb59847664015a7daf19882280c1165d4c2b855365d268a324c",
-        "size": 25572
+        "sha256": "6d2c09e5cef00723ce6263d568af54e45ba1adfd94bd3b594dd325f58884b394",
+        "size": 15636
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -394,13 +394,13 @@
       "version": "5.0.1",
       "pak": "ServerAssets-5.0.1-CL-4214610.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4214610/ServerAssets-5.0.1-CL-4214610.pak",
-      "sha256": "ab1511f41116a29fa50e14c03bc83844e474f109ee7f4b0f582ce3a5f8d37abb",
-      "size": 417848712,
+      "sha256": "c4933d636e0b49120d64559feab078b4049e7348a46f1ff4482ffccfb4b1d4fa",
+      "size": 255010684,
       "sig": {
         "file": "ServerAssets-5.0.1-CL-4214610.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4214610/ServerAssets-5.0.1-CL-4214610.sig",
-        "sha256": "44e5823f68659eb59847664015a7daf19882280c1165d4c2b855365d268a324c",
-        "size": 25572
+        "sha256": "6d2c09e5cef00723ce6263d568af54e45ba1adfd94bd3b594dd325f58884b394",
+        "size": 15636
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -415,13 +415,13 @@
       "version": "5.10",
       "pak": "ServerAssets-5.10-CL-4225813.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4225813/ServerAssets-5.10-CL-4225813.pak",
-      "sha256": "4305058182288459f78ee54523d8a426478d129458095c8e65aba29c88f938ff",
-      "size": 440432645,
+      "sha256": "60040fb947e1f06e1f5b98a6d627694e64420c31524f27fd281e85bac2c54c75",
+      "size": 263984797,
       "sig": {
         "file": "ServerAssets-5.10-CL-4225813.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4225813/ServerAssets-5.10-CL-4225813.sig",
-        "sha256": "487c7033d16100c685d1b7cbde32f4e786039be7bdac08ff4e9ea20b1c45d318",
-        "size": 26952
+        "sha256": "2a658e38d05918e656c223b4b350cc0199a858d0babedd0f7f448f7ca7aa9adb",
+        "size": 16184
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -436,13 +436,13 @@
       "version": "5.10",
       "pak": "ServerAssets-5.10-CL-4240749.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4240749/ServerAssets-5.10-CL-4240749.pak",
-      "sha256": "4305058182288459f78ee54523d8a426478d129458095c8e65aba29c88f938ff",
-      "size": 440432645,
+      "sha256": "60040fb947e1f06e1f5b98a6d627694e64420c31524f27fd281e85bac2c54c75",
+      "size": 263984797,
       "sig": {
         "file": "ServerAssets-5.10-CL-4240749.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4240749/ServerAssets-5.10-CL-4240749.sig",
-        "sha256": "487c7033d16100c685d1b7cbde32f4e786039be7bdac08ff4e9ea20b1c45d318",
-        "size": 26952
+        "sha256": "2a658e38d05918e656c223b4b350cc0199a858d0babedd0f7f448f7ca7aa9adb",
+        "size": 16184
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -457,13 +457,13 @@
       "version": "5.21",
       "pak": "ServerAssets-5.21-CL-4288479.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4288479/ServerAssets-5.21-CL-4288479.pak",
-      "sha256": "f376232a97b2b8f8aef29035016edc081cb100364018efca3e00859f631d0047",
-      "size": 447217391,
+      "sha256": "a1d913b44ab5a5e37a555fecb21f47343d1fe03adb9c2f9265da4ddf367012b9",
+      "size": 270115111,
       "sig": {
         "file": "ServerAssets-5.21-CL-4288479.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4288479/ServerAssets-5.21-CL-4288479.sig",
-        "sha256": "ee66d7229061af7fa31e65b91ce180bcefe0c65e26744d037548b363f2dfbfea",
-        "size": 27364
+        "sha256": "36dfff92ed7437254ddfc37a5074fae819938196859991c1aaed7c4bb041d3ca",
+        "size": 16556
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -478,13 +478,13 @@
       "version": "5.30",
       "pak": "ServerAssets-5.30-CL-4305896.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4305896/ServerAssets-5.30-CL-4305896.pak",
-      "sha256": "0558471a3c4ede0cfa474807c3340336527eb4e3a7eba8867e48f73abff71558",
-      "size": 447869557,
+      "sha256": "d86c8c3526c21ccda2779699e8e7a63f88774b6632d4ea2aba20cdeefb2d2b0d",
+      "size": 270104704,
       "sig": {
         "file": "ServerAssets-5.30-CL-4305896.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4305896/ServerAssets-5.30-CL-4305896.sig",
-        "sha256": "82e78c39097fdd2d33226bb91d4ae655904bfa2e1e418c7e401c4f2ff0fe139e",
-        "size": 27404
+        "sha256": "de2fa8e2c711f949fce32b40a9893b72ca4aabd00823a6f5e341593c7d9ec4b0",
+        "size": 16556
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -499,13 +499,13 @@
       "version": "5.40",
       "pak": "ServerAssets-5.40-CL-4352937.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4352937/ServerAssets-5.40-CL-4352937.pak",
-      "sha256": "b66a14b1970651710fa113d4c61996ddf2c5d9e18d5c0c0745ef844baf0f69b1",
-      "size": 451075975,
+      "sha256": "d8c30cdf0ed832f528d8edcd1fd4ba3ee9c13e7bca477b719ceb506c1ecc551d",
+      "size": 275831358,
       "sig": {
         "file": "ServerAssets-5.40-CL-4352937.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4352937/ServerAssets-5.40-CL-4352937.sig",
-        "sha256": "69ab5e67380ad8a99ae056bb5d2e4cf9f181a703b4b77d8b4d1bccde1e1964ae",
-        "size": 27600
+        "sha256": "fb09a78e1019ee2651a3dc7ebc6c1f52c8b2bcbbf7f33303865de4a55f817657",
+        "size": 16904
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -520,13 +520,13 @@
       "version": "5.41",
       "pak": "ServerAssets-5.41-CL-4363240.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4363240/ServerAssets-5.41-CL-4363240.pak",
-      "sha256": "0ff11b79ddf494330bdb4d75a4eb4f45ada40a32993dbb889809e0d5e04552e9",
-      "size": 451427864,
+      "sha256": "a69950ff6e7258bf71d3b6069f3c5c5d029f540d0477c201990c92c7cfb9ffb7",
+      "size": 276175785,
       "sig": {
         "file": "ServerAssets-5.41-CL-4363240.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4363240/ServerAssets-5.41-CL-4363240.sig",
-        "sha256": "9076c799937a916020e8cd736bb49ae4e378bf747ad662d76781fd5df918dfd5",
-        "size": 27624
+        "sha256": "a856c1357e98f39b147d40865ea3b01fc3de54ce5e4d434e66d0fa8751c312fd",
+        "size": 16928
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -541,13 +541,13 @@
       "version": "6.00",
       "pak": "ServerAssets-6.00-CL-4395664.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4395664/ServerAssets-6.00-CL-4395664.pak",
-      "sha256": "22a717823cb905c461cf6ff5ba215099897789779558f8984a140d73ad5b4e45",
-      "size": 466450073,
+      "sha256": "d9b0ba06de1c85e4f0a1ec44af1bf28bd2ead8ca7f566c5ed5994e07e81d509b",
+      "size": 284787173,
       "sig": {
         "file": "ServerAssets-6.00-CL-4395664.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4395664/ServerAssets-6.00-CL-4395664.sig",
-        "sha256": "faa4318463da689fd42b4d2ff2ff2be40b6d688baa7ced90f7456f648d962289",
-        "size": 28540
+        "sha256": "a8fdcdc5ed465549df59cc8adc860761a9eb0256d7ba1f6b3a6aceeeef941a33",
+        "size": 17452
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -562,13 +562,13 @@
       "version": "6.00",
       "pak": "ServerAssets-6.00-CL-4402180.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4402180/ServerAssets-6.00-CL-4402180.pak",
-      "sha256": "22a717823cb905c461cf6ff5ba215099897789779558f8984a140d73ad5b4e45",
-      "size": 466450073,
+      "sha256": "d9b0ba06de1c85e4f0a1ec44af1bf28bd2ead8ca7f566c5ed5994e07e81d509b",
+      "size": 284787173,
       "sig": {
         "file": "ServerAssets-6.00-CL-4402180.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4402180/ServerAssets-6.00-CL-4402180.sig",
-        "sha256": "faa4318463da689fd42b4d2ff2ff2be40b6d688baa7ced90f7456f648d962289",
-        "size": 28540
+        "sha256": "a8fdcdc5ed465549df59cc8adc860761a9eb0256d7ba1f6b3a6aceeeef941a33",
+        "size": 17452
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -583,13 +583,13 @@
       "version": "6.01",
       "pak": "ServerAssets-6.01-CL-4417689.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4417689/ServerAssets-6.01-CL-4417689.pak",
-      "sha256": "bcdacf962963a9a5f6a655204aa5be7a3c93c6cf72ea1da35f1517f4cb48a7ac",
-      "size": 467117486,
+      "sha256": "b7d7add0479db53e88a2a3d80d05f59287cfe1a3c72c7563aa56033b0604fd0b",
+      "size": 285451284,
       "sig": {
         "file": "ServerAssets-6.01-CL-4417689.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4417689/ServerAssets-6.01-CL-4417689.sig",
-        "sha256": "8f5d10a00fa1b73eb87cd9d26811d6864c0420707c92b4e012ba4217b66bd539",
-        "size": 28580
+        "sha256": "9fb018b04259b67fe559348af68f2ee7f161923c27cda1a350e3702d577e5485",
+        "size": 17492
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -604,13 +604,13 @@
       "version": "6.02",
       "pak": "ServerAssets-6.02-CL-4442095.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4442095/ServerAssets-6.02-CL-4442095.pak",
-      "sha256": "c9b3d16199c36de6ece71a9147811dc45c7c22a59e50f212daa27e5c3543bde9",
-      "size": 470446105,
+      "sha256": "f885464757a154811b3183bd82b148a9804c63189e12652df777864089e1fbee",
+      "size": 288783937,
       "sig": {
         "file": "ServerAssets-6.02-CL-4442095.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4442095/ServerAssets-6.02-CL-4442095.sig",
-        "sha256": "1366e6487de4874dff31f3706930e0f52d9af85033de7a3f082b3cceb700168d",
-        "size": 28784
+        "sha256": "09423b1ab374175767cad138393ba146e1d15584900b73995dc392b6a996dd28",
+        "size": 17696
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -625,13 +625,13 @@
       "version": "6.10",
       "pak": "ServerAssets-6.10-CL-4464155.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4464155/ServerAssets-6.10-CL-4464155.pak",
-      "sha256": "c1b1d69cb219c5970165dd68badf1a00eae71b752fd8893f58b3ce716c5d7512",
-      "size": 463924944,
+      "sha256": "cbfbaefe6ab7ce3d7c768134d0e583cb83e3063ff2c3ec1bb10403d3748d3763",
+      "size": 288533352,
       "sig": {
         "file": "ServerAssets-6.10-CL-4464155.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4464155/ServerAssets-6.10-CL-4464155.sig",
-        "sha256": "94db524cdef57267ea7549057b84aecf33c7810340fbe59cf78b252729cd6577",
-        "size": 28384
+        "sha256": "88fe3bfa4507e02b0630b1ccbe30702deafdf8c94673751587aef43133b0f813",
+        "size": 17680
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -646,13 +646,13 @@
       "version": "6.10.1",
       "pak": "ServerAssets-6.10.1-CL-4476098.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4476098/ServerAssets-6.10.1-CL-4476098.pak",
-      "sha256": "fc6981bebccf124af7c01771b6b576f5b84489b138128858eb96aaaa5cebebf1",
-      "size": 463925022,
+      "sha256": "cbfbaefe6ab7ce3d7c768134d0e583cb83e3063ff2c3ec1bb10403d3748d3763",
+      "size": 288533352,
       "sig": {
         "file": "ServerAssets-6.10.1-CL-4476098.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4476098/ServerAssets-6.10.1-CL-4476098.sig",
-        "sha256": "e75b0b4a3a76e1e7c5faa27629869177188630d8f114dde6fbaee3f9c4da1b05",
-        "size": 28384
+        "sha256": "88fe3bfa4507e02b0630b1ccbe30702deafdf8c94673751587aef43133b0f813",
+        "size": 17680
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -667,13 +667,13 @@
       "version": "6.20",
       "pak": "ServerAssets-6.20-CL-4497486.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4497486/ServerAssets-6.20-CL-4497486.pak",
-      "sha256": "7d06e5647c349efbf744bd3e2668a977930dc27b7b6aafe8d74e648985d465b9",
-      "size": 560127835,
+      "sha256": "5db9137d8118d7b84948f587cd2852606a3d44aac54b768339161e3221ab1c6f",
+      "size": 303733118,
       "sig": {
         "file": "ServerAssets-6.20-CL-4497486.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4497486/ServerAssets-6.20-CL-4497486.sig",
-        "sha256": "fbb6a7dff7f5f900429eb949ccb9689aa2945641057923734077f095ffe87aed",
-        "size": 34256
+        "sha256": "d8474ef4f28f351c5309b9670ce9b2a66ccb37badda70a2ec2d7706a234dd4a3",
+        "size": 18608
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -688,13 +688,13 @@
       "version": "6.21",
       "pak": "ServerAssets-6.21-CL-4526925.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4526925/ServerAssets-6.21-CL-4526925.pak",
-      "sha256": "80d6d76609c72f1bcc0b0070b8f6a25d91b262ddf8696456487e126a81e3ce1a",
-      "size": 565629649,
+      "sha256": "e3906e7f2e5ed7803880fdd245d406ea545530c1d3ed6fea58bf8393399730f6",
+      "size": 309234644,
       "sig": {
         "file": "ServerAssets-6.21-CL-4526925.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4526925/ServerAssets-6.21-CL-4526925.sig",
-        "sha256": "0a53868ac2851447b09de3aa4c0d9df955f18a41e23c6ba40162ef04b3df2b36",
-        "size": 34592
+        "sha256": "f2100880fa9e1898c9838b45bfbb1af665b2f9dac59dea41937aa6fd943b4728",
+        "size": 18944
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -709,13 +709,13 @@
       "version": "6.22",
       "pak": "ServerAssets-6.22-CL-4543176.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4543176/ServerAssets-6.22-CL-4543176.pak",
-      "sha256": "4f55ef70834dfe53177812f6b435bc0d4e18d0ed7fdcfe9511272e32cbe2c70e",
-      "size": 567085975,
+      "sha256": "0692423a74ae1951cf96f8f237a41df7f20984e47654f12049709403a10327a9",
+      "size": 311082457,
       "sig": {
         "file": "ServerAssets-6.22-CL-4543176.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4543176/ServerAssets-6.22-CL-4543176.sig",
-        "sha256": "bde06754afde663e7206b3c82d99c391237c339a5bae70bfa1c75722b752aaec",
-        "size": 34684
+        "sha256": "e845778c55095727700e8f48cea3445b3b754875f5281c0bc70df7d8a53c4c33",
+        "size": 19056
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -730,13 +730,13 @@
       "version": "6.30",
       "pak": "ServerAssets-6.30-CL-4573096.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4573096/ServerAssets-6.30-CL-4573096.pak",
-      "sha256": "344bfea103321cc40fc624b458db677ee8f65734e6a28b465146fe3c31c06dd0",
-      "size": 591457177,
+      "sha256": "8367f155177af0c3a251bff02dd1fcc82cfef77f86e52d2bdd667404022cfc19",
+      "size": 323870567,
       "sig": {
         "file": "ServerAssets-6.30-CL-4573096.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4573096/ServerAssets-6.30-CL-4573096.sig",
-        "sha256": "4e57b8bf2275f6cd1d957b4ec2747061000f3445a49df49f474288d91e4f82a9",
-        "size": 36168
+        "sha256": "f05ec91857b799d540417cb0df9f77f5a9b2fbe8332a9a7aa2790494fca9a67f",
+        "size": 19836
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
@@ -751,13 +751,13 @@
       "version": "6.31",
       "pak": "ServerAssets-6.31-CL-4573279.pak",
       "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4573279/ServerAssets-6.31-CL-4573279.pak",
-      "sha256": "442a222b7464199e24e41cd66177e402cf2f86a162b85429171b00db59b6ca52",
-      "size": 523865837,
+      "sha256": "6e88be904eead544a90aa2c440021996f696c974bb24e9238d9f411766f324de",
+      "size": 322514998,
       "sig": {
         "file": "ServerAssets-6.31-CL-4573279.sig",
         "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-4573279/ServerAssets-6.31-CL-4573279.sig",
-        "sha256": "d10dee6499b80ab19ac7b2ee897ceffa320a8669e6daa46dc9e7e52499fc7e71",
-        "size": 32044
+        "sha256": "ad4b38c322d5bff12e140e9b14c2d4782f9003b634e3ca91fab3e79b6a22a351",
+        "size": 19756
       },
       "contents": [
         "/Game/AIDirector/AIDirector_Fortnite",
