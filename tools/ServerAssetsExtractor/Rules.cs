@@ -7,8 +7,14 @@ namespace ServerAssetsExtractor;
 /// <summary>The include/exclude lists from rules.json.</summary>
 public sealed class Rules
 {
+    /// <summary>The rules' own version, printed in report.txt; 3 since platform-cooked exports and bulk data are refused.</summary>
+    public int Version { get; set; }
     public List<string> IncludeClasses { get; set; } = [];
     public List<string> ExcludeClasses { get; set; } = [];
+    /// <summary>Classes cooked per platform (textures, meshes, audio, materials, lighting data): a package with an export of one is left out.</summary>
+    public List<string> ExcludeExportClasses { get; set; } = [];
+    /// <summary>true: a package whose data is partly in a .ubulk/.uptnl (texture mips, audio, mesh data) is left out.</summary>
+    public bool ExcludeBulkData { get; set; } = true;
     public string UnmatchedClasses { get; set; } = "include";
     public List<string> AlwaysIncludePaths { get; set; } = [];
     public List<string> ExcludePaths { get; set; } = [];
@@ -22,11 +28,13 @@ public sealed class Rules
     public List<string> NavigationClasses { get; set; } = [];
     public List<string> LooseFiles { get; set; } = [];
     public List<string> ExcludeLooseFiles { get; set; } = [];
-    /// <summary>false (the default): maps are left out, except KeepLevelPaths and levels with a navmesh.</summary>
+    /// <summary>false (the default): maps are left out, except KeepLevelPaths (and levels with a navmesh, with KeepNavMeshLevels).</summary>
     public bool IncludeMaps { get; set; }
     public List<string> KeepLevelPaths { get; set; } = [];
+    /// <summary>true: with maps left out, a level that holds a navmesh is kept anyway (rules before version 3 did this).</summary>
+    public bool KeepNavMeshLevels { get; set; }
 
-    private Matcher _include = null!, _exclude = null!, _always = null!, _excludePaths = null!, _nav = null!, _gameplay = null!, _loose = null!, _excludeLoose = null!, _platformExempt = null!, _notGameplay = null!, _clientLevels = null!, _keepLevels = null!;
+    private Matcher _include = null!, _exclude = null!, _excludeExport = null!, _always = null!, _excludePaths = null!, _nav = null!, _gameplay = null!, _loose = null!, _excludeLoose = null!, _platformExempt = null!, _notGameplay = null!, _clientLevels = null!, _keepLevels = null!;
     private Regex? _platformToken, _platformFolder;
 
     public string Source { get; private set; } = "";
@@ -68,6 +76,7 @@ public sealed class Rules
             throw new InvalidOperationException("rules.json: unmatchedClasses must be \"include\" or \"exclude\"");
         rules._include = new Matcher(rules.IncludeClasses);
         rules._exclude = new Matcher(rules.ExcludeClasses);
+        rules._excludeExport = new Matcher(rules.ExcludeExportClasses);
         rules._always = new Matcher(rules.AlwaysIncludePaths);
         rules._excludePaths = new Matcher(rules.ExcludePaths);
         rules._nav = new Matcher(rules.NavigationClasses);
@@ -96,6 +105,22 @@ public sealed class Rules
     public bool IsGameplayLevelClass(string cls) => _notGameplay.Match(cls) == null && _gameplay.Match(cls) != null;
     public bool IsUnmatched(string cls) => _exclude.Match(cls) == null && _include.Match(cls) == null;
 
+    /// <summary>The excludeExportClasses pattern a class matches, or null.</summary>
+    public string? PlatformCookedClass(string cls) => _excludeExport.Match(cls);
+
+    /// <summary>
+    /// Why a package holds platform-cooked data, or null: an export (the main one or any other) of an
+    /// excludeExportClasses class, or data in a .ubulk/.uptnl. Nothing else can keep such a package.
+    /// </summary>
+    public string? PlatformCooked(PackageInfo pkg)
+    {
+        if (_excludeExport.Match(pkg.Class) is { } m) return "excludeExportClasses " + m;
+        foreach (var cls in pkg.ExportClasses.OrderBy(c => c, StringComparer.OrdinalIgnoreCase))
+            if (_excludeExport.Match(cls) is { } x) return $"excludeExportClasses {x} (a {cls} export inside)";
+        if (ExcludeBulkData && pkg.Bulk.Count > 0) return "excludeBulkData (" + string.Join(", ", pkg.Bulk.Select(b => "." + b.Extension.ToLowerInvariant()).Distinct()) + ")";
+        return null;
+    }
+
     /// <summary>The path rule (exclude path or platform name) that leaves this path out, or null.</summary>
     public string? PathExclusion(string path, string? cls = null)
     {
@@ -119,6 +144,10 @@ public sealed class Rules
     /// <summary>Decides one package. The reason names the rule and the pattern that matched.</summary>
     public (bool keep, string why) Decide(PackageInfo pkg)
     {
+        // Platform-cooked rendering data never goes in: the pak would replace a PC player's own copy with the
+        // console's. Leaving it out keeps the PC copy, which is what the server and the player both use then.
+        if (PlatformCooked(pkg) is { } cooked) return (false, cooked);
+
         if (_always.Match(pkg.Path) is { } a) return (true, "alwaysIncludePaths " + a);
 
         if (PathExclusion(pkg.Path, pkg.Class) is { } ex)

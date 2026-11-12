@@ -57,8 +57,8 @@ body:
     id: extractor
     attributes:
       label: Made with ServerAssetsExtractor, version
-      description: The version it prints on its first line, e.g. 2.0.0. Paks are a full data extraction made with the [extractor](https://github.com/PongooDev/Core-ServerAssets#making-a-pak-with-the-extractor), not hand-picked assets.
-      placeholder: "2.0.0"
+      description: The version it prints on its first line, 3.0.0 or later. Paks are a full data extraction made with the [extractor](https://github.com/PongooDev/Core-ServerAssets#making-a-pak-with-the-extractor), not hand-picked assets. Paks from earlier versions carry console-cooked lighting data and textures, fail the current check and have to be made again.
+      placeholder: "3.0.0"
     validations:
       required: true
   - type: textarea
@@ -82,7 +82,7 @@ body:
           required: true
         - label: The pak and sig are exactly what ServerAssetsExtractor made, with its default rules.json (nothing added, removed or repacked).
           required: true
-        - label: The extractor's own check at the end passed ("Checking the pak" shows no FAIL).
+        - label: The extractor's own check at the end passed ("Checking the pak" shows no FAIL), so the pak has no texture, mesh, material, audio, lighting or other console-cooked data.
           required: true
   - type: textarea
     id: notes

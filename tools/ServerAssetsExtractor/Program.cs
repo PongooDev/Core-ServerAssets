@@ -16,7 +16,11 @@ public static partial class Program
 
         Usage:
           ServerAssetsExtractor [<build folder or Paks folder>] [options]
-          ServerAssetsExtractor verify <pak> [--ue 4.20]
+          ServerAssetsExtractor verify <pak> [--ue 4.20] [--rules <file>] [--allow-maps]
+                                check a pak: format, sig, contents.txt, and that it holds nothing the rules leave
+                                out (no texture, mesh, material, audio, lighting or other bulk data, no extra maps)
+          ServerAssetsExtractor filter <existing.pak> [--out new.pak] [--ue 4.20] [--rules <file>]
+                                copy a pak with only what the current rules keep (to update a published pak)
           ServerAssetsExtractor add <existing.pak> <files or folders...> [--out new.pak] [--force] [--ue 4.20]
                                 add loose .uasset/.uexp/.umap/.ubulk files to a copy of a pak (a folder laid out
                                 as FortniteGame/Content/..., like FModel's Export Raw Data, or <file>=<pak path>)
@@ -25,8 +29,8 @@ public static partial class Program
           --out <folder>        where the pak, sig, contents.txt and report.txt go
                                 (default: a new ServerAssets-<version>-CL-<cl> folder in the current folder,
                                 or next to the exe when it is started without options)
-          --ue <version>        engine version: 4.19 (Fortnite 1.7.2-2.4.2) or 4.20 (2.5-4.x). Found by itself
-                                from the changelist or FModel's settings when left out
+          --ue <version>        engine version: 4.19 (Fortnite 1.7.2-2.4.2), 4.20 (2.5-4.x) or 4.21 (5.x-6.x).
+                                Found by itself from the changelist or FModel's settings when left out
           --aes <hex>           the build's AES key. By default it is read from FModel's settings
                                 (%APPDATA%\FModel\AppSettings.json). The key is never printed or saved
           --cl <changelist>     the build's changelist, if it can't be found (it names the output files)
@@ -34,7 +38,7 @@ public static partial class Program
           --exclude <prefix>    leave out pak paths starting with this (repeatable)
           --max-size <size>     leave out any package bigger than this, e.g. 200MB
           --include-maps        keep every map too (by default maps are left out, except the levels in
-                                rules.json's keepLevelPaths and levels that hold a navmesh)
+                                rules.json's keepLevelPaths); platform-cooked data is still left out
           --max-map-size <size> leave out maps (.umap) bigger than this, unless they hold navigation data
           --rules <file>        a rules.json other than the one next to the tool
           --dry-run             only list and count; writes nothing unless --out is given (then only the lists)
@@ -59,6 +63,8 @@ public static partial class Program
                 return RunVerify(args[1..]);
             if (args.Length > 0 && args[0].Equals("add", StringComparison.OrdinalIgnoreCase))
                 return RunAdd(args[1..]);
+            if (args.Length > 0 && args[0].Equals("filter", StringComparison.OrdinalIgnoreCase))
+                return RunFilter(args[1..]);
             var code = RunExtract(args);
             PauseIfInteractive();
             return code;
@@ -174,7 +180,7 @@ public static partial class Program
         var version = cl is { } k ? BuildInfo.VersionOf(k) : null;
         Info($"Build: {(version != null ? "Fortnite " + version + ", " : "")}{(cl != null ? "CL-" + cl : "changelist unknown (pass --cl)")}; engine {BuildInfo.UeName(ue)} (from {ueFrom})");
         if (cl != null && version == null) Warn($"CL-{cl} isn't one of the builds Core supports. A pak is only used for an exact changelist match.");
-        Info($"Rules: {rules.Source}");
+        Info($"Rules: {rules.Source} (version {rules.Version})");
 
         // 3. Scan.
         Header("Reading every package's header");
@@ -184,38 +190,9 @@ public static partial class Program
         Info($"{all.Count:N0} packages read in {sw.Elapsed.TotalSeconds:N0} s");
 
         var inScope = all.Where(p => InScope(p.Path, o)).ToList();
-        foreach (var p in inScope)
-        {
-            (p.Keep, p.Why) = rules.Decide(p);
-            if (p.Class == "<unreadable>" && rules.PathExclusion(p.Path, p.Class) == null) (p.Keep, p.Why) = (true, "unreadable header, kept to be safe");
-            var size = p.HeaderSize;
-            if (p.Keep && o.MaxMapSize is { } mm && p.IsMap && size > mm && !p.HasNavMesh) (p.Keep, p.Why) = (false, "--max-map-size");
-            if (p.Keep && o.MaxSize is { } ms && size > ms) (p.Keep, p.Why) = (false, "--max-size");
-        }
-        if (!o.IncludeMaps && !rules.IncludeMaps)
-        {
-            // Maps are left out: a server loads them from the game's own paks. Kept are the levels known to hold
-            // server-only data (keepLevelPaths) and every level with a navmesh, with its _BuiltData.
-            foreach (var p in inScope.Where(p => p.Keep && p.IsMap))
-            {
-                if (rules.KeptLevelPattern(p.GamePath) is { } kl) p.Why = "keepLevelPaths " + kl;
-                else if (p.HasNavMesh) p.Why = "level with a navmesh";
-                else (p.Keep, p.Why) = (false, "maps left out by default");
-            }
-            var keptLevels = inScope.Where(p => p.Keep && p.IsMap).Select(p => p.Path).ToHashSet(StringComparer.OrdinalIgnoreCase);
-            foreach (var p in inScope.Where(p => p.Keep && !p.IsMap && p.Path.EndsWith("_BuiltData", StringComparison.OrdinalIgnoreCase)))
-                if (!keptLevels.Contains(p.Path[..^"_BuiltData".Length]))
-                    (p.Keep, p.Why) = (false, "maps left out by default (_BuiltData of a left-out level)");
-        }
+        ApplyDecisions(inScope, rules, o);
         var kept = inScope.Where(p => p.Keep).ToList();
-
-        var looseDecisions = provider.Files.Values
-            .Where(f => !f.IsUePackage && !f.IsUePackagePayload && InScope(f.Path, o))
-            .Select(f => (file: f, d: rules.DecideLoose(f.Path)))
-            .ToList();
-        var loose = looseDecisions.Where(x => x.d.keep).Select(x => x.file).OrderBy(f => f.Path, StringComparer.OrdinalIgnoreCase).ToList();
-        var looseSkipped = looseDecisions.Where(x => !x.d.keep).GroupBy(x => x.d.why)
-            .Select(g => (why: g.Key, count: g.Count(), size: g.Sum(x => x.file.Size), example: g.First().file.Path)).ToList();
+        var (loose, looseSkipped) = DecideLooseFiles(provider, rules, o);
 
         // 4. Report.
         var report = BuildReport(paksDir, cl, version, ue, rules, o, all, inScope, kept, loose, looseSkipped);
@@ -247,38 +224,17 @@ public static partial class Program
         var sigPath = Path.Combine(outPath, baseName + ".sig");
 
         Header($"Writing {pakPath}");
-        var files = new List<CUE4Parse.FileProvider.Objects.GameFile>();
-        foreach (var p in kept)
-        {
-            files.Add(p.Main);
-            if (p.Uexp != null) files.Add(p.Uexp);
-
-        }
-        files.AddRange(loose);
-        files = files.OrderBy(f => f.Path, StringComparer.OrdinalIgnoreCase).ToList();
-        var totalBytes = files.Sum(f => f.Size);
-        long written = 0;
         sw.Restart();
-        using (var w = new PakWriter(pakPath))
-        {
-            foreach (var f in files)
-            {
-                w.Add(f.Path, f.Read());
-                written += f.Size;
-                Progress($"  {Size(written)} / {Size(totalBytes)} ({(totalBytes == 0 ? 100 : written * 100 / totalBytes)}%)");
-            }
-            w.Finish();
-        }
-        EndProgress();
+        var fileCount = WritePak(pakPath, kept, loose);
         PakWriter.WriteSig(pakPath, sigPath);
         File.WriteAllLines(Path.Combine(outPath, "contents.txt"), contents);
         File.WriteAllText(Path.Combine(outPath, "report.txt"), report.full);
         provider.Dispose();
-        Info($"{files.Count:N0} files, {Size(new FileInfo(pakPath).Length)}, in {sw.Elapsed.TotalSeconds:N0} s");
+        Info($"{fileCount:N0} files, {Size(new FileInfo(pakPath).Length)}, in {sw.Elapsed.TotalSeconds:N0} s");
 
         // 6. Check what was written.
         Header("Checking the pak");
-        var ok = Verifier.Verify(pakPath, ue, Console.WriteLine);
+        var ok = Verifier.Verify(pakPath, ue, rules, o.IncludeMaps || rules.IncludeMaps, Console.WriteLine);
         Console.WriteLine();
         if (!ok)
         {
@@ -303,17 +259,22 @@ public static partial class Program
 
     private static int RunVerify(string[] args)
     {
-        string? pak = null;
-        EGame ue = EGame.GAME_UE4_20;
+        string? pak = null, rulesPath = null;
+        EGame? ue = null;
+        var allowMaps = false;
         for (var i = 0; i < args.Length; i++)
         {
             if (args[i] == "--ue" && i + 1 < args.Length) ue = ParseUeOrThrow(args[++i]);
+            else if (args[i] == "--rules" && i + 1 < args.Length) rulesPath = args[++i];
+            else if (args[i] == "--allow-maps") allowMaps = true;
             else if (!args[i].StartsWith('-')) pak = args[i];
             else throw new UserError($"unknown option {args[i]}");
         }
         if (pak == null) throw new UserError("verify needs a pak file");
-        Header($"Checking {pak}");
-        var ok = Verifier.Verify(Path.GetFullPath(pak), ue, Console.WriteLine);
+        var rules = Rules.Load(rulesPath);
+        var engine = ue ?? UeFromPakName(pak) ?? EGame.GAME_UE4_20;
+        Header($"Checking {pak} ({BuildInfo.UeName(engine)}, rules.json version {rules.Version})");
+        var ok = Verifier.Verify(Path.GetFullPath(pak), engine, rules, allowMaps, Console.WriteLine);
         Console.WriteLine(ok ? "All checks passed." : "Some checks FAILED.");
         return ok ? 0 : 3;
     }
@@ -371,6 +332,85 @@ public static partial class Program
         return provider;
     }
 
+    /// <summary>
+    /// Decides every package: the rules, the size limits, then the map pass (maps are left out unless kept on purpose).
+    /// </summary>
+    private static void ApplyDecisions(List<PackageInfo> inScope, Rules rules, Options o)
+    {
+        foreach (var p in inScope)
+        {
+            (p.Keep, p.Why) = rules.Decide(p);
+            if (p.Class == "<unreadable>" && rules.PathExclusion(p.Path, p.Class) == null) (p.Keep, p.Why) = (true, "unreadable header, kept to be safe");
+            var size = p.HeaderSize;
+            if (p.Keep && o.MaxMapSize is { } mm && p.IsMap && size > mm && !p.HasNavMesh) (p.Keep, p.Why) = (false, "--max-map-size");
+            if (p.Keep && o.MaxSize is { } ms && size > ms) (p.Keep, p.Why) = (false, "--max-size");
+        }
+        if (o.IncludeMaps || rules.IncludeMaps) return;
+
+        // Maps are left out: a server loads them from the game's own paks, and a console copy of a level would
+        // replace the PC level (its meshes, lights and all) for a player sharing the build folder. Kept are the
+        // levels known to hold server-only data (keepLevelPaths), and levels with a navmesh only with
+        // keepNavMeshLevels (the PC builds carry the same navmeshes).
+        foreach (var p in inScope.Where(p => p.Keep && p.IsMap))
+        {
+            if (rules.KeptLevelPattern(p.GamePath) is { } kl) p.Why = "keepLevelPaths " + kl;
+            else if (p.HasNavMesh && rules.KeepNavMeshLevels) p.Why = "level with a navmesh (keepNavMeshLevels)";
+            else (p.Keep, p.Why) = (false, p.HasNavMesh ? "maps left out by default (one with a navmesh; keepNavMeshLevels is off)" : "maps left out by default");
+        }
+        var keptLevels = inScope.Where(p => p.Keep && p.IsMap).Select(p => p.Path).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        foreach (var p in inScope.Where(p => p.Keep && !p.IsMap && p.Path.EndsWith("_BuiltData", StringComparison.OrdinalIgnoreCase)))
+            if (!keptLevels.Contains(p.Path[..^"_BuiltData".Length]))
+                (p.Keep, p.Why) = (false, "maps left out by default (_BuiltData of a left-out level)");
+    }
+
+    /// <summary>The loose (non-package) files kept, and the ones left out grouped by rule.</summary>
+    private static (List<CUE4Parse.FileProvider.Objects.GameFile> kept, List<(string why, int count, long size, string example)> skipped)
+        DecideLooseFiles(CUE4Parse.FileProvider.Vfs.AbstractVfsFileProvider provider, Rules rules, Options o)
+    {
+        var looseDecisions = provider.Files.Values
+            .Where(f => !f.IsUePackage && !f.IsUePackagePayload && InScope(f.Path, o))
+            .Select(f => (file: f, d: rules.DecideLoose(f.Path)))
+            .ToList();
+        var loose = looseDecisions.Where(x => x.d.keep).Select(x => x.file).OrderBy(f => f.Path, StringComparer.OrdinalIgnoreCase).ToList();
+        var looseSkipped = looseDecisions.Where(x => !x.d.keep).GroupBy(x => x.d.why)
+            .Select(g => (why: g.Key, count: g.Count(), size: g.Sum(x => x.file.Size), example: g.First().file.Path)).ToList();
+        return (loose, looseSkipped);
+    }
+
+    /// <summary>Writes the kept packages' .uasset/.umap and .uexp and the kept loose files, sorted by path. Bulk data is never written.</summary>
+    private static int WritePak(string pakPath, List<PackageInfo> kept, List<CUE4Parse.FileProvider.Objects.GameFile> loose)
+    {
+        var files = new List<CUE4Parse.FileProvider.Objects.GameFile>();
+        foreach (var p in kept)
+        {
+            files.Add(p.Main);
+            if (p.Uexp != null) files.Add(p.Uexp);
+        }
+        files.AddRange(loose);
+        files = files.OrderBy(f => f.Path, StringComparer.OrdinalIgnoreCase).ToList();
+        var totalBytes = files.Sum(f => f.Size);
+        long written = 0;
+        using (var w = new PakWriter(pakPath))
+        {
+            foreach (var f in files)
+            {
+                w.Add(f.Path, f.Read());
+                written += f.Size;
+                Progress($"  {Size(written)} / {Size(totalBytes)} ({(totalBytes == 0 ? 100 : written * 100 / totalBytes)}%)");
+            }
+            w.Finish();
+        }
+        EndProgress();
+        return files.Count;
+    }
+
+    /// <summary>The engine version of a pak named ...-CL-nnnnnnn.pak, or null.</summary>
+    private static EGame? UeFromPakName(string pak)
+    {
+        var m = System.Text.RegularExpressions.Regex.Match(Path.GetFileName(pak), @"CL-(\d{7})", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        return m.Success ? BuildInfo.UeOf(int.Parse(m.Groups[1].Value)) : null;
+    }
+
     private static bool InScope(string path, Options o)
     {
         if (o.Include.Count > 0 && !o.Include.Any(p => path.StartsWith(p, StringComparison.OrdinalIgnoreCase))) return false;
@@ -388,16 +428,18 @@ public static partial class Program
         var skipped = inScope.Where(p => !p.Keep).ToList();
 
         s.AppendLine("Summary");
-        s.AppendLine($"  packages in the build:   {all.Count,8:N0}");
+        s.AppendLine(File.Exists(paksDir) ? $"  packages in the pak:     {all.Count,8:N0}" : $"  packages in the build:   {all.Count,8:N0}");
         if (inScope.Count != all.Count) s.AppendLine($"  inside --include/--exclude: {inScope.Count,5:N0}");
         s.AppendLine($"  kept (data):             {kept.Count,8:N0}   {Size(kept.Sum(p => p.HeaderSize))}");
         s.AppendLine($"  left out:                {skipped.Count,8:N0}   {Size(skipped.Sum(p => p.HeaderSize + p.BulkSize))}");
+        var cooked = skipped.Where(p => p.Why.StartsWith("excludeExportClasses") || p.Why.StartsWith("excludeBulkData")).ToList();
+        s.AppendLine($"  platform-cooked, left out: {cooked.Count,6:N0}   {Size(cooked.Sum(p => p.HeaderSize + p.BulkSize))}   (textures, meshes, materials, audio, lighting, bulk data)");
         var mapSkips = skipped.Where(p => p.Why.StartsWith("maps left out by default")).ToList();
         if (!o.IncludeMaps && !rules.IncludeMaps)
         {
             s.AppendLine($"  maps left out by default:{mapSkips.Count,8:N0}   {Size(mapSkips.Sum(p => p.HeaderSize + p.BulkSize))}   (--include-maps keeps them)");
             var navKept = kept.Where(p => p.IsMap && p.HasNavMesh).ToList();
-            s.AppendLine($"  levels with a navmesh, kept: {navKept.Count,5:N0}   {Size(navKept.Sum(p => p.HeaderSize))}");
+            s.AppendLine($"  levels with a navmesh, kept: {navKept.Count,5:N0}   {Size(navKept.Sum(p => p.HeaderSize))}{(rules.KeepNavMeshLevels ? "" : "   (keepLevelPaths ones only; keepNavMeshLevels is off)")}");
         }
         s.AppendLine($"  config files (.ini):     {loose.Count,8:N0}   {Size(loose.Sum(f => f.Size))}");
         s.AppendLine($"  pak size (about):        {Size(keptBytes + (kept.Count * 2 + loose.Count) * 150L)}");
@@ -452,8 +494,8 @@ public static partial class Program
         var f = new StringBuilder();
         f.AppendLine($"ServerAssetsExtractor {typeof(Program).Assembly.GetName().Version?.ToString(3)} report, {DateTime.UtcNow:yyyy-MM-dd HH:mm} UTC");
         f.AppendLine($"Build: {(version != null ? "Fortnite " + version + ", " : "")}{(cl != null ? "CL-" + cl : "changelist unknown")}, {BuildInfo.UeName(ue)}");
-        f.AppendLine($"Paks folder: {paksDir}");
-        f.AppendLine($"Rules: {rules.Source}");
+        f.AppendLine($"Source: {paksDir}");
+        f.AppendLine($"Rules: {rules.Source} (version {rules.Version})");
         if (o.Include.Count > 0) f.AppendLine($"--include {string.Join(" ", o.Include)}");
         if (o.Exclude.Count > 0) f.AppendLine($"--exclude {string.Join(" ", o.Exclude)}");
         if (o.MaxSize != null) f.AppendLine($"--max-size {Size(o.MaxSize.Value)}");

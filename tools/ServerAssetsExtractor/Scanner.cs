@@ -30,6 +30,8 @@ public sealed class PackageInfo
     public string? Error;
     public bool IsMap => Main.Extension.Equals("umap", StringComparison.OrdinalIgnoreCase);
     public List<NavExport> Nav = [];
+    /// <summary>The class of every export in the package (levels and Blueprints hold many).</summary>
+    public HashSet<string> ExportClasses = new(StringComparer.OrdinalIgnoreCase);
     public bool Keep;
     public string Why = "";
     public int GameplayExports;           // exports of gameplay classes (for levels)
@@ -122,6 +124,7 @@ public static class Scanner
             foreach (var e in exports)
             {
                 var cls = ClassOf(package, e);
+                pkg.ExportClasses.Add(cls);
                 if (rules.IsNavigationClass(cls)) pkg.Nav.Add(new NavExport(e.ObjectName.Text, cls, e.SerialSize));
                 if (pkg.IsMap && rules.IsGameplayLevelClass(cls)) { pkg.GameplayExports++; pkg.GameplayExample ??= cls; }
             }

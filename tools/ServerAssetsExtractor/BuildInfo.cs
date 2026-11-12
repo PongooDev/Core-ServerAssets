@@ -7,7 +7,7 @@ namespace ServerAssetsExtractor;
 /// <summary>Finds a build's paks, changelist and engine version.</summary>
 public static class BuildInfo
 {
-    /// <summary>The builds Core supports: changelist, Fortnite version, engine version.</summary>
+    /// <summary>The builds Core supports or has paks for: changelist, Fortnite version, engine version.</summary>
     public static readonly (int cl, string version, EGame ue)[] KnownBuilds =
     [
         (3790078, "1.10", EGame.GAME_UE4_19),
@@ -28,6 +28,31 @@ public static class BuildInfo
         (4019403, "3.6", EGame.GAME_UE4_20),
         (4039451, "4.0", EGame.GAME_UE4_20),
         (4053532, "4.1", EGame.GAME_UE4_20),
+        (4072250, "4.2", EGame.GAME_UE4_20),
+        (4117433, "4.4.0", EGame.GAME_UE4_20),
+        (4127312, "4.4.1", EGame.GAME_UE4_20),
+        (4132537, "4.4.2", EGame.GAME_UE4_20),
+        (4159770, "4.5", EGame.GAME_UE4_20),
+        (4166199, "4.5", EGame.GAME_UE4_20),
+        (4204761, "5.00", EGame.GAME_UE4_21),
+        (4214610, "5.0.1", EGame.GAME_UE4_21),
+        (4225813, "5.10", EGame.GAME_UE4_21),
+        (4240749, "5.10", EGame.GAME_UE4_21),
+        (4288479, "5.21", EGame.GAME_UE4_21),
+        (4305896, "5.30", EGame.GAME_UE4_21),
+        (4352937, "5.40", EGame.GAME_UE4_21),
+        (4363240, "5.41", EGame.GAME_UE4_21),
+        (4395664, "6.00", EGame.GAME_UE4_21),
+        (4402180, "6.00", EGame.GAME_UE4_21),
+        (4417689, "6.01", EGame.GAME_UE4_21),
+        (4442095, "6.02", EGame.GAME_UE4_21),
+        (4464155, "6.10", EGame.GAME_UE4_21),
+        (4476098, "6.10.1", EGame.GAME_UE4_21),
+        (4497486, "6.20", EGame.GAME_UE4_21),
+        (4526925, "6.21", EGame.GAME_UE4_21),
+        (4543176, "6.22", EGame.GAME_UE4_21),
+        (4573096, "6.30", EGame.GAME_UE4_21),
+        (4573279, "6.31", EGame.GAME_UE4_21),
     ];
 
     public static string? VersionOf(int cl) => KnownBuilds.FirstOrDefault(b => b.cl == cl).version;
@@ -39,6 +64,7 @@ public static class BuildInfo
         if (known.cl != 0) return known.ue;
         if (cl >= 3700000 && cl < 3889387) return EGame.GAME_UE4_19; // 1.7.2 .. 2.4.2
         if (cl >= 3889387 && cl < 4200000) return EGame.GAME_UE4_20; // 2.5 .. 4.x
+        if (cl >= 4200000 && cl < 4700000) return EGame.GAME_UE4_21; // 5.x .. 6.x
         return null;
     }
 
@@ -46,7 +72,7 @@ public static class BuildInfo
     {
         var m = Regex.Match(s.Trim(), @"^(?:GAME_)?(?:UE)?(\d)[._]?(\d{1,2})$", RegexOptions.IgnoreCase);
         if (!m.Success || !Enum.TryParse<EGame>($"GAME_UE{m.Groups[1].Value}_{m.Groups[2].Value}", out var g))
-            throw new ArgumentException($"unknown engine version \"{s}\" (use e.g. 4.19 or 4.20)");
+            throw new ArgumentException($"unknown engine version \"{s}\" (use e.g. 4.19, 4.20 or 4.21)");
         return g;
     }
 

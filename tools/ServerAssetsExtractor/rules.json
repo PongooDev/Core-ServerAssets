@@ -1,4 +1,6 @@
 {
+  "version": 3,
+
   "_readme": [
     "Which files ServerAssetsExtractor puts in the pak. Edit this file and run the tool again; no rebuild is needed",
     "(the tool reads the rules.json next to it, or the one given with --rules). report.txt says which rule dropped what.",
@@ -8,10 +10,14 @@
     "",
     "The pak mounts over the game's own files, on the server and on a client that shares the build folder. Leaving a",
     "package out never removes it from the game: the PC paks' own copy is used. So console-only and render-only",
-    "content (meshes, textures, materials, audio, VFX, UI, HLODs, platform assets, shader caches, bulk data) is left",
-    "out on purpose. Don't add it back.",
+    "content (meshes, textures, materials, audio, VFX, UI, HLODs, lighting data, platform assets, shader caches, bulk",
+    "data) is left out on purpose. Don't add it back: a console-cooked texture or mesh replaces the PC player's own.",
     "",
-    "A package is judged by the class of its main export (the export named after the package, or <name>_C for a",
+    "First, excludeExportClasses: a package with an export of one of those classes anywhere in it (the main export or",
+    "any other, such as a level's lighting data) is left out, and so is a package with a .ubulk/.uptnl when",
+    "excludeBulkData is true. These are cooked per platform. Nothing else can keep such a package, and the tool's",
+    "verify step fails a pak that has one.",
+    "Then a package is judged by the class of its main export (the export named after the package, or <name>_C for a",
     "Blueprint). Order: alwaysIncludePaths, then the path rules (excludePaths, platformNameTokens,",
     "platformFolderNames), then excludeClasses, then excludeIfImportPathContains, then includeClasses, then",
     "unmatchedClasses. The platform rules skip classes in platformRuleExemptClasses (an Xbox-exclusive hero is",
@@ -22,6 +28,46 @@
     "unmatchedClasses is \"include\" so a data class nobody has listed yet (most Fort*Definition and *Data classes",
     "are UDataAsset subclasses) is still kept. report.txt lists every unmatched class so it can be sorted."
   ],
+
+  "_excludeExportClasses": "Classes whose data is cooked per platform: texture pixel formats and tiling (CurveLinearColorAtlas is a texture too), mesh render data, compressed audio, shader maps, a level's lighting build data (MapBuildDataRegistry, also inside a .umap), HLOD proxies, landscape and reflection capture data, PhysX binary data. A package holding any export of these, main or not, is left out, so the PC player's own copy is used. Checked before every other rule.",
+  "excludeExportClasses": [
+    "*Texture2D",
+    "*Texture2DArray",
+    "*TextureCube",
+    "*TextureRenderTarget*",
+    "VolumeTexture",
+    "MediaTexture",
+    "*VirtualTexture*",
+    "CurveLinearColorAtlas",
+    "StaticMesh",
+    "SkeletalMesh",
+    "DestructibleMesh",
+    "GeometryCollection",
+    "SoundWave",
+    "*SoundWave",
+    "Material",
+    "MaterialInstanceConstant",
+    "*MaterialInstanceConstant",
+    "MaterialFunction*",
+    "Font",
+    "FontFace",
+    "NiagaraSystem",
+    "NiagaraScript",
+    "NiagaraEmitter",
+    "ParticleSystem",
+    "MapBuildDataRegistry",
+    "LODActor",
+    "HLODProxy",
+    "LandscapeComponent",
+    "LandscapeHeightfieldCollisionComponent",
+    "LandscapeMeshCollisionComponent",
+    "*ReflectionCaptureComponent",
+    "PhysicsSerializer",
+    "*ShaderCache*",
+    "*PipelineCache*"
+  ],
+  "_excludeBulkData": "true: a package with a .ubulk or .uptnl (texture mips, audio, mesh data stored beside the package) is left out. The tool never writes bulk data, so keeping its header alone would pair it with the PC's bulk file.",
+  "excludeBulkData": true,
 
   "includeClasses": [
     "DataTable",
@@ -35,7 +81,6 @@
     "UserDefinedEnum",
     "BlueprintGeneratedClass",
     "World",
-    "MapBuildDataRegistry",
     "Level",
     "PrimaryDataAsset",
     "DataAsset",
@@ -155,8 +200,9 @@
     "*PipelineCache*"
   ],
 
-  "_maps": "Maps are left out by default: a server loads whole maps from the game's own paks, and a console copy would replace the PC map. Kept anyway: every level that holds a navmesh (RecastNavMesh, FortNavMesh or other NavigationData actor) with its _BuiltData, and the levels in keepLevelPaths. Add a /Game/... level name (no extension, * allowed) to keepLevelPaths to keep one more level with server-only data. Set includeMaps to true (or pass --include-maps) to keep every map as before.",
+  "_maps": "Maps are left out by default: a server loads whole maps from the game's own paks, and a console copy would replace the PC level (its meshes, lights and the rest) for a player sharing the build folder. Kept anyway: the levels in keepLevelPaths, which hold server-only data the PC cook strips. Add a /Game/... level name (no extension, * allowed) to keepLevelPaths to keep one more level with server-only data. keepNavMeshLevels is false since rules version 3: the PC builds carry the same navmeshes (same sizes in every level checked on 2.5, 5.21 and 6.00), so those levels only replaced the PC copies. A level's lighting data (_BuiltData, MapBuildDataRegistry) is never kept. Set includeMaps to true (or pass --include-maps) to keep every map; excludeExportClasses still applies.",
   "includeMaps": false,
+  "keepNavMeshLevels": false,
   "keepLevelPaths": [
     "/Game/Athena/Maps/Athena_LocationVolumes",
     "/Game/Athena/Maps/Streaming/Athena_GameplayActors"
@@ -164,9 +210,7 @@
 
   "unmatchedClasses": "include",
 
-  "alwaysIncludePaths": [
-    "*_BuiltData"
-  ],
+  "alwaysIncludePaths": [],
 
   "excludePaths": [
     "*HLOD*",

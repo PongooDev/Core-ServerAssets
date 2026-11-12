@@ -162,7 +162,7 @@ public static partial class Program
                 Warn($"{k} has no .uexp in the pak; a cooked package needs both.");
 
         Header("Checking the pak");
-        var ok = Verifier.Verify(outPak, ue, Console.WriteLine);
+        var ok = Verifier.Verify(outPak, ue, rules, allowMaps: true, Console.WriteLine);
         Console.WriteLine(ok ? "All checks passed." : "Some checks FAILED.");
         if (ok) Info($"Made {outPak} (with its .sig and contents.txt beside it).");
         return ok ? 0 : 3;

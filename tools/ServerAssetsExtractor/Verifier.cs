@@ -8,11 +8,13 @@ namespace ServerAssetsExtractor;
 
 /// <summary>
 /// Checks a server-assets pak the way a maintainer would before publishing it: the raw format (version, mount point,
-/// entry headers and hashes), that CUE4Parse mounts it and reads every package header, the .sig, and contents.txt.
+/// entry headers and hashes), that CUE4Parse mounts it and reads every package header, that it holds nothing the
+/// rules leave out (platform-cooked data above all), the .sig, and contents.txt.
 /// </summary>
 public static class Verifier
 {
-    public static bool Verify(string pakPath, EGame ue, Action<string> log)
+    /// <param name="allowMaps">true: levels other than rules.json's keepLevelPaths are allowed (--include-maps, add).</param>
+    public static bool Verify(string pakPath, EGame ue, Rules rules, bool allowMaps, Action<string> log)
     {
         var ok = true;
         void Fail(string msg) { ok = false; log("  FAIL  " + msg); }
@@ -109,6 +111,36 @@ public static class Verifier
                 }
                 if (unreadable > 0) Fail($"{unreadable} of {packages.Count} package headers don't parse (first: {firstError})");
                 else Pass($"all {packages.Count} package headers parse");
+
+                // 2b. Nothing the rules leave out: above all no platform-cooked export (texture, mesh, material,
+                // audio, lighting data) and no bulk data, which would replace a PC player's own copy.
+                var scanned = Scanner.Scan(provider, rules, (_, _) => { }).Where(p => p.Class != "<unreadable>").ToList();
+                var refused = new List<(PackageInfo p, string why)>();
+                foreach (var p in scanned)
+                {
+                    var (keep, why) = rules.Decide(p);
+                    if (!keep) refused.Add((p, why));
+                    else if (p.IsMap && !allowMaps && rules.KeptLevelPattern(p.GamePath) == null && !(p.HasNavMesh && rules.KeepNavMeshLevels))
+                        refused.Add((p, "a level that isn't in keepLevelPaths (maps are left out by default)"));
+                }
+                var cooked = refused.Count(r => r.why.StartsWith("excludeExportClasses") || r.why.StartsWith("excludeBulkData"));
+                if (refused.Count > 0)
+                {
+                    Fail($"{refused.Count} packages are ones the rules (rules.json version {rules.Version}) leave out, {cooked} of them platform-cooked:");
+                    foreach (var g in refused.GroupBy(r => r.why).OrderByDescending(g => g.Count()).Take(20))
+                        log($"          {g.Count(),5}  {g.Key}, e.g. {g.First().p.GamePath} ({g.First().p.Class})");
+                }
+                else Pass($"every package is one the rules keep (rules.json version {rules.Version}): no texture, mesh, material, audio or lighting export, no other level");
+
+                var bulk = names.Count(n => n.EndsWith(".ubulk", StringComparison.OrdinalIgnoreCase) || n.EndsWith(".uptnl", StringComparison.OrdinalIgnoreCase));
+                if (bulk > 0 && rules.ExcludeBulkData) Fail($"{bulk} bulk data files (.ubulk/.uptnl): texture, audio or mesh data, which would replace the PC build's own");
+                else if (bulk == 0) Pass("no bulk data (.ubulk/.uptnl)");
+
+                var looseRefused = names.Where(n => !n.EndsWith(".uasset", StringComparison.OrdinalIgnoreCase) && !n.EndsWith(".umap", StringComparison.OrdinalIgnoreCase)
+                                                    && !n.EndsWith(".uexp", StringComparison.OrdinalIgnoreCase) && !n.EndsWith(".ubulk", StringComparison.OrdinalIgnoreCase)
+                                                    && !n.EndsWith(".uptnl", StringComparison.OrdinalIgnoreCase))
+                    .Select(n => (n, d: rules.DecideLoose(n))).Where(x => !x.d.keep).ToList();
+                if (looseRefused.Count > 0) Fail($"{looseRefused.Count} other files the rules leave out, e.g. {looseRefused[0].n} ({looseRefused[0].d.why})");
             }
         }
 
