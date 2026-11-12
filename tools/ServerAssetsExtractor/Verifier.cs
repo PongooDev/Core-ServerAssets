@@ -114,15 +114,17 @@ public static class Verifier
 
                 // 2b. Nothing the rules leave out: above all no platform-cooked export (texture, mesh, material,
                 // audio, lighting data) and no bulk data, which would replace a PC player's own copy.
+                // A level with built navigation data passes whatever else it holds (keepNavMeshLevels, rules version 4).
                 var scanned = Scanner.Scan(provider, rules, (_, _) => { }).Where(p => p.Class != "<unreadable>").ToList();
                 var refused = new List<(PackageInfo p, string why)>();
                 foreach (var p in scanned)
                 {
                     var (keep, why) = rules.Decide(p);
                     if (!keep) refused.Add((p, why));
-                    else if (p.IsMap && !allowMaps && rules.KeptLevelPattern(p.GamePath) == null && !(p.HasNavMesh && rules.KeepNavMeshLevels))
-                        refused.Add((p, "a level that isn't in keepLevelPaths (maps are left out by default)"));
+                    else if (p.IsMap && !allowMaps && rules.KeptLevelPattern(p.GamePath) == null && !rules.IsNavMeshLevel(p))
+                        refused.Add((p, "a level that isn't in keepLevelPaths and has no built navigation data (maps are left out by default)"));
                 }
+                var navLevels = scanned.Where(rules.IsNavMeshLevel).ToList();
                 var cooked = refused.Count(r => r.why.StartsWith("excludeExportClasses") || r.why.StartsWith("excludeBulkData"));
                 if (refused.Count > 0)
                 {
@@ -130,11 +132,18 @@ public static class Verifier
                     foreach (var g in refused.GroupBy(r => r.why).OrderByDescending(g => g.Count()).Take(20))
                         log($"          {g.Count(),5}  {g.Key}, e.g. {g.First().p.GamePath} ({g.First().p.Class})");
                 }
-                else Pass($"every package is one the rules keep (rules.json version {rules.Version}): no texture, mesh, material, audio or lighting export, no other level");
+                else Pass($"every package is one the rules keep (rules.json version {rules.Version}): no texture, mesh, material, audio or lighting export, no other level"
+                          + (navLevels.Count > 0 ? $" (outside the {navLevels.Count} levels kept for their built navigation data)" : ""));
+                var navCooked = navLevels.Count(p => rules.PlatformCooked(p) != null);
+                if (navCooked > 0) log($"  note  {navCooked} of the levels kept for their navmesh also hold platform-cooked data; they override the PC levels");
 
-                var bulk = names.Count(n => n.EndsWith(".ubulk", StringComparison.OrdinalIgnoreCase) || n.EndsWith(".uptnl", StringComparison.OrdinalIgnoreCase));
+                // Bulk data belongs only to a level kept for its navmesh, which is written with its own.
+                var navBulk = navLevels.SelectMany(p => p.Bulk).Select(b => b.Path).ToHashSet(StringComparer.OrdinalIgnoreCase);
+                var bulkNames = names.Where(n => n.EndsWith(".ubulk", StringComparison.OrdinalIgnoreCase) || n.EndsWith(".uptnl", StringComparison.OrdinalIgnoreCase)).ToList();
+                var bulk = bulkNames.Count(n => !navBulk.Contains(n));
                 if (bulk > 0 && rules.ExcludeBulkData) Fail($"{bulk} bulk data files (.ubulk/.uptnl): texture, audio or mesh data, which would replace the PC build's own");
-                else if (bulk == 0) Pass("no bulk data (.ubulk/.uptnl)");
+                else if (bulkNames.Count == 0) Pass("no bulk data (.ubulk/.uptnl)");
+                else if (bulk == 0) Pass($"bulk data only for the levels kept for their navmesh ({bulkNames.Count} files)");
 
                 var looseRefused = names.Where(n => !n.EndsWith(".uasset", StringComparison.OrdinalIgnoreCase) && !n.EndsWith(".umap", StringComparison.OrdinalIgnoreCase)
                                                     && !n.EndsWith(".uexp", StringComparison.OrdinalIgnoreCase) && !n.EndsWith(".ubulk", StringComparison.OrdinalIgnoreCase)

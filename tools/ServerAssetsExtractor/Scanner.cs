@@ -18,7 +18,8 @@ public sealed class PakListProvider(IEnumerable<FileInfo> paks, VersionContainer
     }
 }
 
-public sealed record NavExport(string ExportName, string Class, long SerialSize);
+/// <summary>A navigation export; Tiles is the number of built Recast tiles in it (counted for navmesh exports in levels).</summary>
+public sealed record NavExport(string ExportName, string Class, long SerialSize, int Tiles = 0);
 
 public sealed class PackageInfo
 {
@@ -38,13 +39,37 @@ public sealed class PackageInfo
     public string? GameplayExample;       // one of them, for the report
     public string? HlodImport;            // the first imported package path that marks the package as HLOD content
 
-    /// <summary>A navmesh actor (RecastNavMesh or a subclass such as FortNavMesh); its export holds the tile data.</summary>
+    /// <summary>
+    /// A navmesh export: a navmesh actor (RecastNavMesh or a subclass such as FortNavMesh or AthenaNavMesh), whose
+    /// export holds the tile data, or a navmesh data chunk (RecastNavMeshDataChunk, a streamed sublevel's tiles).
+    /// </summary>
     public bool HasNavMesh => Nav.Any(n => IsNavMeshClass(n.Class) && !n.ExportName.StartsWith("Default__"));
 
+    /// <summary>The built Recast tiles in the package's navmesh exports (0 for a navmesh actor nothing was built into).</summary>
+    public int NavMeshTiles => Nav.Where(n => IsNavMeshClass(n.Class) && !n.ExportName.StartsWith("Default__")).Sum(n => n.Tiles);
+
+    // The suffix is matched with its case, so a behavior tree task such as FortBTTask_TakerMoveToNavmesh isn't one.
     public static bool IsNavMeshClass(string cls) =>
         cls.Contains("RecastNavMesh", StringComparison.OrdinalIgnoreCase)
-        || cls.EndsWith("NavMesh", StringComparison.OrdinalIgnoreCase)
-        || cls.EndsWith("NavMesh_C", StringComparison.OrdinalIgnoreCase);
+        || cls.EndsWith("NavMesh", StringComparison.Ordinal)
+        || cls.EndsWith("NavMesh_C", StringComparison.Ordinal);
+
+    /// <summary>
+    /// Counts the built Recast tiles in a navmesh export's data: each tile is serialized with a dtMeshHeader, which
+    /// starts with DT_NAVMESH_MAGIC ('DNAV') and DT_NAVMESH_VERSION (7 in UE 4.19 to 4.21).
+    /// </summary>
+    public static int CountRecastTiles(ReadOnlySpan<byte> data)
+    {
+        ReadOnlySpan<byte> header = [(byte) 'V', (byte) 'A', (byte) 'N', (byte) 'D', 7, 0, 0, 0];
+        var tiles = 0;
+        for (var at = 0; ;)
+        {
+            var i = data[at..].IndexOf(header);
+            if (i < 0) return tiles;
+            tiles++;
+            at += i + header.Length;
+        }
+    }
 
     public long HeaderSize => Main.Size + (Uexp?.Size ?? 0);
     public long BulkSize => Bulk.Sum(b => b.Size);
@@ -121,11 +146,23 @@ public static class Scanner
                 ?? exports.FirstOrDefault();
             pkg.Class = main == null ? "<no exports>" : ClassOf(package, main);
 
+            var hasNavMeshExport = pkg.IsMap && pkg.Uexp != null && exports.Any(e => PackageInfo.IsNavMeshClass(ClassOf(package, e)));
+            using var uexp = hasNavMeshExport ? pkg.Uexp!.CreateReader() : null;
             foreach (var e in exports)
             {
                 var cls = ClassOf(package, e);
                 pkg.ExportClasses.Add(cls);
-                if (rules.IsNavigationClass(cls)) pkg.Nav.Add(new NavExport(e.ObjectName.Text, cls, e.SerialSize));
+                if (rules.IsNavigationClass(cls))
+                {
+                    // A level's navmesh export is read to count its built tiles: an actor with none holds no navmesh.
+                    var tiles = 0;
+                    if (uexp != null && PackageInfo.IsNavMeshClass(cls) && !e.ObjectName.Text.StartsWith("Default__"))
+                    {
+                        uexp.Position = e.SerialOffset - package.Summary.TotalHeaderSize;
+                        tiles = PackageInfo.CountRecastTiles(uexp.ReadBytes((int) e.SerialSize));
+                    }
+                    pkg.Nav.Add(new NavExport(e.ObjectName.Text, cls, e.SerialSize, tiles));
+                }
                 if (pkg.IsMap && rules.IsGameplayLevelClass(cls)) { pkg.GameplayExports++; pkg.GameplayExample ??= cls; }
             }
 

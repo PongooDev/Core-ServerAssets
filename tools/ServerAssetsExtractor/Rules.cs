@@ -7,7 +7,10 @@ namespace ServerAssetsExtractor;
 /// <summary>The include/exclude lists from rules.json.</summary>
 public sealed class Rules
 {
-    /// <summary>The rules' own version, printed in report.txt; 3 since platform-cooked exports and bulk data are refused.</summary>
+    /// <summary>
+    /// The rules' own version, printed in report.txt; 3 since platform-cooked exports and bulk data are refused, 4 since
+    /// levels with built navigation data are kept ahead of that.
+    /// </summary>
     public int Version { get; set; }
     public List<string> IncludeClasses { get; set; } = [];
     public List<string> ExcludeClasses { get; set; } = [];
@@ -31,8 +34,14 @@ public sealed class Rules
     /// <summary>false (the default): maps are left out, except KeepLevelPaths (and levels with a navmesh, with KeepNavMeshLevels).</summary>
     public bool IncludeMaps { get; set; }
     public List<string> KeepLevelPaths { get; set; } = [];
-    /// <summary>true: with maps left out, a level that holds a navmesh is kept anyway (rules before version 3 did this).</summary>
+    /// <summary>
+    /// true (rules version 4): a level with built navigation data (a navmesh actor such as RecastNavMesh, AthenaNavMesh
+    /// or FortNavMesh, or a navmesh data chunk) is kept before every other rule, platform-cooked exports and bulk data
+    /// included. The server needs the built navmesh, and the PC cook can lack it (6.20's Deimos_Gameplay).
+    /// </summary>
     public bool KeepNavMeshLevels { get; set; }
+    /// <summary>The built Recast tiles a level's navmesh exports need for KeepNavMeshLevels (1: an empty navmesh actor doesn't count; 0: any navmesh export).</summary>
+    public int NavMeshLevelMinTiles { get; set; } = 1;
 
     private Matcher _include = null!, _exclude = null!, _excludeExport = null!, _always = null!, _excludePaths = null!, _nav = null!, _gameplay = null!, _loose = null!, _excludeLoose = null!, _platformExempt = null!, _notGameplay = null!, _clientLevels = null!, _keepLevels = null!;
     private Regex? _platformToken, _platformFolder;
@@ -101,6 +110,9 @@ public sealed class Rules
     /// <summary>The keepLevelPaths pattern (matched against the /Game/... name) that keeps this level, or null.</summary>
     public string? KeptLevelPattern(string gamePath) => _keepLevels.Match(gamePath);
 
+    /// <summary>True for a level that keepNavMeshLevels keeps: a .umap with built navigation data (navMeshLevelMinTiles tiles or more).</summary>
+    public bool IsNavMeshLevel(PackageInfo pkg) => KeepNavMeshLevels && pkg.IsMap && pkg.HasNavMesh && pkg.NavMeshTiles >= NavMeshLevelMinTiles;
+
     public bool IsNavigationClass(string cls) => _nav.Match(cls) != null;
     public bool IsGameplayLevelClass(string cls) => _notGameplay.Match(cls) == null && _gameplay.Match(cls) != null;
     public bool IsUnmatched(string cls) => _exclude.Match(cls) == null && _include.Match(cls) == null;
@@ -144,6 +156,17 @@ public sealed class Rules
     /// <summary>Decides one package. The reason names the rule and the pattern that matched.</summary>
     public (bool keep, string why) Decide(PackageInfo pkg)
     {
+        // A level with built navigation data comes first. The server paths its AI on the built navmesh, and the PC
+        // cook can lack it (6.20's Deimos_Gameplay has the fiends' AthenaNavMesh only in the console cook), so the
+        // level is kept whole, even with console lighting, PhysX or mesh data in it: the console copy overrides
+        // the PC level, on the server and on a host's own game.
+        if (IsNavMeshLevel(pkg))
+        {
+            var nav = pkg.Nav.Where(n => PackageInfo.IsNavMeshClass(n.Class) && !n.ExportName.StartsWith("Default__")).MaxBy(n => n.Tiles)!;
+            var also = PlatformCooked(pkg) is { } navCooked ? ", kept despite " + navCooked : "";
+            return (true, $"keepNavMeshLevels: a level with built navigation data ({pkg.NavMeshTiles:N0} Recast tiles, e.g. {nav.Class} {nav.ExportName}){also}");
+        }
+
         // Platform-cooked rendering data never goes in: the pak would replace a PC player's own copy with the
         // console's. Leaving it out keeps the PC copy, which is what the server and the player both use then.
         if (PlatformCooked(pkg) is { } cooked) return (false, cooked);

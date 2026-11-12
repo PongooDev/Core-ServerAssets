@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
 
   "_readme": [
     "Which files ServerAssetsExtractor puts in the pak. Edit this file and run the tool again; no rebuild is needed",
@@ -13,10 +13,15 @@
     "content (meshes, textures, materials, audio, VFX, UI, HLODs, lighting data, platform assets, shader caches, bulk",
     "data) is left out on purpose. Don't add it back: a console-cooked texture or mesh replaces the PC player's own.",
     "",
-    "First, excludeExportClasses: a package with an export of one of those classes anywhere in it (the main export or",
+    "First, keepNavMeshLevels: a level (.umap) with built navigation data (a navmesh actor such as RecastNavMesh,",
+    "AthenaNavMesh or FortNavMesh, or a navmesh data chunk, with built tiles in it) is kept whole, with its bulk data,",
+    "whatever else it holds.",
+    "The server needs the built navmesh and the PC cook can lack it (6.20's Deimos_Gameplay has the fiends' navmesh",
+    "only in the console cook), so such a level overrides the PC copy, console lighting, PhysX or meshes and all.",
+    "Next, excludeExportClasses: a package with an export of one of those classes anywhere in it (the main export or",
     "any other, such as a level's lighting data) is left out, and so is a package with a .ubulk/.uptnl when",
-    "excludeBulkData is true. These are cooked per platform. Nothing else can keep such a package, and the tool's",
-    "verify step fails a pak that has one.",
+    "excludeBulkData is true. These are cooked per platform. Nothing but keepNavMeshLevels can keep such a package,",
+    "and the tool's verify step fails a pak that has one.",
     "Then a package is judged by the class of its main export (the export named after the package, or <name>_C for a",
     "Blueprint). Order: alwaysIncludePaths, then the path rules (excludePaths, platformNameTokens,",
     "platformFolderNames), then excludeClasses, then excludeIfImportPathContains, then includeClasses, then",
@@ -29,7 +34,7 @@
     "are UDataAsset subclasses) is still kept. report.txt lists every unmatched class so it can be sorted."
   ],
 
-  "_excludeExportClasses": "Classes whose data is cooked per platform: texture pixel formats and tiling (CurveLinearColorAtlas is a texture too), mesh render data, compressed audio, shader maps, a level's lighting build data (MapBuildDataRegistry, also inside a .umap), HLOD proxies, landscape and reflection capture data, PhysX binary data. A package holding any export of these, main or not, is left out, so the PC player's own copy is used. Checked before every other rule.",
+  "_excludeExportClasses": "Classes whose data is cooked per platform: texture pixel formats and tiling (CurveLinearColorAtlas is a texture too), mesh render data, compressed audio, shader maps, a level's lighting build data (MapBuildDataRegistry, also inside a .umap), HLOD proxies, landscape and reflection capture data, PhysX binary data. A package holding any export of these, main or not, is left out, so the PC player's own copy is used. Checked before every other rule except keepNavMeshLevels: a level with built navigation data is kept with these inside.",
   "excludeExportClasses": [
     "*Texture2D",
     "*Texture2DArray",
@@ -66,7 +71,7 @@
     "*ShaderCache*",
     "*PipelineCache*"
   ],
-  "_excludeBulkData": "true: a package with a .ubulk or .uptnl (texture mips, audio, mesh data stored beside the package) is left out. The tool never writes bulk data, so keeping its header alone would pair it with the PC's bulk file.",
+  "_excludeBulkData": "true: a package with a .ubulk or .uptnl (texture mips, audio, mesh data stored beside the package) is left out. The tool writes bulk data only for a level kept for its navmesh, so a kept header is never paired with the PC's bulk file.",
   "excludeBulkData": true,
 
   "includeClasses": [
@@ -200,9 +205,11 @@
     "*PipelineCache*"
   ],
 
-  "_maps": "Maps are left out by default: a server loads whole maps from the game's own paks, and a console copy would replace the PC level (its meshes, lights and the rest) for a player sharing the build folder. Kept anyway: the levels in keepLevelPaths, which hold server-only data the PC cook strips. Add a /Game/... level name (no extension, * allowed) to keepLevelPaths to keep one more level with server-only data. keepNavMeshLevels is false since rules version 3: the PC builds carry the same navmeshes (same sizes in every level checked on 2.5, 5.21 and 6.00), so those levels only replaced the PC copies. A level's lighting data (_BuiltData, MapBuildDataRegistry) is never kept. Set includeMaps to true (or pass --include-maps) to keep every map; excludeExportClasses still applies.",
+  "_maps": "Maps are left out by default: a server loads whole maps from the game's own paks, and a console copy would replace the PC level (its meshes, lights and the rest) for a player sharing the build folder. Kept anyway: the levels in keepLevelPaths, which hold server-only data the PC cook strips. Add a /Game/... level name (no extension, * allowed) to keepLevelPaths to keep one more level with server-only data. Also kept, before every other rule: levels with built navigation data (keepNavMeshLevels, true again since rules version 4). The server needs the built navmesh, and the PC cook can lack it: 6.20 to 6.30's Deimos_Gameplay has the fiends' AthenaNavMesh (66 MB of tiles) only in the console cook. Such a level overrides the PC copy, with any console lighting or PhysX data inside it. A separate *_BuiltData package (MapBuildDataRegistry) is never kept. Set includeMaps to true (or pass --include-maps) to keep every map; excludeExportClasses still applies to the levels without navigation data.",
   "includeMaps": false,
-  "keepNavMeshLevels": false,
+  "keepNavMeshLevels": true,
+  "_navMeshLevelMinTiles": "The built Recast tiles a level's navmesh exports must hold for keepNavMeshLevels to keep it. 1: a navmesh actor nothing was built into (many Save the World zones have one, with 0 tiles, and the PC level has the same) doesn't count. 0: any navmesh export counts.",
+  "navMeshLevelMinTiles": 1,
   "keepLevelPaths": [
     "/Game/Athena/Maps/Athena_LocationVolumes",
     "/Game/Athena/Maps/Streaming/Athena_GameplayActors"

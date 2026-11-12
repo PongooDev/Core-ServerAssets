@@ -43,7 +43,7 @@ The paks are published as [releases](https://github.com/PongooDev/Core-ServerAss
 [6.21 (CL-4526925)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4526925),
 [6.22 (CL-4543176)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4543176),
 [6.30 (CL-4573096)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4573096) and
-[6.31 (CL-4573279)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4573279), each with `AIDirector_Fortnite`, `Athena_LocationVolumes` and `Athena_GameplayActors`. 4.0's also has Save the World's loot tables and `LootQuotaData`. Every full extraction was rebuilt on 2026-11-12 under the extractor's rules version 3, which keep everything cooked for the console's graphics out (textures, lighting data, the levels that held them), so a pak never replaces what a host's own game shows. Paks are wanted for every build, including full extractions to replace these early hand-picked ones. If you have a console build, see
+[6.31 (CL-4573279)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4573279), each with `AIDirector_Fortnite`, `Athena_LocationVolumes` and `Athena_GameplayActors`. 4.0's also has Save the World's loot tables and `LootQuotaData`. Every full extraction was rebuilt on 2026-11-12 under the extractor's rules version 4: everything cooked for the console's graphics stays out (textures, lighting data, the levels that held them), so a pak doesn't replace what a host's own game shows, except in the levels with a built navmesh. Those are kept whole, because the server needs the navmesh and a PC cook can lack it (6.20 to 6.30's `Deimos_Gameplay`). Paks are wanted for every build, including full extractions to replace these early hand-picked ones. If you have a console build, see
 [Making a pak with the extractor](#making-a-pak-with-the-extractor).
 
 ## Contents
@@ -99,15 +99,16 @@ Players don't need the pak. Only the server uses it.
 A pak is now a **full data extraction** of a console build, made with
 [ServerAssetsExtractor](#making-a-pak-with-the-extractor). It holds every data asset of the build that a dedicated
 server could read (item and cosmetic definitions, loot, playlists, game data, AI, quests, abilities, building data,
-the levels with server-only volumes, server-side Blueprints), not a hand-picked list. That way server-only data
-nobody has found yet comes along too. It holds no rendering data: no textures, meshes, materials, audio, lighting
-data or anything else cooked for the console, because the pak would replace a PC player's own copy of it.
+the levels with server-only volumes, the levels with a built navmesh, server-side Blueprints), not a hand-picked
+list. That way server-only data nobody has found yet comes along too. Outside the navmesh levels it holds no
+rendering data: no textures, meshes, materials, audio, lighting data or anything else cooked for the console, because
+the pak would replace a PC player's own copy of it.
 
 Server-only content found so far includes `AIDirector_Fortnite` (1.10 and later), the POI volumes in
 `Athena_LocationVolumes` and `Athena_GameplayActors` (3.0 and later), 4.0's Save the World loot tables
-(`LootTierData_Client`, `LootPackages_Client`), `LootQuotaData`, and the server loot tier data. A full extraction
-carries all of them. If you find server-only content the extractor leaves out,
-[open an issue](https://github.com/PongooDev/Core-ServerAssets/issues/new?template=missing_server_asset.yml).
+(`LootTierData_Client`, `LootPackages_Client`), `LootQuotaData`, the server loot tier data, and the fiends' navmesh in
+`Deimos_Gameplay` (6.20 to 6.30). A full extraction carries all of them. If you find server-only content the extractor
+leaves out, [open an issue](https://github.com/PongooDev/Core-ServerAssets/issues/new?template=missing_server_asset.yml).
 
 Core supports these builds. Each pak must match one of them exactly:
 
@@ -194,13 +195,14 @@ only reads the build; it never changes it.
 **The rule it follows: don't take anything a dedicated server obviously won't need, and never anything cooked for
 the console's graphics or audio.** When in doubt, it keeps a pure-data asset and drops a presentation one.
 
-Use version **3.0.0 or later**. Paks from earlier versions carried console lighting data, a console-format texture
-and Save the World levels that replaced the PC copies; version 3's own check fails such a pak.
+Use version **3.1.0 or later**. Paks from 3.0.0 lack the levels with a built navmesh, which a server needs and a PC
+cook can lack (6.20's `Deimos_Gameplay`). Paks from earlier versions carried console lighting data and a
+console-format texture; the check of version 3 and later fails such a pak.
 
 ### Step by step
 
 1. Download `ServerAssetsExtractor.exe` from the
-   [extractor release](https://github.com/PongooDev/Core-ServerAssets/releases/tag/extractor-v3). It is a single
+   [extractor release](https://github.com/PongooDev/Core-ServerAssets/releases/tag/extractor-v3.1). It is a single
    Windows exe; you don't need .NET or anything else.
 2. Get a console build of the **same version and changelist** as a PC build Core supports (see
    [the list](#server-assets-to-get)): a PlayStation 4 build for Season 12 and earlier, or an Xbox build for any
@@ -210,7 +212,7 @@ and Save the World levels that replaced the PC copies; version 3's own check fai
 3. Double-click `ServerAssetsExtractor.exe`. When it asks, drag the build's folder (the one with `FortniteGame` in
    it, or its `Paks` folder) into the window and press Enter. You can also drop the folder onto the exe.
 4. Wait. It finds the paks, the changelist, the engine version and the AES key by itself where it can, then reads
-   every package (under a minute on a fast disk) and writes the pak (about 190 MB for a Season 2 build, 270 MB for
+   every package (a minute or two on a fast disk) and writes the pak (about 285 MB for a Season 2 build, 380 MB for
    6.00).
 5. It checks the pak it made and ends with **Done**. Next to the exe there is now a
    `ServerAssets-<version>-CL-<changelist>` folder with four files:
@@ -241,9 +243,10 @@ by its main export's class:
 
 - **Kept:** data tables and curve tables, item and cosmetic definitions and every other data asset, playlists, game
   data, loot, AI (behavior trees, EQS, the AI director), quests, abilities and gameplay effects, building data,
-  server-side Blueprints, the levels listed in `keepLevelPaths` (see below), nav areas and nav filters, string tables,
-  and the platform-neutral `Default*.ini` and `Base*.ini` config.
-- **Left out:** every package with a platform-cooked export, wherever it is: textures of any kind (including
+  server-side Blueprints, the levels with a built navmesh and the levels listed in `keepLevelPaths` (see below), nav
+  areas and nav filters, string tables, and the platform-neutral `Default*.ini` and `Base*.ini` config.
+- **Left out:** every package with a platform-cooked export, wherever it is (a level with a built navmesh excepted,
+  see below): textures of any kind (including
   `CurveLinearColorAtlas`, a texture made from color curves), meshes, materials and material instances, audio,
   fonts, particle and Niagara systems, a level's lighting build data (`MapBuildDataRegistry`, in `*_BuiltData` or
   inside the `.umap`), HLOD proxies, landscape and reflection capture data, PhysX binary data
@@ -257,26 +260,41 @@ and on a player's game that shares the build folder, so a console-cooked texture
 one: a console texture is in the console's own pixel layout, and console lighting data doesn't fit the PC renderer.
 Leaving a package out never removes it: the PC paks' own copy is used, and a kept Blueprint or data asset that refers
 to a left-out texture gets the PC texture. Don't add that content back. The extractor's own check (`verify`) fails a
-pak that has any of it.
+pak that has any of it, outside a level kept for its navmesh.
 
 **Maps are left out by default.** A dedicated server loads its maps from the game's own paks, and a console copy of a
 level would replace the PC level (its meshes, lights and the rest) on a shared install. On the 4.0 PC build, 1,086
-maps (such as `Athena_Terrain`) were 568 MB of the pak. Kept anyway are the levels in `keepLevelPaths` in
-`rules.json` (`Athena_LocationVolumes` and `Athena_GameplayActors`, which carry server-only POI volumes the PC cook
-strips; add a `/Game/...` level name there to keep another). Levels with a navmesh are no longer kept for it
-(`"keepNavMeshLevels": false`): the PC builds carry the same navmeshes. To keep every map, pass `--include-maps` or
-set `"includeMaps": true` in `rules.json`; platform-cooked levels are still left out. `report.txt` says how many maps
-were left out and their size.
+maps (such as `Athena_Terrain`) were 568 MB of the pak. Two kinds of level are kept anyway:
 
-The rules are in `rules.json` next to the exe (version 3); each list is explained at its top. `report.txt` shows,
+- **Levels with a built navmesh** (`"keepNavMeshLevels": true`), decided before every other rule. A level whose
+  navmesh actor (`RecastNavMesh`, `AthenaNavMesh`, `FortNavMesh` and the like) or navmesh data chunk holds built
+  Recast tiles is kept whole, even with console lighting (`MapBuildDataRegistry`) or PhysX data inside it, and with
+  its bulk data if it has any. **Such a level overrides the client's copy**, on the server and on a host's own game
+  that plays from the same folder. It is kept anyway because the server's AI walks on the built navmesh and a PC
+  cook can lack it: the client cook leaves out navigation data the client doesn't use. 6.20 to 6.30's
+  `Deimos_Gameplay` is the case found so far. Its PC copy has the fiends' navigation setup (`AthenaNavSystemConfig`
+  with the `Fiend` agent, the bounds and modifier volumes, 26 nav links) but no `AthenaNavMesh`, so a server has no
+  navmesh for the fiends; the console copy is the same level plus `AthenaNavMesh-Fiend`, 66 MB of tiles. Only levels
+  with built tiles count (`"navMeshLevelMinTiles": 1`): a navmesh actor nothing was built into, as in many Save the
+  World zones, is no reason to replace a level. `report.txt` lists every navmesh actor with its tiles, and `verify`
+  notes the kept levels that hold console lighting or PhysX data.
+- **The levels in `keepLevelPaths`** in `rules.json`: `Athena_LocationVolumes` and `Athena_GameplayActors`, which
+  carry server-only POI volumes the PC cook strips. Add a `/Game/...` level name there to keep another.
+
+To keep every map, pass `--include-maps` or set `"includeMaps": true` in `rules.json`; platform-cooked levels without
+a navmesh are still left out. `report.txt` says how many maps were left out and their size.
+
+The rules are in `rules.json` next to the exe (version 4); each list is explained at its top. `report.txt` shows,
 per rule, how many packages it dropped with an example, and lists the data classes no rule names yet. Packages of an
 unlisted class are kept.
 
-Navigation data: every Save the World level a console extraction had a navmesh in (13 to 44 levels per build) has
-the same navmesh in the PC build, with the same size, in every level checked (2.5, 5.21 and 6.00). The PC cook keeps
-navmeshes, so a console copy of those levels adds nothing for a server. `report.txt` lists every navmesh actor and its
-size. The one level not checked against a PC build is 6.20 to 6.30's `Deimos_Gameplay`, which holds the Battle
-Royale navmesh for the fiends; if a PC build of those turns out to lack it, add it to `keepLevelPaths`.
+Navigation data checked against PC builds: 6.20's `Deimos_Gameplay` (CL-4497486) is, apart from `AthenaNavMesh-Fiend`
+(51,211 tiles) and its root component, the same in both: the same 657 exports with the same properties (the level's
+actor list aside, which holds the navmesh), the 11 brush `BodySetup`s' cooked PhysX data byte for byte the same, and
+no lighting data, PhysX serializer, texture or bulk data in either. Save the World levels with a built navmesh match
+the PC copies (6.20's `Zone_Arid_TheGhostTown` is byte for byte the same; the 2.5, 5.21 and 6.00 navmeshes have the
+same sizes), so keeping them changes nothing, apart from the few with console lighting or PhysX data inside, which
+`report.txt` and the release notes name.
 
 ### Options
 
@@ -291,11 +309,11 @@ Run `ServerAssetsExtractor --help` for all of them. The useful ones:
 | `--cl <changelist>` | The changelist, if it can't find it (it names the files) |
 | `--include <prefix>`, `--exclude <prefix>` | Only, or not, pak paths starting with this, e.g. `FortniteGame/Content/` |
 | `--max-size <size>` | Leave out any package bigger than this, e.g. `200MB` |
-| `--include-maps` | Keep every map (they are left out by default, except the `keepLevelPaths` levels); platform-cooked levels still go |
+| `--include-maps` | Keep every map (they are left out by default, except levels with a built navmesh and the `keepLevelPaths` levels); platform-cooked levels without a navmesh still go |
 | `--max-map-size <size>` | Leave out levels bigger than this, unless they hold a navmesh |
 | `--rules <file>` | Use another rules file |
-| `verify <pak>` | Check a pak: version 3, mount point `../../../`, entries and hashes, that CUE4Parse reads it, that it holds nothing the rules leave out (no platform-cooked export, no bulk data, no level outside `keepLevelPaths` unless `--allow-maps`), its `.sig` and `contents.txt`. It fails a pak from an older extractor |
-| `filter <pak>` | Copy a pak with only what the current rules keep, with a new sig, `contents.txt` and `report.txt` (default `filtered/<name>.pak` next to it), then `verify` it. For bringing a pak made with older rules up to date without the console build |
+| `verify <pak>` | Check a pak: version 3, mount point `../../../`, entries and hashes, that CUE4Parse reads it, that it holds nothing the rules leave out (no platform-cooked export, no bulk data, no level outside `keepLevelPaths` unless `--allow-maps`, a level with a built navmesh excepted), its `.sig` and `contents.txt`. It fails a pak from an extractor before 3.0.0 |
+| `filter <pak>` | Copy a pak with only what the current rules keep, with a new sig, `contents.txt` and `report.txt` (default `filtered/<name>.pak` next to it), then `verify` it. For bringing a pak made with older rules up to date without the console build. It only keeps what the pak holds: a 3.0.0 pak has no navmesh levels to bring back |
 
 For a submission, use the defaults: no `--include`, `--exclude`, size limits or edited rules.
 
@@ -349,10 +367,11 @@ The source is in [`tools/ServerAssetsExtractor`](tools/ServerAssetsExtractor). I
 
 ## Contributing a pak
 
-1. Make the pak with [the extractor](#making-a-pak-with-the-extractor), **version 3.0.0 or later** and its own
+1. Make the pak with [the extractor](#making-a-pak-with-the-extractor), **version 3.1.0 or later** and its own
    `rules.json`, from a console build of the **same version and changelist** as a PC build Core supports. Check the
    changelist it prints; it reads the build's `Engine/Build/Build.version` when there is one. Its check at the end
-   must pass: a pak with any texture, mesh, material, audio, lighting or other console-cooked data fails it.
+   must pass: a pak with any texture, mesh, material, audio, lighting or other console-cooked data fails it, outside
+   a level kept for its built navmesh.
 2. Test it if you can: put the pak and sig in a PC build's `FortniteGame\Content\Paks` and host a server. The
    server log says when Core uses a real asset instead of its stand-in.
 3. Share the `.pak` and `.sig`. GitHub issues only take attachments up to 25 MB, so a pak (hundreds of MB) can't be
@@ -376,7 +395,7 @@ The source is in [`tools/ServerAssetsExtractor`](tools/ServerAssetsExtractor). I
 
 **What gets checked before a pak is published:**
 - it is for the right changelist
-- it was made by the extractor (3.0.0 or later) with its default rules: `verify` passes, including its check that the
+- it was made by the extractor (3.1.0 or later) with its default rules: `verify` passes, including its check that the
   pak holds nothing the rules leave out, and `contents.txt` matches
 - it loads on a headless server
 
@@ -431,7 +450,9 @@ as does a pixeldrain or Dropbox link, while gofile and MEGA links have to be dow
 has passed the checks (`ServerAssetsExtractor verify <pak>` checks its format, that it holds nothing the rules leave
 out, its sig and `contents.txt`). A pak made with an extractor before 3.0.0 fails `verify`; run
 `ServerAssetsExtractor filter <pak>` on it, which keeps only what the current rules keep and writes a new sig, and
-publish that one. Even a trusted contributor's pak goes through `verify`, and through `filter` when it fails:
+publish that one. A pak made with 3.0.0 passes `verify` but lacks the levels with a built navmesh, which `filter`
+can't add back: ask for one made with 3.1.0, or `filter` the contributor's 2.0.0 pak if there is one. Even a trusted
+contributor's pak goes through `verify`, and through `filter` when it fails:
 
 1. Name it `ServerAssets-<version>-CL-<changelist>.pak`, and its sig, if it has one, `ServerAssets-<version>-CL-<changelist>.sig`.
 2. Create a release tagged `cl-<changelist>`, titled `<version> (CL-<changelist>)`, and upload the pak (and sig) to
@@ -455,6 +476,9 @@ copy.
 On 2026-11-12 every published full extraction was replaced this way: rebuilt with `filter` under rules version 3,
 which took out `AthenaCurveAtlas01` (a console-format texture, Season 5 and 6), the levels with console lighting or
 PhysX data, and the Save the World levels kept only for their navmeshes. Each release's notes list what went.
+Later that night they were rebuilt again, with 3.1.0's `filter` (rules version 4) run on the contributors' original
+paks, which brought back every level with a built navmesh, `Deimos_Gameplay` included. The console texture and the
+levels whose navmesh has no tiles stay out. The release notes say which levels came back.
 
 Game files never go in this repository's git history. They are only release assets, so the manifest and the
 contribution forms can live on even if a release is taken down.

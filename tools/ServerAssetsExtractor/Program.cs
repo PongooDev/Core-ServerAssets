@@ -18,7 +18,8 @@ public static partial class Program
           ServerAssetsExtractor [<build folder or Paks folder>] [options]
           ServerAssetsExtractor verify <pak> [--ue 4.20] [--rules <file>] [--allow-maps]
                                 check a pak: format, sig, contents.txt, and that it holds nothing the rules leave
-                                out (no texture, mesh, material, audio, lighting or other bulk data, no extra maps)
+                                out (no texture, mesh, material, audio, lighting or other bulk data, no extra maps;
+                                a level kept for its built navmesh may hold any of it)
           ServerAssetsExtractor filter <existing.pak> [--out new.pak] [--ue 4.20] [--rules <file>]
                                 copy a pak with only what the current rules keep (to update a published pak)
           ServerAssetsExtractor add <existing.pak> <files or folders...> [--out new.pak] [--force] [--ue 4.20]
@@ -37,8 +38,9 @@ public static partial class Program
           --include <prefix>    only pak paths starting with this, e.g. FortniteGame/Content/ (repeatable)
           --exclude <prefix>    leave out pak paths starting with this (repeatable)
           --max-size <size>     leave out any package bigger than this, e.g. 200MB
-          --include-maps        keep every map too (by default maps are left out, except the levels in
-                                rules.json's keepLevelPaths); platform-cooked data is still left out
+          --include-maps        keep every map too (by default maps are left out, except levels with built
+                                navigation data and rules.json's keepLevelPaths); platform-cooked data is still
+                                left out, except in a level kept for its navmesh
           --max-map-size <size> leave out maps (.umap) bigger than this, unless they hold navigation data
           --rules <file>        a rules.json other than the one next to the tool
           --dry-run             only list and count; writes nothing unless --out is given (then only the lists)
@@ -225,7 +227,7 @@ public static partial class Program
 
         Header($"Writing {pakPath}");
         sw.Restart();
-        var fileCount = WritePak(pakPath, kept, loose);
+        var fileCount = WritePak(pakPath, kept, loose, rules);
         PakWriter.WriteSig(pakPath, sigPath);
         File.WriteAllLines(Path.Combine(outPath, "contents.txt"), contents);
         File.WriteAllText(Path.Combine(outPath, "report.txt"), report.full);
@@ -349,13 +351,15 @@ public static partial class Program
 
         // Maps are left out: a server loads them from the game's own paks, and a console copy of a level would
         // replace the PC level (its meshes, lights and all) for a player sharing the build folder. Kept are the
-        // levels known to hold server-only data (keepLevelPaths), and levels with a navmesh only with
-        // keepNavMeshLevels (the PC builds carry the same navmeshes).
+        // levels with built navigation data (keepNavMeshLevels, decided first: the PC cook can lack the navmesh)
+        // and the levels known to hold server-only data (keepLevelPaths).
         foreach (var p in inScope.Where(p => p.Keep && p.IsMap))
         {
+            if (rules.IsNavMeshLevel(p)) continue;
             if (rules.KeptLevelPattern(p.GamePath) is { } kl) p.Why = "keepLevelPaths " + kl;
-            else if (p.HasNavMesh && rules.KeepNavMeshLevels) p.Why = "level with a navmesh (keepNavMeshLevels)";
-            else (p.Keep, p.Why) = (false, p.HasNavMesh ? "maps left out by default (one with a navmesh; keepNavMeshLevels is off)" : "maps left out by default");
+            else (p.Keep, p.Why) = (false, !p.HasNavMesh ? "maps left out by default"
+                : rules.KeepNavMeshLevels ? $"maps left out by default (its navmesh has {p.NavMeshTiles} built tiles, under navMeshLevelMinTiles)"
+                : "maps left out by default (one with a navmesh; keepNavMeshLevels is off)");
         }
         var keptLevels = inScope.Where(p => p.Keep && p.IsMap).Select(p => p.Path).ToHashSet(StringComparer.OrdinalIgnoreCase);
         foreach (var p in inScope.Where(p => p.Keep && !p.IsMap && p.Path.EndsWith("_BuiltData", StringComparison.OrdinalIgnoreCase)))
@@ -377,14 +381,18 @@ public static partial class Program
         return (loose, looseSkipped);
     }
 
-    /// <summary>Writes the kept packages' .uasset/.umap and .uexp and the kept loose files, sorted by path. Bulk data is never written.</summary>
-    private static int WritePak(string pakPath, List<PackageInfo> kept, List<CUE4Parse.FileProvider.Objects.GameFile> loose)
+    /// <summary>
+    /// Writes the kept packages' .uasset/.umap and .uexp and the kept loose files, sorted by path. Bulk data is only
+    /// written for a level kept for its navigation data, so that level's header never meets the PC's bulk file.
+    /// </summary>
+    private static int WritePak(string pakPath, List<PackageInfo> kept, List<CUE4Parse.FileProvider.Objects.GameFile> loose, Rules rules)
     {
         var files = new List<CUE4Parse.FileProvider.Objects.GameFile>();
         foreach (var p in kept)
         {
             files.Add(p.Main);
             if (p.Uexp != null) files.Add(p.Uexp);
+            if (rules.IsNavMeshLevel(p)) files.AddRange(p.Bulk);
         }
         files.AddRange(loose);
         files = files.OrderBy(f => f.Path, StringComparer.OrdinalIgnoreCase).ToList();
@@ -439,11 +447,14 @@ public static partial class Program
         {
             s.AppendLine($"  maps left out by default:{mapSkips.Count,8:N0}   {Size(mapSkips.Sum(p => p.HeaderSize + p.BulkSize))}   (--include-maps keeps them)");
             var navKept = kept.Where(p => p.IsMap && p.HasNavMesh).ToList();
-            s.AppendLine($"  levels with a navmesh, kept: {navKept.Count,5:N0}   {Size(navKept.Sum(p => p.HeaderSize))}{(rules.KeepNavMeshLevels ? "" : "   (keepLevelPaths ones only; keepNavMeshLevels is off)")}");
+            s.AppendLine($"  levels with a navmesh, kept: {navKept.Count,5:N0}   {Size(navKept.Sum(p => p.HeaderSize + (rules.IsNavMeshLevel(p) ? p.BulkSize : 0)))}{(rules.KeepNavMeshLevels ? "" : "   (keepLevelPaths ones only; keepNavMeshLevels is off)")}");
+            var navCooked = navKept.Where(p => rules.IsNavMeshLevel(p) && rules.PlatformCooked(p) != null).ToList();
+            if (navCooked.Count > 0)
+                s.AppendLine($"    of them with platform-cooked data, kept for the navmesh: {navCooked.Count:N0} (they override the PC level)");
         }
         s.AppendLine($"  config files (.ini):     {loose.Count,8:N0}   {Size(loose.Sum(f => f.Size))}");
         s.AppendLine($"  pak size (about):        {Size(keptBytes + (kept.Count * 2 + loose.Count) * 150L)}");
-        var bulkSkipped = kept.Where(p => p.Bulk.Count > 0).ToList();
+        var bulkSkipped = kept.Where(p => p.Bulk.Count > 0 && !rules.IsNavMeshLevel(p)).ToList();
         if (bulkSkipped.Count > 0)
             s.AppendLine($"  bulk data (.ubulk/.uptnl) of kept packages, left out: {bulkSkipped.Count:N0} packages, {Size(bulkSkipped.Sum(p => p.BulkSize))}");
         var unreadable = inScope.Count(p => p.Class == "<unreadable>");
@@ -483,9 +494,9 @@ public static partial class Program
         if (navMeshes.Count == 0) s.AppendLine("  no navmesh actor (RecastNavMesh or a subclass) in any level");
         else
         {
-            s.AppendLine("  navmesh actors (the export's serialized size includes its tile data):");
+            s.AppendLine("  navmesh actors (the export's serialized size includes its tile data; levels' built Recast tiles counted):");
             foreach (var (p, n) in navMeshes.OrderByDescending(x => x.n.SerialSize))
-                s.AppendLine($"    {Size(n.SerialSize),10}  {n.Class} {n.ExportName} in {p.GamePath} ({(p.Keep ? "kept" : "left out: " + p.Why)}, package {Size(p.HeaderSize)})");
+                s.AppendLine($"    {Size(n.SerialSize),10}  {n.Class} {n.ExportName} in {p.GamePath}{(p.IsMap ? $", {n.Tiles:N0} tiles" : "")} ({(p.Keep ? "kept" : "left out: " + p.Why)}, package {Size(p.HeaderSize)})");
         }
         var builtData = inScope.Where(p => p.Path.EndsWith("_BuiltData", StringComparison.OrdinalIgnoreCase)).ToList();
         s.AppendLine($"  *_BuiltData packages: {builtData.Count:N0} ({Size(builtData.Sum(p => p.HeaderSize))}), kept: {builtData.Count(p => p.Keep):N0}");

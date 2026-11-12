@@ -72,7 +72,7 @@ public static partial class Program
         Console.WriteLine(report.summary);
 
         Header($"Writing {outPak}");
-        var count = WritePak(outPak, kept, loose);
+        var count = WritePak(outPak, kept, loose, rules);
         PakWriter.WriteSig(outPak, sigPath);
         var contents = kept.Select(p => p.GamePath).Concat(loose.Select(f => f.Path)).OrderBy(s => s, StringComparer.OrdinalIgnoreCase).ToList();
         File.WriteAllLines(Path.Combine(outDir, "contents.txt"), contents);
