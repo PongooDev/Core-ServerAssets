@@ -210,7 +210,7 @@ console-format texture; the check of version 3 and later fails such a pak.
 ### Step by step
 
 1. Download `ServerAssetsExtractor.exe` from the
-   [extractor release](https://github.com/PongooDev/Core-ServerAssets/releases/tag/extractor-v3.1). It is a single
+   [extractor release](https://github.com/PongooDev/Core-ServerAssets/releases/tag/extractor-v3.1.1). It is a single
    Windows exe; you don't need .NET or anything else.
 2. Get a console build of the **same version and changelist** as a PC build Core supports (see
    [the list](#server-assets-to-get)): a PlayStation 4 build for Season 12 and earlier, or an Xbox build for any
@@ -221,7 +221,9 @@ console-format texture; the check of version 3 and later fails such a pak.
    it, or its `Paks` folder) into the window and press Enter. You can also drop the folder onto the exe.
 4. Wait. It finds the paks, the changelist, the engine version and the AES key by itself where it can, then reads
    every package (a minute or two on a fast disk) and writes the pak (about 285 MB for a Season 2 build, 380 MB for
-   6.00).
+   6.00). A console build usually doesn't say its changelist: then it asks, and offers the changelist of the
+   version the paks name when only one build of that version is known. Check it against the PC build you are
+   matching before you press Enter.
 5. It checks the pak it made and ends with **Done**. Next to the exe there is now a
    `ServerAssets-<version>-CL-<changelist>` folder with four files:
    - `ServerAssets-<version>-CL-<changelist>.pak`, the pak
@@ -312,7 +314,7 @@ Run `ServerAssetsExtractor --help` for all of them. The useful ones:
 | --- | --- |
 | `--out <folder>` | Where the files go: an empty or new folder, never inside the build |
 | `--dry-run` | Only list and count. With `--out`, it writes `contents.txt` and `report.txt` but no pak |
-| `--ue 4.19`, `--ue 4.20` or `--ue 4.21` | The engine version, if it can't tell: 4.19 for 1.7.2 to 2.4.2, 4.20 for 2.5 to 4.x, 4.21 for 5.x and 6.x |
+| `--ue 4.19`, `--ue 4.20`, `--ue 4.21` or `--ue 4.22` | The engine version, if it can't tell: 4.19 for 1.7.2 to 2.4.2, 4.20 for 2.5 to 4.x, 4.21 for 5.x, 6.x and 7.00, 4.22 for 7.10 to 7.40 |
 | `--aes <hex>` | The AES key |
 | `--cl <changelist>` | The changelist, if it can't find it (it names the files) |
 | `--include <prefix>`, `--exclude <prefix>` | Only, or not, pak paths starting with this, e.g. `FortniteGame/Content/` |
@@ -358,7 +360,7 @@ ServerAssetsExtractor add <existing.pak> <files or folders...> [--out new.pak] [
 - **"Not mounted: ..."** for some paks: those need a key the extractor doesn't know (a dynamic key). FModel's
   dynamic keys for the build are used when it has them; otherwise those paks' files are left out.
 - **"No pak could be mounted"**, or most packages unreadable in `report.txt`: the engine version is wrong. Pass
-  `--ue 4.19`, `--ue 4.20` or `--ue 4.21`.
+  `--ue 4.19`, `--ue 4.20`, `--ue 4.21` or `--ue 4.22`.
 - **The final check shows FAIL**: don't submit the pak. Open an issue with `report.txt` instead. "packages are ones
   the rules leave out" means the pak has platform-cooked or other left-out content: it was made with an older
   extractor or edited rules. Make it again with the current extractor and its own `rules.json`.

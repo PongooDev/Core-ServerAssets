@@ -7,7 +7,7 @@ namespace ServerAssetsExtractor;
 /// <summary>Finds a build's paks, changelist and engine version.</summary>
 public static class BuildInfo
 {
-    /// <summary>The builds Core supports or has paks for: changelist, Fortnite version, engine version.</summary>
+    /// <summary>The builds Core supports or takes paks for: changelist, Fortnite version, engine version.</summary>
     public static readonly (int cl, string version, EGame ue)[] KnownBuilds =
     [
         (3790078, "1.10", EGame.GAME_UE4_19),
@@ -53,9 +53,26 @@ public static class BuildInfo
         (4543176, "6.22", EGame.GAME_UE4_21),
         (4573096, "6.30", EGame.GAME_UE4_21),
         (4573279, "6.31", EGame.GAME_UE4_21),
+        (4629139, "7.00", EGame.GAME_UE4_21),
+        (4667333, "7.10", EGame.GAME_UE4_22),
+        (4727874, "7.20", EGame.GAME_UE4_22),
+        (4834550, "7.30", EGame.GAME_UE4_22),
+        (5046157, "7.40", EGame.GAME_UE4_22),
     ];
 
     public static string? VersionOf(int cl) => KnownBuilds.FirstOrDefault(b => b.cl == cl).version;
+
+    /// <summary>
+    /// The known changelists of a Fortnite version as a build's VersionDisplayName writes it: as written, else without
+    /// a last ".0" (7.00.0 is 7.00). Several where a version had more than one build.
+    /// </summary>
+    public static List<int> ChangelistsOf(string shown)
+    {
+        var exact = KnownBuilds.Where(b => b.version == shown).Select(b => b.cl).ToList();
+        if (exact.Count > 0 || !shown.EndsWith(".0")) return exact;
+        var trimmed = shown[..^2];
+        return KnownBuilds.Where(b => b.version == trimmed).Select(b => b.cl).ToList();
+    }
 
     /// <summary>The engine version a changelist was built with, or null if it can't be told.</summary>
     public static EGame? UeOf(int cl)
@@ -64,7 +81,8 @@ public static class BuildInfo
         if (known.cl != 0) return known.ue;
         if (cl >= 3700000 && cl < 3889387) return EGame.GAME_UE4_19; // 1.7.2 .. 2.4.2
         if (cl >= 3889387 && cl < 4200000) return EGame.GAME_UE4_20; // 2.5 .. 4.x
-        if (cl >= 4200000 && cl < 4700000) return EGame.GAME_UE4_21; // 5.x .. 6.x
+        if (cl >= 4200000 && cl < 4667333) return EGame.GAME_UE4_21; // 5.x .. 7.00
+        if (cl >= 4667333 && cl <= 5046157) return EGame.GAME_UE4_22; // 7.10 .. 7.40
         return null;
     }
 

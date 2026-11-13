@@ -30,7 +30,7 @@ public static partial class Program
           --out <folder>        where the pak, sig, contents.txt and report.txt go
                                 (default: a new ServerAssets-<version>-CL-<cl> folder in the current folder,
                                 or next to the exe when it is started without options)
-          --ue <version>        engine version: 4.19 (Fortnite 1.7.2-2.4.2), 4.20 (2.5-4.x) or 4.21 (5.x-6.x).
+          --ue <version>        engine version: 4.19 (Fortnite 1.7.2-2.4.2), 4.20 (2.5-4.x), 4.21 (5.x-7.00) or 4.22 (7.10-7.40).
                                 Found by itself from the changelist or FModel's settings when left out
           --aes <hex>           the build's AES key. By default it is read from FModel's settings
                                 (%APPDATA%\FModel\AppSettings.json). The key is never printed or saved
@@ -174,6 +174,35 @@ public static partial class Program
             {
                 ue = ue2;
                 ueFrom = $"changelist {paksCl}";
+                provider.Dispose();
+                provider = Mount(paks, ue, keys, o);
+            }
+        }
+
+        // A console build usually has no Build.version, and its folder name may not say the changelist either. Its
+        // paks' DefaultEngine.ini names the version (VersionDisplayName), but a version can be several changelists
+        // and a patch's ini can still name the version it patched (4.4.1's and 4.4.2's say 4.4.0), so the changelist
+        // is asked for, with the one known build of that version offered.
+        if (cl == null && _interactive)
+        {
+            var shown = DisplayVersionOf(provider);
+            var known = shown != null ? BuildInfo.ChangelistsOf(shown) : [];
+            int? offered = known.Count == 1 ? known[0] : null;
+            Console.WriteLine();
+            Console.WriteLine("The build's changelist wasn't found" + (shown == null ? "." :
+                $": the paks say Fortnite {shown}" + (known.Count > 0 ? ", which is " + string.Join(" or ", known.Select(c => "CL-" + c)) : "") + "."));
+            Console.WriteLine(offered != null
+                ? $"Type the changelist and press Enter, or just press Enter for CL-{offered}:"
+                : "Type the changelist and press Enter, or just press Enter to go on without one:");
+            Console.Write("> ");
+            var line = (Console.ReadLine() ?? "").Trim();
+            if (line.Length == 0) cl = offered;
+            else if (int.TryParse(line.TrimStart('C', 'L', 'c', 'l', '-', ' '), out var typed) && typed > 0) cl = typed;
+            else Warn($"\"{line}\" isn't a changelist: going on without one.");
+            if (cl is { } given && o.Ue == null && ueFrom.StartsWith("default") && BuildInfo.UeOf(given) is { } ue3 && ue3 != ue)
+            {
+                ue = ue3;
+                ueFrom = $"changelist {given}";
                 provider.Dispose();
                 provider = Mount(paks, ue, keys, o);
             }
@@ -410,6 +439,17 @@ public static partial class Program
         }
         EndProgress();
         return files.Count;
+    }
+
+    /// <summary>The Fortnite version the paks' own DefaultEngine.ini names (VersionDisplayName), or null.</summary>
+    private static string? DisplayVersionOf(PakListProvider provider)
+    {
+        var ini = provider.Files.Values.FirstOrDefault(f => f.Path.EndsWith("/Config/DefaultEngine.ini", StringComparison.OrdinalIgnoreCase)
+            && !f.Path.StartsWith("Engine/", StringComparison.OrdinalIgnoreCase));
+        if (ini == null) return null;
+        var m = System.Text.RegularExpressions.Regex.Match(Encoding.UTF8.GetString(ini.Read()), @"^\s*VersionDisplayName\s*=\s*([0-9][0-9.]*)",
+            System.Text.RegularExpressions.RegexOptions.Multiline);
+        return m.Success ? m.Groups[1].Value : null;
     }
 
     /// <summary>The engine version of a pak named ...-CL-nnnnnnn.pak, or null.</summary>
