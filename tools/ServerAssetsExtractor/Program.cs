@@ -30,7 +30,8 @@ public static partial class Program
           --out <folder>        where the pak, sig, contents.txt and report.txt go
                                 (default: a new ServerAssets-<version>-CL-<cl> folder in the current folder,
                                 or next to the exe when it is started without options)
-          --ue <version>        engine version: 4.19 (Fortnite 1.7.2-2.4.2), 4.20 (2.5-4.x), 4.21 (5.x-7.00) or 4.22 (7.10-7.40).
+          --ue <version>        engine version: 4.19 (Fortnite 1.7.2-2.4.2), 4.20 (2.5-4.x), 4.21 (5.x-7.00), 4.22 (7.10-8.00)
+                                or 4.23 (8.20-8.51).
                                 Found by itself from the changelist or FModel's settings when left out
           --aes <hex>           the build's AES key. By default it is read from FModel's settings
                                 (%APPDATA%\FModel\AppSettings.json). The key is never printed or saved

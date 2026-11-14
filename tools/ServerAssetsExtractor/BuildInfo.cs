@@ -58,6 +58,12 @@ public static class BuildInfo
         (4727874, "7.20", EGame.GAME_UE4_22),
         (4834550, "7.30", EGame.GAME_UE4_22),
         (5046157, "7.40", EGame.GAME_UE4_22),
+        (5203069, "8.00", EGame.GAME_UE4_22),
+        (5625478, "8.20", EGame.GAME_UE4_23),
+        (5793395, "8.30", EGame.GAME_UE4_23),
+        (6005771, "8.40", EGame.GAME_UE4_23),
+        (6058028, "8.50", EGame.GAME_UE4_23),
+        (6165369, "8.51", EGame.GAME_UE4_23),
     ];
 
     public static string? VersionOf(int cl) => KnownBuilds.FirstOrDefault(b => b.cl == cl).version;
@@ -82,7 +88,8 @@ public static class BuildInfo
         if (cl >= 3700000 && cl < 3889387) return EGame.GAME_UE4_19; // 1.7.2 .. 2.4.2
         if (cl >= 3889387 && cl < 4200000) return EGame.GAME_UE4_20; // 2.5 .. 4.x
         if (cl >= 4200000 && cl < 4667333) return EGame.GAME_UE4_21; // 5.x .. 7.00
-        if (cl >= 4667333 && cl <= 5046157) return EGame.GAME_UE4_22; // 7.10 .. 7.40
+        if (cl >= 4667333 && cl <= 5203069) return EGame.GAME_UE4_22; // 7.10 .. 8.00
+        if (cl > 5203069 && cl <= 6165369) return EGame.GAME_UE4_23; // 8.20 .. 8.51
         return null;
     }
 
@@ -90,7 +97,7 @@ public static class BuildInfo
     {
         var m = Regex.Match(s.Trim(), @"^(?:GAME_)?(?:UE)?(\d)[._]?(\d{1,2})$", RegexOptions.IgnoreCase);
         if (!m.Success || !Enum.TryParse<EGame>($"GAME_UE{m.Groups[1].Value}_{m.Groups[2].Value}", out var g))
-            throw new ArgumentException($"unknown engine version \"{s}\" (use e.g. 4.19, 4.20 or 4.21)");
+            throw new ArgumentException($"unknown engine version \"{s}\" (use e.g. 4.19, 4.20, 4.21, 4.22 or 4.23)");
         return g;
     }
 
