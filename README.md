@@ -50,8 +50,14 @@ The paks are published as [releases](https://github.com/PongooDev/Core-ServerAss
 [7.00 (CL-4629139)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4629139),
 [7.10 (CL-4667333)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4667333),
 [7.20 (CL-4727874)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4727874),
-[7.30 (CL-4834550)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4834550) and
-[7.40 (CL-5046157)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-5046157), each with `AIDirector_Fortnite`, `Athena_LocationVolumes` and `Athena_GameplayActors`. 4.0's also has Save the World's loot tables and `LootQuotaData`. Every full extraction was rebuilt on 2026-11-12 under the extractor's rules version 4: everything cooked for the console's graphics stays out (textures, lighting data, the levels that held them), so a pak doesn't replace what a host's own game shows, except in the levels with a built navmesh. Those are kept whole, because the server needs the navmesh and a PC cook can lack it (6.20 to 6.30's `Deimos_Gameplay`). Paks are wanted for every build, including full extractions to replace these early hand-picked ones. If you have a console build, see
+[7.30 (CL-4834550)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4834550),
+[7.40 (CL-5046157)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-5046157),
+[8.00 (CL-5203069)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-5203069),
+[8.20 (CL-5625478)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-5625478),
+[8.30 (CL-5793395)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-5793395),
+[8.40 (CL-6005771)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-6005771),
+[8.50 (CL-6058028)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-6058028) and
+[8.51 (CL-6165369)](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-6165369), each with `AIDirector_Fortnite`, `Athena_LocationVolumes` and `Athena_GameplayActors`. 4.0's also has Save the World's loot tables and `LootQuotaData`. Every full extraction was rebuilt on 2026-11-12 under the extractor's rules version 4: everything cooked for the console's graphics stays out (textures, lighting data, the levels that held them), so a pak doesn't replace what a host's own game shows, except in the levels with a built navmesh. Those are kept whole, because the server needs the navmesh and a PC cook can lack it (6.20 to 6.30's `Deimos_Gameplay`). Paks are wanted for every build, including full extractions to replace these early hand-picked ones. If you have a console build, see
 [Making a pak with the extractor](#making-a-pak-with-the-extractor).
 
 ## Contents
@@ -115,7 +121,7 @@ the pak would replace a PC player's own copy of it.
 Server-only content found so far includes `AIDirector_Fortnite` (1.10 and later), the POI volumes in
 `Athena_LocationVolumes` and `Athena_GameplayActors` (3.0 and later), 4.0's Save the World loot tables
 (`LootTierData_Client`, `LootPackages_Client`), `LootQuotaData`, the server loot tier data, and the fiends' navmesh in
-`Deimos_Gameplay` (6.20 to 6.30; the 7.10 to 7.40 paks have it too). A full extraction carries all of them. If you find server-only content the extractor
+`Deimos_Gameplay` (6.20 to 6.30; the 7.10 to 8.51 paks have it too). A full extraction carries all of them. If you find server-only content the extractor
 leaves out, [open an issue](https://github.com/PongooDev/Core-ServerAssets/issues/new?template=missing_server_asset.yml).
 
 Core supports these builds. Each pak must match one of them exactly:
@@ -191,6 +197,12 @@ Core supports these builds. Each pak must match one of them exactly:
 | 7.20 (CL-4727874) | [`cl-4727874`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4727874), pak and sig | Full data extraction (rules version 4, with its levels that have a built navmesh), with `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors`, `Deimos_Gameplay` (the fiends' navmesh), `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | the server loot tier data; Ducki67's pak ([#23](https://github.com/PongooDev/Core-ServerAssets/issues/23)), from a PlayStation 4 build, so the CL is the archived PC build's of the same version, and Core doesn't support Season 7 yet, so it's untested on a server; the pak's `DefaultEngine.ini` reads 7.20.0 |
 | 7.30 (CL-4834550) | [`cl-4834550`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-4834550), pak and sig | Full data extraction (rules version 4, with its levels that have a built navmesh), with `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors`, `Deimos_Gameplay` (the fiends' navmesh), `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | the server loot tier data; Ducki67's pak ([#23](https://github.com/PongooDev/Core-ServerAssets/issues/23)), from a PlayStation 4 build, so the CL is the archived PC build's of the same version, and Core doesn't support Season 7 yet, so it's untested on a server; the pak's `DefaultEngine.ini` reads 7.30.0 |
 | 7.40 (CL-5046157) | [`cl-5046157`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-5046157), pak and sig | Full data extraction (rules version 4, with its levels that have a built navmesh), with `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors`, `Deimos_Gameplay` (the fiends' navmesh), `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | the server loot tier data; Ducki67's pak ([#23](https://github.com/PongooDev/Core-ServerAssets/issues/23)), from a PlayStation 4 build, so the CL is the archived PC build's of the same version, and Core doesn't support Season 7 yet, so it's untested on a server; the pak's `DefaultEngine.ini` reads 7.40.0 |
+| 8.00 (CL-5203069) | [`cl-5203069`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-5203069), pak and sig | Full data extraction (rules version 4, with its levels that have a built navmesh), with `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors`, `Deimos_Gameplay` (the fiends' navmesh), `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | the server loot tier data; Ducki67's pak ([#24](https://github.com/PongooDev/Core-ServerAssets/issues/24)), from a PlayStation 4 build, so the CL is the archived PC build's of the same version, and Core doesn't support Season 8 yet, so it's untested on a server; the pak's `DefaultEngine.ini` reads 8.00.0 |
+| 8.20 (CL-5625478) | [`cl-5625478`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-5625478), pak and sig | Full data extraction (rules version 4, with its levels that have a built navmesh), with `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors`, `Deimos_Gameplay` (the fiends' navmesh), `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | the server loot tier data; Ducki67's pak ([#24](https://github.com/PongooDev/Core-ServerAssets/issues/24)), from a PlayStation 4 build, so the CL is the archived PC build's of the same version, and Core doesn't support Season 8 yet, so it's untested on a server; the pak's `DefaultEngine.ini` reads 8.20.0 |
+| 8.30 (CL-5793395) | [`cl-5793395`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-5793395), pak and sig | Full data extraction (rules version 4, with its levels that have a built navmesh), with `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors`, `Deimos_Gameplay` (the fiends' navmesh), `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | the server loot tier data; Ducki67's pak ([#24](https://github.com/PongooDev/Core-ServerAssets/issues/24)), from a PlayStation 4 build, so the CL is the archived PC build's of the same version, and Core doesn't support Season 8 yet, so it's untested on a server; the pak's `DefaultEngine.ini` reads 8.30.0 |
+| 8.40 (CL-6005771) | [`cl-6005771`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-6005771), pak and sig | Full data extraction (rules version 4, with its levels that have a built navmesh), with `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors`, `Deimos_Gameplay` (the fiends' navmesh), `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | the server loot tier data; Ducki67's pak ([#24](https://github.com/PongooDev/Core-ServerAssets/issues/24)), from a PlayStation 4 build, so the CL is the archived PC build's of the same version, and Core doesn't support Season 8 yet, so it's untested on a server; the pak's `DefaultEngine.ini` reads 8.40.0 |
+| 8.50 (CL-6058028) | [`cl-6058028`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-6058028), pak and sig | Full data extraction (rules version 4, with its levels that have a built navmesh), with `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors`, `Deimos_Gameplay` (the fiends' navmesh), `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | the server loot tier data; Ducki67's pak ([#24](https://github.com/PongooDev/Core-ServerAssets/issues/24)), from a PlayStation 4 build, so the CL is the archived PC build's of the same version, and Core doesn't support Season 8 yet, so it's untested on a server; the pak's `DefaultEngine.ini` reads 8.50.0 |
+| 8.51 (CL-6165369) | [`cl-6165369`](https://github.com/PongooDev/Core-ServerAssets/releases/tag/cl-6165369), pak and sig | Full data extraction (rules version 4, with its levels that have a built navmesh), with `AIDirector_Fortnite`, `Athena_LocationVolumes`, `Athena_GameplayActors`, `Deimos_Gameplay` (the fiends' navmesh), `LootTierData_Client`, `LootPackages_Client`, `LootQuotaData` | the server loot tier data; Ducki67's pak ([#24](https://github.com/PongooDev/Core-ServerAssets/issues/24)), from a PlayStation 4 build, so the CL is the archived PC build's of the same version, and Core doesn't support Season 8 yet, so it's untested on a server; the pak's `DefaultEngine.ini` reads 8.51.0 |
 
 The first 3.0 pak ([#1](https://github.com/PongooDev/Core-ServerAssets/issues/1)) only had `Athena_LocationVolumes`,
 because it came from a PS4 patch PKG, which carries only the changed blocks. MrPodge6's pak
@@ -218,7 +230,7 @@ console-format texture; the check of version 3 and later fails such a pak.
 ### Step by step
 
 1. Download `ServerAssetsExtractor.exe` from the
-   [extractor release](https://github.com/PongooDev/Core-ServerAssets/releases/tag/extractor-v3.1.1). It is a single
+   [extractor release](https://github.com/PongooDev/Core-ServerAssets/releases/tag/extractor-v3.1.2). It is a single
    Windows exe; you don't need .NET or anything else.
 2. Get a console build of the **same version and changelist** as a PC build Core supports (see
    [the list](#server-assets-to-get)): a PlayStation 4 build for Season 12 and earlier, or an Xbox build for any
@@ -322,7 +334,7 @@ Run `ServerAssetsExtractor --help` for all of them. The useful ones:
 | --- | --- |
 | `--out <folder>` | Where the files go: an empty or new folder, never inside the build |
 | `--dry-run` | Only list and count. With `--out`, it writes `contents.txt` and `report.txt` but no pak |
-| `--ue 4.19`, `--ue 4.20`, `--ue 4.21` or `--ue 4.22` | The engine version, if it can't tell: 4.19 for 1.7.2 to 2.4.2, 4.20 for 2.5 to 4.x, 4.21 for 5.x, 6.x and 7.00, 4.22 for 7.10 to 7.40 |
+| `--ue 4.19`, `--ue 4.20`, `--ue 4.21`, `--ue 4.22` or `--ue 4.23` | The engine version, if it can't tell: 4.19 for 1.7.2 to 2.4.2, 4.20 for 2.5 to 4.x, 4.21 for 5.x, 6.x and 7.00, 4.22 for 7.10 to 8.00, 4.23 for 8.20 to 8.51 |
 | `--aes <hex>` | The AES key |
 | `--cl <changelist>` | The changelist, if it can't find it (it names the files) |
 | `--include <prefix>`, `--exclude <prefix>` | Only, or not, pak paths starting with this, e.g. `FortniteGame/Content/` |
@@ -368,7 +380,7 @@ ServerAssetsExtractor add <existing.pak> <files or folders...> [--out new.pak] [
 - **"Not mounted: ..."** for some paks: those need a key the extractor doesn't know (a dynamic key). FModel's
   dynamic keys for the build are used when it has them; otherwise those paks' files are left out.
 - **"No pak could be mounted"**, or most packages unreadable in `report.txt`: the engine version is wrong. Pass
-  `--ue 4.19`, `--ue 4.20`, `--ue 4.21` or `--ue 4.22`.
+  `--ue 4.19`, `--ue 4.20`, `--ue 4.21`, `--ue 4.22` or `--ue 4.23`.
 - **The final check shows FAIL**: don't submit the pak. Open an issue with `report.txt` instead. "packages are ones
   the rules leave out" means the pak has platform-cooked or other left-out content: it was made with an older
   extractor or edited rules. Make it again with the current extractor and its own `rules.json`.
