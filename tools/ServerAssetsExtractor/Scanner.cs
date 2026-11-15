@@ -3,6 +3,7 @@ using CUE4Parse.FileProvider.Objects;
 using CUE4Parse.FileProvider.Vfs;
 using CUE4Parse.UE4.Assets;
 using CUE4Parse.UE4.Versions;
+using CUE4Parse.UE4.VirtualFileSystem;
 
 namespace ServerAssetsExtractor;
 
@@ -93,6 +94,46 @@ public sealed class PackageInfo
 
 public static class Scanner
 {
+    /// <summary>
+    /// The loose files (everything but packages and their payloads), one per path. A path can be in more than one
+    /// mounted pak: Season 10's pakchunkearly carries copies of the config files pakchunk0 has, and writing both puts
+    /// the same name in the pak twice. CUE4Parse then sees one file for the path while the index lists two, which is
+    /// the failure verify reports ("CUE4Parse sees 1000 files, the index has 1001").
+    /// </summary>
+    public static List<GameFile> LooseFiles(AbstractVfsFileProvider provider, out int duplicates)
+    {
+        var kept = new Dictionary<string, GameFile>(provider.PathComparer);
+        duplicates = 0;
+        foreach (var file in provider.Files.Values)
+        {
+            if (file.IsUePackage || file.IsUePackagePayload) continue;
+            if (!kept.TryGetValue(file.Path, out var current)) kept[file.Path] = file;
+            else
+            {
+                duplicates++;
+                if (MountsFirst(file, current)) kept[file.Path] = file;
+            }
+        }
+        return kept.Values.OrderBy(f => f.Path, StringComparer.OrdinalIgnoreCase).ToList();
+    }
+
+    /// <summary>
+    /// True if a running game loads <paramref name="candidate"/> rather than <paramref name="current"/> for their path:
+    /// the higher read order wins, and on a tie the pak mounted first, because FPakPlatformFile::Mount adds a pak to
+    /// PakFiles and stable-sorts it by read order, so the pak mounted first keeps its place, and FindFileInPakFiles
+    /// returns the first pak with the file. MountAllPakFiles mounts one folder's paks in descending path order.
+    /// </summary>
+    private static bool MountsFirst(GameFile candidate, GameFile current)
+    {
+        var (candidateOrder, currentOrder) = (ReadOrder(candidate), ReadOrder(current));
+        if (candidateOrder != currentOrder) return candidateOrder > currentOrder;
+        return string.Compare(PakPath(candidate), PakPath(current), StringComparison.OrdinalIgnoreCase) > 0;
+    }
+
+    private static long ReadOrder(GameFile file) => file is VfsEntry { Vfs: { } vfs } ? vfs.ReadOrder : 0;
+
+    private static string PakPath(GameFile file) => file is VfsEntry { Vfs: { } vfs } ? vfs.Path : "";
+
     /// <summary>Groups the mounted files into packages and reads each package's header to find its main class.</summary>
     public static List<PackageInfo> Scan(AbstractVfsFileProvider provider, Rules rules, Action<int, int> progress)
     {

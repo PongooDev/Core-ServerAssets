@@ -224,14 +224,15 @@ public static partial class Program
         var inScope = all.Where(p => InScope(p.Path, o)).ToList();
         ApplyDecisions(inScope, rules, o);
         var kept = inScope.Where(p => p.Keep).ToList();
-        var (loose, looseSkipped) = DecideLooseFiles(provider, rules, o);
+        var (loose, looseSkipped, duplicateLooseFiles) = DecideLooseFiles(provider, rules, o);
 
         // 4. Report.
-        var report = BuildReport(paksDir, cl, version, ue, rules, o, all, inScope, kept, loose, looseSkipped);
+        var report = BuildReport(paksDir, cl, version, ue, rules, o, all, inScope, kept, loose, looseSkipped, duplicateLooseFiles);
         Console.WriteLine();
         Console.WriteLine(report.summary);
 
-        var contents = kept.Select(p => p.GamePath).Concat(loose.Select(f => f.Path)).OrderBy(s => s, StringComparer.OrdinalIgnoreCase).ToList();
+        var contents = kept.Select(p => p.GamePath).Concat(loose.Select(f => f.Path))
+            .Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(s => s, StringComparer.OrdinalIgnoreCase).ToList();
 
         if (o.DryRun)
         {
@@ -397,18 +398,19 @@ public static partial class Program
                 (p.Keep, p.Why) = (false, "maps left out by default (_BuiltData of a left-out level)");
     }
 
-    /// <summary>The loose (non-package) files kept, and the ones left out grouped by rule.</summary>
-    private static (List<CUE4Parse.FileProvider.Objects.GameFile> kept, List<(string why, int count, long size, string example)> skipped)
+    /// <summary>The loose (non-package) files kept, one per path, and the ones left out grouped by rule. A path in more
+    /// than one pak is written once (the copy the game loads), so the pak never lists a name twice.</summary>
+    private static (List<CUE4Parse.FileProvider.Objects.GameFile> kept, List<(string why, int count, long size, string example)> skipped, int duplicates)
         DecideLooseFiles(CUE4Parse.FileProvider.Vfs.AbstractVfsFileProvider provider, Rules rules, Options o)
     {
-        var looseDecisions = provider.Files.Values
-            .Where(f => !f.IsUePackage && !f.IsUePackagePayload && InScope(f.Path, o))
-            .Select(f => (file: f, d: rules.DecideLoose(f.Path)))
-            .ToList();
+        var files = Scanner.LooseFiles(provider, out var duplicates).Where(f => InScope(f.Path, o)).ToList();
+        var looseDecisions = files.Select(f => (file: f, d: rules.DecideLoose(f.Path))).ToList();
         var loose = looseDecisions.Where(x => x.d.keep).Select(x => x.file).OrderBy(f => f.Path, StringComparer.OrdinalIgnoreCase).ToList();
         var looseSkipped = looseDecisions.Where(x => !x.d.keep).GroupBy(x => x.d.why)
             .Select(g => (why: g.Key, count: g.Count(), size: g.Sum(x => x.file.Size), example: g.First().file.Path)).ToList();
-        return (loose, looseSkipped);
+        if (duplicates > 0)
+            Info($"  {duplicates:N0} files are in more than one pak (e.g. pakchunkearly repeats pakchunk0's config files); writing one copy of each, the one the game loads");
+        return (loose, looseSkipped, duplicates);
     }
 
     /// <summary>
@@ -470,7 +472,7 @@ public static partial class Program
 
     private static (string summary, string full) BuildReport(string paksDir, int? cl, string? version, EGame ue, Rules rules,
         Options o, List<PackageInfo> all, List<PackageInfo> inScope, List<PackageInfo> kept, List<CUE4Parse.FileProvider.Objects.GameFile> loose,
-        List<(string why, int count, long size, string example)> looseSkipped)
+        List<(string why, int count, long size, string example)> looseSkipped, int duplicateLooseFiles)
     {
         var s = new StringBuilder();
         var keptBytes = kept.Sum(p => p.HeaderSize) + loose.Sum(f => f.Size);
@@ -494,6 +496,8 @@ public static partial class Program
                 s.AppendLine($"    of them with platform-cooked data, kept for the navmesh: {navCooked.Count:N0} (they override the PC level)");
         }
         s.AppendLine($"  config files (.ini):     {loose.Count,8:N0}   {Size(loose.Sum(f => f.Size))}");
+        if (duplicateLooseFiles > 0)
+            s.AppendLine($"  copies dropped:          {duplicateLooseFiles,8:N0}   (the same path in more than one pak, e.g. pakchunkearly and pakchunk0)");
         s.AppendLine($"  pak size (about):        {Size(keptBytes + (kept.Count * 2 + loose.Count) * 150L)}");
         var bulkSkipped = kept.Where(p => p.Bulk.Count > 0 && !rules.IsNavMeshLevel(p)).ToList();
         if (bulkSkipped.Count > 0)

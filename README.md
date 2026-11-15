@@ -411,6 +411,7 @@ The source is in [`tools/ServerAssetsExtractor`](tools/ServerAssetsExtractor). I
 - Run from source: `dotnet run -c Release --project tools/ServerAssetsExtractor -- <build folder> --dry-run`
 - Release exe: `dotnet publish tools/ServerAssetsExtractor -c Release -r win-x64 -o <folder>` makes one
   self-contained `ServerAssetsExtractor.exe`, with `rules.json` beside it (the exe also carries a built-in copy).
+- Tests: `dotnet test tools/ServerAssetsExtractor.Tests` (builds a small pak in a temp folder; no game build needed).
 
 ## Contributing a pak
 

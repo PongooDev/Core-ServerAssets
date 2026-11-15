@@ -66,15 +66,16 @@ public static partial class Program
 
         ApplyDecisions(all, rules, o);
         var kept = all.Where(p => p.Keep).ToList();
-        var (loose, looseSkipped) = DecideLooseFiles(provider, rules, o);
-        var report = BuildReport(pak, cl, version, engine, rules, o, all, all, kept, loose, looseSkipped);
+        var (loose, looseSkipped, duplicateLooseFiles) = DecideLooseFiles(provider, rules, o);
+        var report = BuildReport(pak, cl, version, engine, rules, o, all, all, kept, loose, looseSkipped, duplicateLooseFiles);
         Console.WriteLine();
         Console.WriteLine(report.summary);
 
         Header($"Writing {outPak}");
         var count = WritePak(outPak, kept, loose, rules);
         PakWriter.WriteSig(outPak, sigPath);
-        var contents = kept.Select(p => p.GamePath).Concat(loose.Select(f => f.Path)).OrderBy(s => s, StringComparer.OrdinalIgnoreCase).ToList();
+        var contents = kept.Select(p => p.GamePath).Concat(loose.Select(f => f.Path))
+            .Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(s => s, StringComparer.OrdinalIgnoreCase).ToList();
         File.WriteAllLines(Path.Combine(outDir, "contents.txt"), contents);
         File.WriteAllText(Path.Combine(outDir, "report.txt"), report.full, Encoding.UTF8);
         var dropped = all.Count - kept.Count;
