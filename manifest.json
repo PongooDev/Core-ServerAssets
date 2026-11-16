@@ -1256,6 +1256,153 @@
         "/Game/Items/Datatables/LootPackages_Client",
         "/Game/Items/Datatables/LootQuotaData"
       ]
+    },
+    "7658179": {
+      "version": "10.00",
+      "pak": "ServerAssets-10.00-CL-7658179.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-7658179/ServerAssets-10.00-CL-7658179.pak",
+      "sha256": "2f5dcc80a8273d6d08114f8239ec8849e955b15d0a7df97ae725fcfe2f4498d9",
+      "size": 890557474,
+      "sig": {
+        "file": "ServerAssets-10.00-CL-7658179.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-7658179/ServerAssets-10.00-CL-7658179.sig",
+        "sha256": "7873ca82eb3e996cdb1749f0b3aefcafbf0f2f37c7c16216c194b7923bcb9d88",
+        "size": 54424
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Deimos_Gameplay",
+        "/Game/Athena/Maps/LTM/Deimos_PlanB/Deimos_PlanB_Gameplay",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "7955722": {
+      "version": "10.10",
+      "pak": "ServerAssets-10.10-CL-7955722.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-7955722/ServerAssets-10.10-CL-7955722.pak",
+      "sha256": "783b1b3d6d45776bb67558b3f556b79a01ad6ee6a8f8364f25acf2ad767d1a74",
+      "size": 899435833,
+      "sig": {
+        "file": "ServerAssets-10.10-CL-7955722.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-7955722/ServerAssets-10.10-CL-7955722.sig",
+        "sha256": "a0ac11f1305002728deee7f92f09fd87b00120164ca610646c03b7c8d2882c9c",
+        "size": 54968
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Athena_Nav_Mall",
+        "/Game/Athena/Maps/Deimos_Gameplay",
+        "/Game/Athena/Maps/LTM/Deimos_PlanB/Deimos_PlanB_Gameplay",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "8456527": {
+      "version": "10.20",
+      "pak": "ServerAssets-10.20-CL-8456527.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-8456527/ServerAssets-10.20-CL-8456527.pak",
+      "sha256": "ccf20f15ccd38986c291e494a88749a5107c2924adb2b55fe3d127438c0f31bb",
+      "size": 1013198964,
+      "sig": {
+        "file": "ServerAssets-10.20-CL-8456527.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-8456527/ServerAssets-10.20-CL-8456527.sig",
+        "sha256": "7f3777856299685e1e1fe32a89ffa2d1d39f1c965b2ed7f3132f948182d4aad8",
+        "size": 61912
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Athena_Nav_Mall",
+        "/Game/Athena/Maps/Deimos_Gameplay",
+        "/Game/Athena/Maps/LTM/Deimos_PlanB/Deimos_PlanB_Gameplay",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "8569414": {
+      "version": "10.30",
+      "pak": "ServerAssets-10.30-CL-8569414.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-8569414/ServerAssets-10.30-CL-8569414.pak",
+      "sha256": "7925172cbdeb1300bd446db1e7fe769bff22b3f6b2961b30d28871b1512a83aa",
+      "size": 921815951,
+      "sig": {
+        "file": "ServerAssets-10.30-CL-8569414.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-8569414/ServerAssets-10.30-CL-8569414.sig",
+        "sha256": "8151210c4a581f55c16ffe65c18c614fa27f05639e60a88d17cb409cd9a74025",
+        "size": 56332
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_EmptyTest",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Athena_Nav_Mall",
+        "/Game/Athena/Maps/Deimos_Gameplay",
+        "/Game/Athena/Maps/LTM/Deimos_PlanB/Deimos_PlanB_Gameplay",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "8723043": {
+      "version": "10.31",
+      "pak": "ServerAssets-10.31-CL-8723043.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-8723043/ServerAssets-10.31-CL-8723043.pak",
+      "sha256": "7592ffbea87f55f97bafa7cfea9b86a2f0cbddb17955568c9bb815e5c1f7d3f5",
+      "size": 923726787,
+      "sig": {
+        "file": "ServerAssets-10.31-CL-8723043.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-8723043/ServerAssets-10.31-CL-8723043.sig",
+        "sha256": "e816e2a775b01f8af38718a275558df5a3324765aa67f7e3e872825fd15f4f69",
+        "size": 56448
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_EmptyTest",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Athena_Nav_Mall",
+        "/Game/Athena/Maps/Deimos_Gameplay",
+        "/Game/Athena/Maps/LTM/Deimos_PlanB/Deimos_PlanB_Gameplay",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
+    },
+    "9380822": {
+      "version": "10.40",
+      "pak": "ServerAssets-10.40-CL-9380822.pak",
+      "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-9380822/ServerAssets-10.40-CL-9380822.pak",
+      "sha256": "6f8911d2e3ab297d4dca7061f577f5c49e47b49a8533802fc392dedaa33650dd",
+      "size": 995006374,
+      "sig": {
+        "file": "ServerAssets-10.40-CL-9380822.sig",
+        "url": "https://github.com/PongooDev/Core-ServerAssets/releases/download/cl-9380822/ServerAssets-10.40-CL-9380822.sig",
+        "sha256": "adc059dc8219f00eae0c5f234e4fb73978a01fe1414cbbbb4973ce8a219534fe",
+        "size": 60800
+      },
+      "contents": [
+        "/Game/AIDirector/AIDirector_Fortnite",
+        "/Game/Athena/Maps/Athena_EmptyTest",
+        "/Game/Athena/Maps/Athena_LocationVolumes",
+        "/Game/Athena/Maps/Athena_Nav_Mall",
+        "/Game/Athena/Maps/Crucible/Athena_Crucible",
+        "/Game/Athena/Maps/Deimos_Gameplay",
+        "/Game/Athena/Maps/LTM/Deimos_PlanB/Deimos_PlanB_Gameplay",
+        "/Game/Athena/Maps/Streaming/Athena_GameplayActors",
+        "/Game/Items/Datatables/LootTierData_Client",
+        "/Game/Items/Datatables/LootPackages_Client",
+        "/Game/Items/Datatables/LootQuotaData"
+      ]
     }
   }
 }
