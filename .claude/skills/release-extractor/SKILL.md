@@ -13,7 +13,8 @@ Depth: `docs/agents/extractor.md`. Never print, log or write an AES key; never w
 4. Rules change? Bump `rules.json`'s `version`, make `verify` fail paks from the old rules, and plan the `filter`
    pass for published paks (list them in `HANDOFF.md` if you don't do it now).
 5. Bump `<Version>` in `ServerAssetsExtractor.csproj`. Update the README: the release link, options, troubleshooting.
-6. Commit (Freebuff/Codebuff: end with `Agent: Freebuff`, no Claude Co-Authored-By line; Claude: its own line),
+6. Commit (Freebuff/Codebuff: end with `Agent: Freebuff`, no Claude Co-Authored-By line; Claude: its own line; the
+   pre-commit hook runs, never `--no-verify`),
    `git fetch origin`, `git rebase origin/main`, `git push origin HEAD:main`.
 7. Publish:
    ```

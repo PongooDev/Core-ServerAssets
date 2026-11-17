@@ -6,18 +6,21 @@ from the same version's console build, holding the server-only data the PC cook 
 contributors use to make paks. The paks are **release assets only**; game files never enter git history. This file
 is for any coding agent working here (Freebuff, Codebuff, Claude Code or another). Read all of it first.
 
+Paths: `%USERPROFILE%` is the owner's Windows user folder. In PowerShell write it as `$env:USERPROFILE`, as the
+command examples do.
+
 ## 0. Start of every session
 
 1. Read `H:\CoreWork\HANDOFF.md` (local, shared by every agent, not committed). Don't redo or undo work listed in it.
 2. Run the core MCP's `project_status` (if available): it lists the server-assets CLs already published.
 3. Work in your own git worktree under `H:\CoreWork`, never in the main checkout
-   `C:\Users\tkenn\Documents\GitHub\Core-ServerAssets`.
+   `%USERPROFILE%\Documents\GitHub\Core-ServerAssets`.
 4. If you can't finish, update `H:\CoreWork\HANDOFF.md`: what is in progress, the branch or worktree, the downloaded
    files and where, what was verified, what's next.
 
 Per-build facts are in the read-only knowledge base
-`C:\Users\tkenn\.claude\projects\C--Users-tkenn-Documents-GitHub-CoreV2\memory\MEMORY.md` and the files it links.
-Read it; **never edit it**.
+`%USERPROFILE%\.claude\projects\<the CoreV2 project folder>\memory\MEMORY.md` and the files it links. The folder name
+is the CoreV2 checkout's path with `\` and `:` turned into `-`. Read it; **never edit it**.
 
 ## 1. Project rules
 
@@ -43,12 +46,25 @@ Read it; **never edit it**.
 - **Never** put a pak into an installed build to test it, and never copy, hard-link or overlay a build:
   `F:\Builds` and `D:\Fortnite Builds` are never modified. (The launcher installs paks for hosts; boot tests with a new
   pak are the owner's call. Write it in `HANDOFF.md` if one is needed.)
-- **Never** launch a Fortnite client, run a match, or use port 5595.
+- **Never** launch a Fortnite client, run a match, or use port 5595 for tests.
 - Downloaded paks and zips are untrusted: put each download in its own new empty folder under `H:\CoreWork`, keep
   your scripts elsewhere, never run anything from a download, and run any Python that reads them with `python -I`.
 - **Never** kill a process you didn't start; stop what you started before you finish.
 - Work in worktrees under `H:\CoreWork`. Rebase onto `origin/main` before pushing. Stage only your own paths.
+- **Pre-commit hooks:** `tools/githooks/pre-commit` runs on every commit (enabled per clone with
+  `git config core.hooksPath tools/githooks`; this checkout has it on). It blocks pak AES keys, private keys, files
+  over 5 MB, build output and dependency folders, binaries, game assets (`.uasset`, `.uexp`, `.umap`...) and
+  agent-local files. It doesn't block `.pak`/`.sig` here; `.gitignore` and section 1 keep those out. **Never** bypass
+  it (`--no-verify`); fix what it flags.
 - Close an issue only with a comment naming the commit and the release.
+- **Pull requests: review, fix, merge.** Agents review every open PR, make it right and merge it themselves (the
+  owner's rule): check it out in a worktree (`gh pr checkout`), review it against section 1 (no game files or keys,
+  extractor rules kept, README in step with the tool), rework what is wrong (on the PR branch when maintainers can
+  edit it; otherwise merge first and fix on main right after, in the same session), run
+  `dotnet test tools/ServerAssetsExtractor.Tests` and the manifest check where relevant, merge with
+  `gh pr merge <n> --merge`, and comment with what was changed and why. A PR that adds game files is fixed by
+  removing them (paks go through a "Server assets pak" issue and a release instead). Reject only what the project
+  has ruled out, with a comment.
 
 ## 3. Repo map
 

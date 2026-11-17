@@ -54,7 +54,7 @@ dotnet run -c Release --project <worktree>\tools\ServerAssetsExtractor -- verify
 5. Check the manifest parses the launcher's way:
    ```
    $env:CORE_SERVER_ASSETS_MANIFEST = "<worktree>\manifest.json"
-   C:\Users\tkenn\Documents\GitHub\Core-Launcher\tests\Core.Launcher.Tests\bin\Debug\net10.0-windows\win-x64\Core.Launcher.Tests.exe -method Core.Launcher.Tests.ServerAssetsTests.ParsesTheRealManifest
+   $env:USERPROFILE\Documents\GitHub\Core-Launcher\tests\Core.Launcher.Tests\bin\Debug\net10.0-windows\win-x64\Core.Launcher.Tests.exe -method Core.Launcher.Tests.ServerAssetsTests.ParsesTheRealManifest
    ```
 6. README: add the build's row to the published-paks table (what it holds, whose pak, the issue).
 7. Commit `manifest.json` and `README.md` only (no game files), rebase, push.

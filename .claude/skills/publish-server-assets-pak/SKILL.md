@@ -13,7 +13,7 @@ anything from a download.
 1. Read `H:\CoreWork\HANDOFF.md`. Run `project_status` (core MCP, if available) for the CLs already published.
 2. Read the issue: `gh issue view <n> -R PongooDev/Core-ServerAssets --comments`. Note CL, version, extractor
    version (3.1.0+), links, `contents.txt`, `report.txt`.
-3. Worktree: `git -C C:\Users\tkenn\Documents\GitHub\Core-ServerAssets worktree add -b pak-<n> H:\CoreWork\sa-<n>-wt origin/main`.
+3. Worktree: `git -C $env:USERPROFILE\Documents\GitHub\Core-ServerAssets worktree add -b pak-<n> H:\CoreWork\sa-<n>-wt origin/main`.
 4. Download into a new empty folder `H:\CoreWork\sa-<n>\download\` (`gh release download <tag> -R <fork> -D ...`;
    gofile/MEGA links: leave for the owner in `HANDOFF.md`).
 5. `dotnet run -c Release --project H:\CoreWork\sa-<n>-wt\tools\ServerAssetsExtractor -- verify <pak>`.
@@ -28,11 +28,11 @@ anything from a download.
 9. Check it:
    ```
    $env:CORE_SERVER_ASSETS_MANIFEST = "H:\CoreWork\sa-<n>-wt\manifest.json"
-   C:\Users\tkenn\Documents\GitHub\Core-Launcher\tests\Core.Launcher.Tests\bin\Debug\net10.0-windows\win-x64\Core.Launcher.Tests.exe -method Core.Launcher.Tests.ServerAssetsTests.ParsesTheRealManifest
+   $env:USERPROFILE\Documents\GitHub\Core-Launcher\tests\Core.Launcher.Tests\bin\Debug\net10.0-windows\win-x64\Core.Launcher.Tests.exe -method Core.Launcher.Tests.ServerAssetsTests.ParsesTheRealManifest
    ```
 10. README published-paks table row.
 11. Commit `manifest.json` and `README.md` only. Freebuff/Codebuff commits end with `Agent: Freebuff` (no Claude
-    Co-Authored-By line); Claude uses its own. `git fetch origin`, `git rebase origin/main`, `git push origin HEAD:main`.
+    Co-Authored-By line); Claude uses its own. The pre-commit hook runs: never `--no-verify`; fix what it flags. `git fetch origin`, `git rebase origin/main`, `git push origin HEAD:main`.
 12. Close the issue naming the release and commit, and saying the checks run and that no boot test was done here.
 13. Delete `H:\CoreWork\sa-<n>` downloads, remove the worktree and branch; record anything unfinished in `HANDOFF.md`.
 
