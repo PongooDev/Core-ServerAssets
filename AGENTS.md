@@ -133,6 +133,8 @@ Manifest check (from a Core-Launcher build; see `docs/agents/publishing-a-pak.md
 
 ## 9. Tools: MCP servers
 
+The servers are configured in `%USERPROFILE%\.agents\mcp.json`: `core`, `ida-13337` to `ida-13341`, and `fmodel`.
+
 - **core MCP** (if available): `project_status` (published CLs, installed builds). Prefer it.
 - **fmodel MCP**: read a build's assets to check what a pak should hold. Read-only. FModel holds the builds' keys:
   never print them.
