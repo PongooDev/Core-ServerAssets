@@ -7,7 +7,7 @@ description: Use when changing ServerAssetsExtractor (tools/ServerAssetsExtracto
 
 Depth: `docs/agents/extractor.md`. Never print, log or write an AES key; never write inside a build folder.
 
-1. Read `H:\CoreWork\HANDOFF.md`. Worktree from `origin/main` under `H:\CoreWork`.
+1. Read `D:\CoreWork\HANDOFF.md`. Worktree from `origin/main` under `D:\CoreWork`.
 2. Make the change in `tools/ServerAssetsExtractor`. Fix wrong output in the tool, not by editing paks.
 3. Add or update a test in `tools/ServerAssetsExtractor.Tests`; run `dotnet test tools/ServerAssetsExtractor.Tests`.
 4. Rules change? Bump `rules.json`'s `version`, make `verify` fail paks from the old rules, and plan the `filter`
@@ -18,8 +18,8 @@ Depth: `docs/agents/extractor.md`. Never print, log or write an AES key; never w
    `git fetch origin`, `git rebase origin/main`, `git push origin HEAD:main`.
 7. Publish:
    ```
-   dotnet publish tools/ServerAssetsExtractor -c Release -r win-x64 -o H:\CoreWork\sae-<version>
-   gh release create extractor-v<version> H:\CoreWork\sae-<version>\ServerAssetsExtractor.exe tools\ServerAssetsExtractor\rules.json -R PongooDev/Core-ServerAssets --title "ServerAssetsExtractor <version>" --notes-file <notes.md>
+   dotnet publish tools/ServerAssetsExtractor -c Release -r win-x64 -o D:\CoreWork\sae-<version>
+   gh release create extractor-v<version> D:\CoreWork\sae-<version>\ServerAssetsExtractor.exe tools\ServerAssetsExtractor\rules.json -R PongooDev/Core-ServerAssets --title "ServerAssetsExtractor <version>" --notes-file <notes.md>
    ```
    Notes: what changed, the rules version, whether published paks need `filter`.
 8. Comment on the issue that asked for it with the release link and commit; close it.

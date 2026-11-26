@@ -14,8 +14,8 @@ routine as a checklist, with the rules agents must follow on the owner's PC.
 
 ## 2. Download safely
 
-- Each download in its own new empty folder: `H:\CoreWork\sa-<n>\download\`. Scripts elsewhere.
-- A fork's release: `gh release download <tag> -R <fork owner>/Core-ServerAssets -D H:\CoreWork\sa-<n>\download`.
+- Each download in its own new empty folder: `D:\CoreWork\sa-<n>\download\`. Scripts elsewhere.
+- A fork's release: `gh release download <tag> -R <fork owner>/Core-ServerAssets -D D:\CoreWork\sa-<n>\download`.
   pixeldrain or Dropbox: direct download. gofile and MEGA block automated downloads: leave those for the owner
   (`HANDOFF.md`).
 - Never run anything from a download. Zips: extract only `.pak`, `.sig`, `.txt` into the same folder.
@@ -23,7 +23,7 @@ routine as a checklist, with the rules agents must follow on the owner's PC.
 ## 3. Check
 
 ```
-cd H:\CoreWork\sa-<n>
+cd D:\CoreWork\sa-<n>
 dotnet run -c Release --project <worktree>\tools\ServerAssetsExtractor -- verify download\<file>.pak
 ```
 
@@ -71,5 +71,5 @@ dotnet run -c Release --project <worktree>\tools\ServerAssetsExtractor -- verify
 
 ## Clean up
 
-Delete your download folder under `H:\CoreWork` when done (it is your own scratch), or list it in `HANDOFF.md` if the
+Delete your download folder under `D:\CoreWork` when done (it is your own scratch), or list it in `HANDOFF.md` if the
 work continues.

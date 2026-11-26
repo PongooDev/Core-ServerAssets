@@ -28,7 +28,7 @@ the extractor" section is their guide and must match what the tool does.
 
 ## Changing it
 
-1. Worktree under `H:\CoreWork` from `origin/main`.
+1. Worktree under `D:\CoreWork` from `origin/main`.
 2. Change the code; add a test in `tools/ServerAssetsExtractor.Tests` (tests build small paks in temp folders, no
    game build needed).
 3. `dotnet test tools/ServerAssetsExtractor.Tests`.
@@ -39,8 +39,8 @@ the extractor" section is their guide and must match what the tool does.
 ## Releasing it
 
 ```
-dotnet publish tools/ServerAssetsExtractor -c Release -r win-x64 -o H:\CoreWork\sae-<version>
-gh release create extractor-v<version> H:\CoreWork\sae-<version>\ServerAssetsExtractor.exe tools\ServerAssetsExtractor\rules.json -R PongooDev/Core-ServerAssets --title "ServerAssetsExtractor <version>" --notes-file <notes.md>
+dotnet publish tools/ServerAssetsExtractor -c Release -r win-x64 -o D:\CoreWork\sae-<version>
+gh release create extractor-v<version> D:\CoreWork\sae-<version>\ServerAssetsExtractor.exe tools\ServerAssetsExtractor\rules.json -R PongooDev/Core-ServerAssets --title "ServerAssetsExtractor <version>" --notes-file <notes.md>
 ```
 
 The notes say what changed, the rules version, and whether published paks need `filter`. Update the README's link to

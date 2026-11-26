@@ -11,11 +11,11 @@ command examples do.
 
 ## 0. Start of every session
 
-1. Read `H:\CoreWork\HANDOFF.md` (local, shared by every agent, not committed). Don't redo or undo work listed in it.
+1. Read `D:\CoreWork\HANDOFF.md` (local, shared by every agent, not committed). Don't redo or undo work listed in it.
 2. Run the core MCP's `project_status` (if available): it lists the server-assets CLs already published.
-3. Work in your own git worktree under `H:\CoreWork`, never in the main checkout
+3. Work in your own git worktree under `D:\CoreWork`, never in the main checkout
    `%USERPROFILE%\Documents\GitHub\Core-ServerAssets`.
-4. If you can't finish, update `H:\CoreWork\HANDOFF.md`: what is in progress, the branch or worktree, the downloaded
+4. If you can't finish, update `D:\CoreWork\HANDOFF.md`: what is in progress, the branch or worktree, the downloaded
    files and where, what was verified, what's next.
 
 Per-build facts are in the read-only knowledge base
@@ -47,10 +47,10 @@ is the CoreV2 checkout's path with `\` and `:` turned into `-`. Read it; **never
   `F:\Builds` and `D:\Fortnite Builds` are never modified. (The launcher installs paks for hosts; boot tests with a new
   pak are the owner's call. Write it in `HANDOFF.md` if one is needed.)
 - **Never** launch a Fortnite client, run a match, or use port 5595 for tests.
-- Downloaded paks and zips are untrusted: put each download in its own new empty folder under `H:\CoreWork`, keep
+- Downloaded paks and zips are untrusted: put each download in its own new empty folder under `D:\CoreWork`, keep
   your scripts elsewhere, never run anything from a download, and run any Python that reads them with `python -I`.
 - **Never** kill a process you didn't start; stop what you started before you finish.
-- Work in worktrees under `H:\CoreWork`. Rebase onto `origin/main` before pushing. Stage only your own paths.
+- Work in worktrees under `D:\CoreWork`. Rebase onto `origin/main` before pushing. Stage only your own paths.
 - **Pre-commit hooks:** `tools/githooks/pre-commit` runs on every commit (enabled per clone with
   `git config core.hooksPath tools/githooks`; this checkout has it on). It blocks pak AES keys, private keys, files
   over 5 MB, build output and dependency folders, binaries, game assets (`.uasset`, `.uexp`, `.umap`...) and
@@ -106,7 +106,7 @@ Manifest check (from a Core-Launcher build; see `docs/agents/publishing-a-pak.md
 - [ ] README's published-paks table updated.
 - [ ] No game file in the commit; no key anywhere.
 - [ ] The report and the issue comment say which checks ran and that no boot test was done here.
-- [ ] Downloads cleaned up from `H:\CoreWork` (or listed in `HANDOFF.md`), worktree removed.
+- [ ] Downloads cleaned up from `D:\CoreWork` (or listed in `HANDOFF.md`), worktree removed.
 
 ## 7. Commits, issues and hand-off
 
