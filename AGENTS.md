@@ -66,6 +66,12 @@ is the CoreV2 checkout's path with `\` and `:` turned into `-`. Read it; **never
   removing them (paks go through a "Server assets pak" issue and a release instead). Reject only what the project
   has ruled out, with a comment.
 
+## 2a. Coordinating work: when to use subagents
+
+Follow CoreV2's `AGENTS.md` section 2a: one subagent per issue, three subagents (promotion, gameserver, backend game
+data) for a new build, and the coordinator alone deploys, restarts the 5595 backend, tags releases and closes
+issues. Subagents report back instead of doing those. Publishing a trusted submitter's pak is a coordinator task, not a subagent one.
+
 ## 3. Repo map
 
 | Path | What lives there |
